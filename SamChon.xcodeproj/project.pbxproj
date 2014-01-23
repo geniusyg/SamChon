@@ -21,6 +21,9 @@
 		0018FD921890D8BA00CCCFCB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0018FD741890D8BA00CCCFCB /* UIKit.framework */; };
 		0018FD9A1890D8BA00CCCFCB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0018FD981890D8BA00CCCFCB /* InfoPlist.strings */; };
 		0018FD9C1890D8BA00CCCFCB /* SamChonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0018FD9B1890D8BA00CCCFCB /* SamChonTests.m */; };
+		0018FDA618910C0300CCCFCB /* Blank_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0018FDA518910C0300CCCFCB /* Blank_2.png */; };
+		0018FDA918910C7A00CCCFCB /* MainViewController00.m in Sources */ = {isa = PBXBuildFile; fileRef = 0018FDA818910C7A00CCCFCB /* MainViewController00.m */; };
+		0018FDAB189111F500CCCFCB /* yungi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0018FDAA189111F500CCCFCB /* yungi.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,10 @@
 		0018FD971890D8BA00CCCFCB /* SamChonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SamChonTests-Info.plist"; sourceTree = "<group>"; };
 		0018FD991890D8BA00CCCFCB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0018FD9B1890D8BA00CCCFCB /* SamChonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SamChonTests.m; sourceTree = "<group>"; };
+		0018FDA518910C0300CCCFCB /* Blank_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blank_2.png; sourceTree = "<group>"; };
+		0018FDA718910C7A00CCCFCB /* MainViewController00.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController00.h; sourceTree = "<group>"; };
+		0018FDA818910C7A00CCCFCB /* MainViewController00.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController00.m; sourceTree = "<group>"; };
+		0018FDAA189111F500CCCFCB /* yungi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yungi.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,12 +120,16 @@
 			isa = PBXGroup;
 			children = (
 				0018FD7F1890D8BA00CCCFCB /* AppDelegate.h */,
+				0018FDAA189111F500CCCFCB /* yungi.jpg */,
+				0018FDA518910C0300CCCFCB /* Blank_2.png */,
 				0018FD801890D8BA00CCCFCB /* AppDelegate.m */,
 				0018FD821890D8BA00CCCFCB /* Main.storyboard */,
 				0018FD851890D8BA00CCCFCB /* ViewController.h */,
 				0018FD861890D8BA00CCCFCB /* ViewController.m */,
 				0018FD881890D8BA00CCCFCB /* Images.xcassets */,
 				0018FD771890D8BA00CCCFCB /* Supporting Files */,
+				0018FDA718910C7A00CCCFCB /* MainViewController00.h */,
+				0018FDA818910C7A00CCCFCB /* MainViewController00.m */,
 			);
 			path = SamChon;
 			sourceTree = "<group>";
@@ -228,9 +239,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0018FDAB189111F500CCCFCB /* yungi.jpg in Resources */,
 				0018FD891890D8BA00CCCFCB /* Images.xcassets in Resources */,
 				0018FD7B1890D8BA00CCCFCB /* InfoPlist.strings in Resources */,
 				0018FD841890D8BA00CCCFCB /* Main.storyboard in Resources */,
+				0018FDA618910C0300CCCFCB /* Blank_2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0018FD871890D8BA00CCCFCB /* ViewController.m in Sources */,
+				0018FDA918910C7A00CCCFCB /* MainViewController00.m in Sources */,
 				0018FD811890D8BA00CCCFCB /* AppDelegate.m in Sources */,
 				0018FD7D1890D8BA00CCCFCB /* main.m in Sources */,
 			);
