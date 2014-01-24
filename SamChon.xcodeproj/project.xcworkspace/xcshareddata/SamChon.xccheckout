@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>23C018E9-164B-4C36-8BE6-76A0E01002BA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SamChon</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EFDF65FC-0FA5-4839-AA68-25603AB9AF44</key>
+		<string>https://github.com/geniusyg/SamChon.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SamChon.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EFDF65FC-0FA5-4839-AA68-25603AB9AF44</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/geniusyg/SamChon.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EFDF65FC-0FA5-4839-AA68-25603AB9AF44</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EFDF65FC-0FA5-4839-AA68-25603AB9AF44</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SamChon</string>
+		</dict>
+	</array>
+</dict>
+</plist>
