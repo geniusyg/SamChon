@@ -50,6 +50,9 @@
 		0054166718924B14003F5AA4 /* libskpMap_OP-iOS7.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0054165818924B14003F5AA4 /* libskpMap_OP-iOS7.0.a */; };
 		0054166A18925229003F5AA4 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0054166918925229003F5AA4 /* SearchViewController.m */; };
 		0054166C189254B1003F5AA4 /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = 0054166B189254B0003F5AA4 /* point.png */; };
+		0054166F189259F3003F5AA4 /* WriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0054166E189259F3003F5AA4 /* WriteViewController.m */; };
+		0054167118925A58003F5AA4 /* camera_identification-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 0054167018925A58003F5AA4 /* camera_identification-128.png */; };
+		005416741892607E003F5AA4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 005416731892607E003F5AA4 /* SettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +137,11 @@
 		0054166818925229003F5AA4 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		0054166918925229003F5AA4 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		0054166B189254B0003F5AA4 /* point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point.png; sourceTree = "<group>"; };
+		0054166D189259F3003F5AA4 /* WriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteViewController.h; sourceTree = "<group>"; };
+		0054166E189259F3003F5AA4 /* WriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteViewController.m; sourceTree = "<group>"; };
+		0054167018925A58003F5AA4 /* camera_identification-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_identification-128.png"; sourceTree = "<group>"; };
+		005416721892607E003F5AA4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		005416731892607E003F5AA4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +204,11 @@
 			children = (
 				005415FB189227D4003F5AA4 /* images */,
 				0018FD7F1890D8BA00CCCFCB /* AppDelegate.h */,
+				0054166D189259F3003F5AA4 /* WriteViewController.h */,
+				0054166E189259F3003F5AA4 /* WriteViewController.m */,
 				0018FD801890D8BA00CCCFCB /* AppDelegate.m */,
+				005416721892607E003F5AA4 /* SettingsViewController.h */,
+				005416731892607E003F5AA4 /* SettingsViewController.m */,
 				0018FD821890D8BA00CCCFCB /* Main.storyboard */,
 				0054166818925229003F5AA4 /* SearchViewController.h */,
 				0054166B189254B0003F5AA4 /* point.png */,
@@ -246,6 +258,7 @@
 		005415FB189227D4003F5AA4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0054167018925A58003F5AA4 /* camera_identification-128.png */,
 				005415FC1892467C003F5AA4 /* question-75.png */,
 				005415E9189227C9003F5AA4 /* image0.jpg */,
 				005415EA189227C9003F5AA4 /* image1.jpg */,
@@ -420,6 +433,7 @@
 				005415F7189227C9003F5AA4 /* image5.jpg in Resources */,
 				0054166318924B14003F5AA4 /* TrackingDot.png in Resources */,
 				0018FD841890D8BA00CCCFCB /* Main.storyboard in Resources */,
+				0054167118925A58003F5AA4 /* camera_identification-128.png in Resources */,
 				005415F4189227C9003F5AA4 /* image2.jpg in Resources */,
 				0018FDA618910C0300CCCFCB /* Blank_2.png in Resources */,
 			);
@@ -443,8 +457,10 @@
 				0018FD871890D8BA00CCCFCB /* ViewController.m in Sources */,
 				005415DE1891F3C2003F5AA4 /* RecommendViewController.m in Sources */,
 				0018FDA918910C7A00CCCFCB /* MainViewController00.m in Sources */,
+				005416741892607E003F5AA4 /* SettingsViewController.m in Sources */,
 				0018FD811890D8BA00CCCFCB /* AppDelegate.m in Sources */,
 				0054166A18925229003F5AA4 /* SearchViewController.m in Sources */,
+				0054166F189259F3003F5AA4 /* WriteViewController.m in Sources */,
 				0018FD7D1890D8BA00CCCFCB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
