@@ -53,6 +53,11 @@
 		0054166F189259F3003F5AA4 /* WriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0054166E189259F3003F5AA4 /* WriteViewController.m */; };
 		0054167118925A58003F5AA4 /* camera_identification-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 0054167018925A58003F5AA4 /* camera_identification-128.png */; };
 		005416741892607E003F5AA4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 005416731892607E003F5AA4 /* SettingsViewController.m */; };
+		00726F6F189628ED002A2F5E /* MyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F6E189628ED002A2F5E /* MyPageViewController.m */; };
+		00726F7218964CB5002A2F5E /* MyMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F7118964CB5002A2F5E /* MyMapViewController.m */; };
+		00726F781896530F002A2F5E /* FirstFriendsTapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F771896530F002A2F5E /* FirstFriendsTapViewController.m */; };
+		00726F7B18965410002A2F5E /* MyShopTapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F7A18965410002A2F5E /* MyShopTapViewController.m */; };
+		00726F7E18965476002A2F5E /* IWantTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F7D18965476002A2F5E /* IWantTabViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +147,16 @@
 		0054167018925A58003F5AA4 /* camera_identification-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_identification-128.png"; sourceTree = "<group>"; };
 		005416721892607E003F5AA4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		005416731892607E003F5AA4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		00726F6D189628ED002A2F5E /* MyPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPageViewController.h; sourceTree = "<group>"; };
+		00726F6E189628ED002A2F5E /* MyPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPageViewController.m; sourceTree = "<group>"; };
+		00726F7018964CB5002A2F5E /* MyMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMapViewController.h; sourceTree = "<group>"; };
+		00726F7118964CB5002A2F5E /* MyMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMapViewController.m; sourceTree = "<group>"; };
+		00726F761896530F002A2F5E /* FirstFriendsTapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstFriendsTapViewController.h; sourceTree = "<group>"; };
+		00726F771896530F002A2F5E /* FirstFriendsTapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstFriendsTapViewController.m; sourceTree = "<group>"; };
+		00726F7918965410002A2F5E /* MyShopTapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShopTapViewController.h; sourceTree = "<group>"; };
+		00726F7A18965410002A2F5E /* MyShopTapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShopTapViewController.m; sourceTree = "<group>"; };
+		00726F7C18965476002A2F5E /* IWantTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWantTabViewController.h; sourceTree = "<group>"; };
+		00726F7D18965476002A2F5E /* IWantTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWantTabViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,10 +223,19 @@
 				0054166E189259F3003F5AA4 /* WriteViewController.m */,
 				0018FD801890D8BA00CCCFCB /* AppDelegate.m */,
 				005416721892607E003F5AA4 /* SettingsViewController.h */,
+				00726F7018964CB5002A2F5E /* MyMapViewController.h */,
+				00726F7118964CB5002A2F5E /* MyMapViewController.m */,
 				005416731892607E003F5AA4 /* SettingsViewController.m */,
 				0018FD821890D8BA00CCCFCB /* Main.storyboard */,
+				00726F7C18965476002A2F5E /* IWantTabViewController.h */,
+				00726F7D18965476002A2F5E /* IWantTabViewController.m */,
+				00726F7918965410002A2F5E /* MyShopTapViewController.h */,
+				00726F7A18965410002A2F5E /* MyShopTapViewController.m */,
+				00726F761896530F002A2F5E /* FirstFriendsTapViewController.h */,
+				00726F771896530F002A2F5E /* FirstFriendsTapViewController.m */,
 				0054166818925229003F5AA4 /* SearchViewController.h */,
-				0054166B189254B0003F5AA4 /* point.png */,
+				00726F6D189628ED002A2F5E /* MyPageViewController.h */,
+				00726F6E189628ED002A2F5E /* MyPageViewController.m */,
 				0054166918925229003F5AA4 /* SearchViewController.m */,
 				0054163318924B14003F5AA4 /* lib */,
 				0018FD851890D8BA00CCCFCB /* ViewController.h */,
@@ -271,6 +295,7 @@
 				005415F1189227C9003F5AA4 /* image8.jpg */,
 				0018FDAA189111F500CCCFCB /* yungi.jpg */,
 				0018FDA518910C0300CCCFCB /* Blank_2.png */,
+				0054166B189254B0003F5AA4 /* point.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -454,12 +479,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00726F7B18965410002A2F5E /* MyShopTapViewController.m in Sources */,
 				0018FD871890D8BA00CCCFCB /* ViewController.m in Sources */,
+				00726F781896530F002A2F5E /* FirstFriendsTapViewController.m in Sources */,
+				00726F7E18965476002A2F5E /* IWantTabViewController.m in Sources */,
 				005415DE1891F3C2003F5AA4 /* RecommendViewController.m in Sources */,
 				0018FDA918910C7A00CCCFCB /* MainViewController00.m in Sources */,
+				00726F7218964CB5002A2F5E /* MyMapViewController.m in Sources */,
 				005416741892607E003F5AA4 /* SettingsViewController.m in Sources */,
 				0018FD811890D8BA00CCCFCB /* AppDelegate.m in Sources */,
 				0054166A18925229003F5AA4 /* SearchViewController.m in Sources */,
+				00726F6F189628ED002A2F5E /* MyPageViewController.m in Sources */,
 				0054166F189259F3003F5AA4 /* WriteViewController.m in Sources */,
 				0018FD7D1890D8BA00CCCFCB /* main.m in Sources */,
 			);
