@@ -23,6 +23,8 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+		
+	
 	[_data removeObjectAtIndex:indexPath.row];
 	
 	NSArray *rows = [NSArray arrayWithObject:indexPath];
@@ -49,7 +51,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_data = @[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"];
+	_data = [NSMutableArray arrayWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
 }
 
 - (void)didReceiveMemoryWarning

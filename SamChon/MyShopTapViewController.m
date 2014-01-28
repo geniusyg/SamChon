@@ -7,7 +7,6 @@
 //
 
 #import "MyShopTapViewController.h"
-#define PADDING 10.0f
 
 @interface MyShopTapViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -15,7 +14,16 @@
 @end
 
 @implementation MyShopTapViewController {
-	NSArray *_data;
+	NSMutableArray *_data;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	[_data removeObjectAtIndex:indexPath.row];
+	
+	NSArray *rows = [NSArray arrayWithObject:indexPath];
+	
+	[tableView deleteRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -24,6 +32,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SHOP_CELL"];
+	
+	tableView.separatorColor = [UIColor clearColor];
 	
 	cell.textLabel.text = [_data objectAtIndex:indexPath.row];
 	
@@ -39,21 +49,12 @@
     return self;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//	NSString *text = [_data objectAtIndex:indexPath.row];
-////    CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:14.0f] constrainedToSize:CGSizeMake(self.table.frame.size.width - PADDING * 3, 1000.0f)];
-//
-//	CGSize *textSize =
-//	
-//    return textSize.height + PADDING * 3;
-//}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_data = @[@"AA", @"BB", @"CC", @"DD", @"EE", @"FF"];
+	_data = [NSMutableArray arrayWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
 }
 
 - (void)didReceiveMemoryWarning
