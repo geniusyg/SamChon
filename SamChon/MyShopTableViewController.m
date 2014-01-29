@@ -50,7 +50,7 @@
 	
 	self.table.separatorColor = [UIColor clearColor];
 	
-	_loadedPageCount = self.count;
+	_loadedPageCount = 0;
 	
 	_images = [[NSMutableArray alloc] init];
 	
@@ -71,16 +71,21 @@
 	}
 	
 	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
+	
 	float w = _sv.bounds.size.width;
 	float h	= _sv.bounds.size.height;
 	_sv.delegate = self;
 	_sv.pagingEnabled = YES;
 	_sv.contentSize = CGSizeMake(w*9, h);
-	[_sv setContentOffset:CGPointMake(self.count*280 - 10, 0)];
 	
-	[self loadContentsPage:_loadedPageCount-1];
-	[self loadContentsPage:_loadedPageCount];
-	[self loadContentsPage:_loadedPageCount+1];
+	[self loadContentsPage:0];
+	[self loadContentsPage:1];
+	
+//	[_sv setContentOffset:CGPointMake(self.count*280 - 10, 0)];
+	
+//	[self loadContentsPage:_loadedPageCount-1];
+//	[self loadContentsPage:_loadedPageCount];
+//	[self loadContentsPage:_loadedPageCount+1];
 	
 	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
 	self.replyTextField.delegate = self;
@@ -146,7 +151,7 @@
 		case 2:
 			return 1;
 		case 3:
-			return [_replys[0] count];
+			return [_replys[_loadedPageCount] count];
 	}
     return 0;
 }
@@ -182,7 +187,7 @@
 			break;
 		case 3: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL"];
-			cell.textLabel.text = [_replys[0] objectAtIndex:indexPath.row];
+			cell.textLabel.text = [_replys[_loadedPageCount] objectAtIndex:indexPath.row];
 		}
 			break;
 		default:
@@ -198,7 +203,7 @@
     if(pageNo < 0 || pageNo < _loadedPageCount || pageNo >= 9)
         return;
     
-    float w = _sv.frame.size.width;
+    float w = _sv.frame.size.width - 20;
     float h =_sv.frame.size.height;
     
     NSString *fileName = [NSString stringWithFormat:@"img%d",pageNo];
@@ -206,8 +211,9 @@
     UIImage *image = [UIImage imageWithContentsOfFile:filePath];
     UIImageView *iv = [[UIImageView alloc] initWithImage:image];
     
-    iv.frame = CGRectMake(w*pageNo, 0, w,h);
+    iv.frame = CGRectMake(w*pageNo+10, 0, w-10,h);
     [_sv addSubview:iv];
+	[self.table reloadData];
     _loadedPageCount++;
 }
 
