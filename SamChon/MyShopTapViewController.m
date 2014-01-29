@@ -7,6 +7,7 @@
 //
 
 #import "MyShopTapViewController.h"
+#import "MyShopTableViewController.h"
 
 @interface MyShopTapViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -15,6 +16,12 @@
 
 @implementation MyShopTapViewController {
 	NSMutableArray *_data;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
+	MyShopTableViewController *mtvc = segue.destinationViewController;
+	mtvc.count = indexPath.row;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -34,6 +41,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SHOP_CELL"];
 	
 	tableView.separatorColor = [UIColor clearColor];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	cell.textLabel.text = [_data objectAtIndex:indexPath.row];
 	

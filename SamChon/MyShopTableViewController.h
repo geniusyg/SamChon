@@ -10,4 +10,6 @@
 
 @interface MyShopTableViewController : UITableViewController
 
+@property NSInteger count;
+
 @end
