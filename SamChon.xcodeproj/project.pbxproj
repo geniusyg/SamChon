@@ -24,6 +24,7 @@
 		0018FDA618910C0300CCCFCB /* Blank_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0018FDA518910C0300CCCFCB /* Blank_2.png */; };
 		0018FDA918910C7A00CCCFCB /* MainViewController00.m in Sources */ = {isa = PBXBuildFile; fileRef = 0018FDA818910C7A00CCCFCB /* MainViewController00.m */; };
 		0018FDAB189111F500CCCFCB /* yungi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0018FDAA189111F500CCCFCB /* yungi.jpg */; };
+		0051CE3A18988AAB00208D96 /* MyShopTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0051CE3918988AAB00208D96 /* MyShopTableViewController.m */; };
 		005415DE1891F3C2003F5AA4 /* RecommendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 005415DD1891F3C2003F5AA4 /* RecommendViewController.m */; };
 		005415F2189227C9003F5AA4 /* image0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 005415E9189227C9003F5AA4 /* image0.jpg */; };
 		005415F3189227C9003F5AA4 /* image1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 005415EA189227C9003F5AA4 /* image1.jpg */; };
@@ -104,6 +105,8 @@
 		0018FDA718910C7A00CCCFCB /* MainViewController00.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController00.h; sourceTree = "<group>"; };
 		0018FDA818910C7A00CCCFCB /* MainViewController00.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController00.m; sourceTree = "<group>"; };
 		0018FDAA189111F500CCCFCB /* yungi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yungi.jpg; sourceTree = "<group>"; };
+		0051CE3818988AAB00208D96 /* MyShopTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShopTableViewController.h; sourceTree = "<group>"; };
+		0051CE3918988AAB00208D96 /* MyShopTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShopTableViewController.m; sourceTree = "<group>"; };
 		005415DC1891F3C2003F5AA4 /* RecommendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecommendViewController.h; sourceTree = "<group>"; };
 		005415DD1891F3C2003F5AA4 /* RecommendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecommendViewController.m; sourceTree = "<group>"; };
 		005415E9189227C9003F5AA4 /* image0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image0.jpg; sourceTree = "<group>"; };
@@ -248,6 +251,8 @@
 				00726F7018964CB5002A2F5E /* MyMapViewController.h */,
 				00726F7118964CB5002A2F5E /* MyMapViewController.m */,
 				0018FD821890D8BA00CCCFCB /* Main.storyboard */,
+				0051CE3818988AAB00208D96 /* MyShopTableViewController.h */,
+				0051CE3918988AAB00208D96 /* MyShopTableViewController.m */,
 				00726F7C18965476002A2F5E /* IWantTabViewController.h */,
 				00726F7D18965476002A2F5E /* IWantTabViewController.m */,
 				00A9345718974AB700368CD4 /* MyShopViewController.h */,
@@ -522,6 +527,7 @@
 			files = (
 				00726F7B18965410002A2F5E /* MyShopTapViewController.m in Sources */,
 				0018FD871890D8BA00CCCFCB /* ViewController.m in Sources */,
+				0051CE3A18988AAB00208D96 /* MyShopTableViewController.m in Sources */,
 				00726F781896530F002A2F5E /* FirstFriendsTapViewController.m in Sources */,
 				00726F7E18965476002A2F5E /* IWantTabViewController.m in Sources */,
 				005415DE1891F3C2003F5AA4 /* RecommendViewController.m in Sources */,

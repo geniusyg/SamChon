@@ -9,6 +9,7 @@
 #import "MyShopViewController.h"
 
 @interface MyShopViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UIScrollView *sc;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 
 @end
@@ -112,6 +113,13 @@
 }
 
 @end
+
+
+
+
+
+
+
 
 
 
