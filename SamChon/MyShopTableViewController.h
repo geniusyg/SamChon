@@ -10,6 +10,6 @@
 
 @interface MyShopTableViewController : UITableViewController
 
-@property NSInteger count;
+@property NSInteger loadedPage;
 
 @end

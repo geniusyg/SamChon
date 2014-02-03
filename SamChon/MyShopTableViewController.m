@@ -8,7 +8,7 @@
 
 #import "MyShopTableViewController.h"
 
-@interface MyShopTableViewController () <UITextFieldDelegate>
+@interface MyShopTableViewController () <UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *table;
 @property UITextField *replyTextField;
@@ -19,7 +19,7 @@
 	NSMutableArray *_images;
 	NSMutableArray *_replys[9];
 	UIScrollView *_sv;
-	NSInteger _loadedPageCount;
+	UIPageControl *_pc;
 }
 - (IBAction)closeModal:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
@@ -50,8 +50,6 @@
 	
 	self.table.separatorColor = [UIColor clearColor];
 	
-	_loadedPageCount = 0;
-	
 	_images = [[NSMutableArray alloc] init];
 	
 	_replys[0] = [NSMutableArray arrayWithObjects:@"AA",@"BB",@"CC",@"DD",@"EE", nil];
@@ -72,26 +70,53 @@
 	
 	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
 	
-	float w = _sv.bounds.size.width;
-	float h	= _sv.bounds.size.height;
-	_sv.delegate = self;
-	_sv.pagingEnabled = YES;
-	_sv.contentSize = CGSizeMake(w*9, h);
+	int i=0;
+	for (; i<9; i++) {
+		UIImageView *imgView = [[UIImageView alloc] initWithImage:[_images objectAtIndex:i]];
+		imgView.frame = CGRectMake(_sv.frame.size.width*i, 0, _sv.frame.size.width, _sv.frame.size.height);
+		
+		[_sv addSubview:imgView];
+	}
 	
-	[self loadContentsPage:0];
-	[self loadContentsPage:1];
+	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
+		
+	_sv.showsVerticalScrollIndicator=NO;
+	_sv.showsHorizontalScrollIndicator=YES;
+	_sv.alwaysBounceVertical=NO;
+	_sv.alwaysBounceHorizontal=NO;
+	_sv.pagingEnabled=YES;
+	_sv.delegate=self;
 	
-//	[_sv setContentOffset:CGPointMake(self.count*280 - 10, 0)];
+	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 230, 100, 20)];
+	_pc.currentPage = self.loadedPage;
+	_pc.numberOfPages = 9;
+	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
-//	[self loadContentsPage:_loadedPageCount-1];
-//	[self loadContentsPage:_loadedPageCount];
-//	[self loadContentsPage:_loadedPageCount+1];
+	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * self.loadedPage), 0)];
+
 	
 	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
 	self.replyTextField.delegate = self;
 	[self.replyTextField resignFirstResponder];
 	self.replyTextField.placeholder = @"식당에 대한 댓글을 입력해 주세요!";
 	self.replyTextField.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)pageChangeValue:(id)sender {
+	UIPageControl *pControl = (UIPageControl *) sender;
+	[_sv setContentOffset:CGPointMake(pControl.currentPage*320, 0) animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	if(![scrollView isKindOfClass:[self.table class]]) {
+		CGFloat pageWidth = scrollView.frame.size.width;
+		_pc.currentPage = floor((scrollView.contentOffset.x - pageWidth / 9) / pageWidth) + 1;
+	}
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	self.replyTextField.text = @"";
+	[self.table reloadData];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -145,13 +170,11 @@
 {
     switch (section) {
 		case 0:
-			return 1;
 		case 1:
-			return 1;
 		case 2:
 			return 1;
 		case 3:
-			return [_replys[_loadedPageCount] count];
+			return [_replys[_pc.currentPage] count];
 	}
     return 0;
 }
@@ -166,19 +189,9 @@
 			break;
 		case 1: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"SCROLL_CELL"];
-			
-//			CGFloat scrollWidth = 20.f;
-//			for (int i = 0; i<9; i++) {
-//				UIImageView *theView = [[UIImageView alloc] initWithFrame:
-//										CGRectMake(scrollWidth, 0, 260, 250)];
-//				theView.userInteractionEnabled = YES;
-//				theView.image = [_images objectAtIndex:i];
-//				[_sv addSubview:theView];
-//				scrollWidth += 280;
-//			}
-//			_sv.contentSize = CGSizeMake(scrollWidth, 250);
-			
+						
 			[cell addSubview:_sv];
+			[cell addSubview:_pc];
 			break;
 		}
 		case 2:
@@ -187,7 +200,7 @@
 			break;
 		case 3: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL"];
-			cell.textLabel.text = [_replys[_loadedPageCount] objectAtIndex:indexPath.row];
+			cell.textLabel.text = [_replys[_pc.currentPage] objectAtIndex:indexPath.row];
 		}
 			break;
 		default:
@@ -199,87 +212,20 @@
     return cell;
 }
 
-- (void)loadContentsPage:(int)pageNo {
-    if(pageNo < 0 || pageNo < _loadedPageCount || pageNo >= 9)
-        return;
-    
-    float w = _sv.frame.size.width - 20;
-    float h =_sv.frame.size.height;
-    
-    NSString *fileName = [NSString stringWithFormat:@"img%d",pageNo];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"jpg"];
-    UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-    UIImageView *iv = [[UIImageView alloc] initWithImage:image];
-    
-    iv.frame = CGRectMake(w*pageNo+10, 0, w-10,h);
-    [_sv addSubview:iv];
-	[self.table reloadData];
-    _loadedPageCount++;
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[_sv flashScrollIndicators];
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    float w = scrollView.frame.size.width;
-    float offsetX = scrollView.contentOffset.x;
-    int pageNo = floor(offsetX/w);
-	//    pageControl.currentPage = pageNo;
-    
-    [self loadContentsPage:pageNo-1];
-    [self loadContentsPage:pageNo];
-    [self loadContentsPage:pageNo+1];
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
- */
 
 @end
+
+
+
+
+
+
 
 
 

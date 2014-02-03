@@ -10,8 +10,18 @@
 #define IMAGE_NUM 9
 
 @interface RecommendViewController () <UIScrollViewAccessibilityDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *closePopupBtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *closeModalBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *recommendImage;
+@property (weak, nonatomic) IBOutlet UILabel *recommendAddr;
+@property (weak, nonatomic) IBOutlet UITextView *recommendDetail;
+@property (weak, nonatomic) IBOutlet UILabel *recommendTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *recommendView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIView *topView;
 
 @end
 
@@ -19,7 +29,28 @@
 	NSMutableArray *_images;
 	NSArray *_names;
 }
+- (IBAction)closePopup:(id)sender {
+	self.recommendView.hidden = YES;
+	self.closeModalBtn.hidden = NO;
+	self.bottomView.alpha = 1.0;
+	self.topView.alpha = 1.0;
+}
 
+- (BOOL)canBecomeFirstResponder {
+	return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+	if (event.type == UIEventSubtypeMotionShake) {
+		self.recommendView.hidden = NO;
+		NSInteger rnd = (int)(arc4random()%9);
+		NSString *fileName = [NSString stringWithFormat:@"img%d.jpg",rnd];
+		self.recommendImage.image = [UIImage imageNamed:fileName];
+		self.topView.alpha = 0.5;
+		self.bottomView.alpha = 0.5;
+		self.closeModalBtn.hidden = YES;
+    }
+}
 
 - (IBAction)closeModal:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
@@ -52,8 +83,7 @@
 	_names = @[@"채윤기",@"강대철",@"김보라",@"전경민",@"김한준",@"아해은",@"이종은",@"카르딕",@"넥서스"];
 }
 
-- (void) imageTapped:(UITapGestureRecognizer *)gr {
-	
+- (void) imageTapped:(UITapGestureRecognizer *)gr {	
 	UIImageView *theTappedImageView = (UIImageView *)gr.view;
 	NSInteger tag = theTappedImageView.tag - 100;
 	
@@ -66,6 +96,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	[self becomeFirstResponder];
 	
 	CGFloat scrollWidth = 10.f;
 	for (int i = 0; i<9; i++) {

@@ -21,7 +21,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
 	MyShopTableViewController *mtvc = segue.destinationViewController;
-	mtvc.count = indexPath.row;
+	mtvc.loadedPage = indexPath.row;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -62,7 +62,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_data = [NSMutableArray arrayWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
+	_data = [NSMutableArray arrayWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", @"GG",@"HH",@"II", nil];
 }
 
 - (void)didReceiveMemoryWarning
