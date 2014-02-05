@@ -28,6 +28,7 @@
 @implementation RecommendViewController {
 	NSMutableArray *_images;
 	NSArray *_names;
+	BOOL _checked;
 }
 - (IBAction)closePopup:(id)sender {
 	self.recommendView.hidden = YES;
@@ -41,10 +42,10 @@
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-	if (event.type == UIEventSubtypeMotionShake) {
+	if (event.type == UIEventSubtypeMotionShake && _checked) {
 		self.recommendView.hidden = NO;
 		NSInteger rnd = (int)(arc4random()%9);
-		NSString *fileName = [NSString stringWithFormat:@"img%d.jpg",rnd];
+		NSString *fileName = [NSString stringWithFormat:@"img%ld.jpg",(long)rnd];
 		self.recommendImage.image = [UIImage imageNamed:fileName];
 		self.topView.alpha = 0.5;
 		self.bottomView.alpha = 0.5;
@@ -81,17 +82,19 @@
 	}
 	
 	_names = @[@"채윤기",@"강대철",@"김보라",@"전경민",@"김한준",@"아해은",@"이종은",@"카르딕",@"넥서스"];
+	_checked = NO;
 }
 
 - (void) imageTapped:(UITapGestureRecognizer *)gr {	
 	UIImageView *theTappedImageView = (UIImageView *)gr.view;
 	NSInteger tag = theTappedImageView.tag - 100;
 	
-	NSString *fileName = [NSString stringWithFormat:@"image%d",tag];
+	NSString *fileName = [NSString stringWithFormat:@"image%ld",(long)tag];
 	NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"jpg"];
 	UIImage *image = [UIImage imageWithContentsOfFile:filePath];
 	
 	self.imageView.image = image;
+	_checked = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

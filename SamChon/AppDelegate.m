@@ -7,12 +7,19 @@
 //
 
 #import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+	[FBLoginView class];
+	
+	self.fbID = [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"];
+	
+	NSLog(@"FB ID: %d", self.fbID);
+	
     return YES;
 }
 							

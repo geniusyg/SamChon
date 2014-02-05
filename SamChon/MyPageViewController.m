@@ -7,12 +7,14 @@
 //
 
 #import "MyPageViewController.h"
+#import "AppDelegate.h"
 
 @interface MyPageViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *MyShop;
 @property (weak, nonatomic) IBOutlet UIView *FirstFriends;
 @property (weak, nonatomic) IBOutlet UIView *IWant;
+@property (weak, nonatomic) IBOutlet UIView *loginView;
 
 @end
 
@@ -46,6 +48,15 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	AppDelegate *ad = [[AppDelegate alloc] init];
+	if(0 != ad.fbID) {
+		self.loginView.hidden = YES;
+	}
 }
 
 - (void)viewDidLoad
