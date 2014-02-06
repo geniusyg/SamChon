@@ -8,8 +8,10 @@
 
 #import "WriteViewController.h"
 #import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate>
+@interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate, FBLoginViewDelegate>
+@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
@@ -21,7 +23,23 @@
 
 @implementation WriteViewController {
 	int dy;
+	AppDelegate *_ad;
 }
+
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+	self.loginView.hidden = YES;
+	_ad.fbID = 0;
+}
+
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
+	self.loginView.hidden = YES;
+}
+
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+	self.loginView.hidden = YES;
+	
+}
+
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
 }
@@ -82,11 +100,10 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	AppDelegate *ad = [[AppDelegate alloc] init];
-	if(0 != ad.fbID) {
+	_ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+	if(0 == _ad.fbID) {
 		self.loginView.hidden = YES;
 	}
-	
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
 	

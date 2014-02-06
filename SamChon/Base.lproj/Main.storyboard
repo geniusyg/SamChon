@@ -589,6 +589,9 @@
                                         <rect key="frame" x="65" y="245" width="190" height="65"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="yRf-LY-GKk" id="sjl-Wk-wie"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -600,6 +603,7 @@
                     <connections>
                         <outlet property="commentTextField" destination="nyR-mo-4sf" id="1G8-k1-CPz"/>
                         <outlet property="imageView" destination="U1G-FY-yPC" id="Snt-nF-Ub6"/>
+                        <outlet property="loginBtn" destination="VtA-bF-gQo" id="RHj-wl-ezL"/>
                         <outlet property="loginView" destination="hYu-cZ-gwF" id="0Hp-kZ-LnX"/>
                         <outlet property="menuTextField" destination="aKC-hN-XIl" id="ECB-iO-SCv"/>
                         <outlet property="searchTextField" destination="wKI-pV-zZK" id="IQ8-xZ-sMx"/>
@@ -694,6 +698,9 @@
                                         <rect key="frame" x="65" y="245" width="190" height="65"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="YYa-va-jCk" id="agc-1b-brC"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000001192092896" green="1" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
@@ -706,6 +713,7 @@
                         <outlet property="FirstFriends" destination="Jxd-ZS-5Ow" id="Bev-g6-5nM"/>
                         <outlet property="IWant" destination="BOk-Aj-Osv" id="ybS-h6-oxE"/>
                         <outlet property="MyShop" destination="Adz-na-Idc" id="A7n-wh-hHM"/>
+                        <outlet property="loginBtn" destination="Td5-rw-ar2" id="cWB-h4-g8z"/>
                         <outlet property="loginView" destination="FYp-SJ-WKs" id="h0o-7M-3yp"/>
                         <outlet property="segmentedControl" destination="MWb-Uq-uaT" id="VEB-Ok-z8B"/>
                     </connections>

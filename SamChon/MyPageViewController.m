@@ -8,17 +8,21 @@
 
 #import "MyPageViewController.h"
 #import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface MyPageViewController ()
+@interface MyPageViewController () <FBLoginViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *MyShop;
 @property (weak, nonatomic) IBOutlet UIView *FirstFriends;
 @property (weak, nonatomic) IBOutlet UIView *IWant;
 @property (weak, nonatomic) IBOutlet UIView *loginView;
+@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
 
 @end
 
 @implementation MyPageViewController
+
 - (IBAction)segChanged:(id)sender {
 	UISegmentedControl *sc = (UISegmentedControl *)sender;
 	switch (sc.selectedSegmentIndex) {
@@ -53,8 +57,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	AppDelegate *ad = [[AppDelegate alloc] init];
-	if(0 != ad.fbID) {
+	AppDelegate *ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+	if(0 == ad.fbID) {
 		self.loginView.hidden = YES;
 	}
 }
