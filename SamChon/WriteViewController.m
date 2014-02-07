@@ -27,17 +27,18 @@
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-	self.loginView.hidden = YES;
+	self.loginView.hidden = NO;
 	_ad.fbID = 0;
+	NSLog(@"asdf");
 }
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
 	self.loginView.hidden = YES;
+	_ad.fbID = 1;
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
 	self.loginView.hidden = YES;
-	
 }
 
 - (IBAction)upload:(id)sender {
@@ -102,7 +103,7 @@
 	
 	_ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 	if(0 == _ad.fbID) {
-		self.loginView.hidden = YES;
+		self.loginView.hidden = NO;
 	}
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];

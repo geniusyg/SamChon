@@ -7,12 +7,25 @@
 //
 
 #import "SettingsViewController.h"
+#import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface SettingsViewController ()
+@interface SettingsViewController () <FBLoginViewDelegate>
 
 @end
 
-@implementation SettingsViewController
+@implementation SettingsViewController {
+	AppDelegate *_ad;
+}
+
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+	_ad.fbID = 0;
+}
+
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+	_ad.fbID = 1;
+}
+
 - (IBAction)puchOnOff:(id)sender {
 
 }
@@ -30,6 +43,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+	
+	_ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
 }
 
 - (void)didReceiveMemoryWarning
