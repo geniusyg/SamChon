@@ -7,7 +7,6 @@
 //
 
 #import "MyPageViewController.h"
-#import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface MyPageViewController () <FBLoginViewDelegate>
@@ -57,9 +56,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	AppDelegate *ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-	if(0 == ad.fbID) {
-		self.loginView.hidden = YES;
+	if(0 == [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]) {
+		self.loginView.hidden = NO;
 	}
 }
 

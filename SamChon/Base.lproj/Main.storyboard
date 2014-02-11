@@ -358,12 +358,28 @@
                             <view contentMode="scaleToFill" id="oSS-Zr-4b6" customClass="FBLoginView">
                                 <rect key="frame" x="44" y="229" width="233" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="czv-Qb-zEm" id="f7y-T7-Tjy"/>
+                                </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HPe-fq-5IE">
+                                <rect key="frame" x="144" y="373" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="printState:" destination="czv-Qb-zEm" eventType="touchUpInside" id="l2e-Uq-x5b"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="설정" id="ew5-mu-kVu"/>
+                    <connections>
+                        <outlet property="loginBtn" destination="oSS-Zr-4b6" id="0Y3-Wp-anA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gIL-Zw-0NG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -581,21 +597,6 @@
                                 <rect key="frame" x="0.0" y="72" width="320" height="154"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" id="hYu-cZ-gwF">
-                                <rect key="frame" x="0.0" y="68" width="320" height="362"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" id="VtA-bF-gQo" customClass="FBLoginView">
-                                        <rect key="frame" x="65" y="245" width="190" height="65"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="yRf-LY-GKk" id="sjl-Wk-wie"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -603,8 +604,6 @@
                     <connections>
                         <outlet property="commentTextField" destination="nyR-mo-4sf" id="1G8-k1-CPz"/>
                         <outlet property="imageView" destination="U1G-FY-yPC" id="Snt-nF-Ub6"/>
-                        <outlet property="loginBtn" destination="VtA-bF-gQo" id="RHj-wl-ezL"/>
-                        <outlet property="loginView" destination="hYu-cZ-gwF" id="0Hp-kZ-LnX"/>
                         <outlet property="menuTextField" destination="aKC-hN-XIl" id="ECB-iO-SCv"/>
                         <outlet property="searchTextField" destination="wKI-pV-zZK" id="IQ8-xZ-sMx"/>
                         <outlet property="textFieldViews" destination="osp-z1-pm9" id="cPD-oD-LPh"/>

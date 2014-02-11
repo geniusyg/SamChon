@@ -11,16 +11,57 @@
 
 @implementation AppDelegate
 
+NSString *const FBSessionStateChangedNotification = @"본인의 App Bundle Identifier:FBSessionStateChangedNotification";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
 	[FBLoginView class];
 	
-	self.fbID = [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"];
+	[FBSettings setDefaultAppID:@"264586667033355"];
 	
-	NSLog(@"FB ID: %d", self.fbID);
+	NSLog(@"FB ID: %ld", [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]);
 	
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
+}
+
+- (BOOL) openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
+	
+    return [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:allowLoginUI completionHandler:^(FBSession *session,FBSessionState state, NSError *error) {
+        [self sessionStateChanged:session state:state error:error];
+    }];
+}
+
+- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            if(!error) {
+                NSLog(@"Facebook User session found");
+            }
+            break;
+        case FBSessionStateClosed:
+            NSLog(@"Facebook SessionStateClosed");
+            break;
+        case FBSessionStateClosedLoginFailed:
+            NSLog(@"SessionStateColsedLoginFailed");
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:FBSessionStateChangedNotification object:session];
+    
+    if(error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -51,3 +92,29 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

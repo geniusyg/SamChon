@@ -7,12 +7,10 @@
 //
 
 #import "WriteViewController.h"
-#import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate, FBLoginViewDelegate>
-@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
-@property (weak, nonatomic) IBOutlet UIView *loginView;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UITextField *menuTextField;
@@ -23,24 +21,40 @@
 
 @implementation WriteViewController {
 	int dy;
-	AppDelegate *_ad;
 }
-
-- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-	self.loginView.hidden = NO;
-	_ad.fbID = 0;
-	NSLog(@"asdf");
-}
-
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
-	self.loginView.hidden = YES;
-	_ad.fbID = 1;
-}
-
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-	self.loginView.hidden = YES;
-}
-
+//
+//- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
+////	self.loginView0.hidden = NO;
+//	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"fbID"];
+//}
+//
+//- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
+////	self.loginView0.hidden = YES;
+//	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
+//	
+//	[FBRequestConnection startWithGraphPath:@"/100001292876154/picture"
+//								 parameters:nil
+//								 HTTPMethod:@"GET"
+//						  completionHandler:^(
+//											  FBRequestConnection *connection,
+//											  id result,
+//											  NSError *error
+//											  ) {
+//							  if(error) {
+//								  NSLog(@"Graph error : %@", error);
+//							  } else {
+//								  NSLog(@"%@", result);
+////								  NSDictionary *nsd = (NSDictionary *)result;
+////								  NSLog(@"%@", nsd);
+//							  }
+//						  }];
+//}
+//
+//- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+////	self.loginView0.hidden = YES;
+//	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
+//}
+//
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
 }
@@ -101,9 +115,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	_ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-	if(0 == _ad.fbID) {
-		self.loginView.hidden = NO;
+	if(0 == [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]) {
+//		self.loginView0.hidden = NO;
 	}
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
@@ -185,6 +198,14 @@
 	[super viewDidDisappear:animated];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
+	if([FBSession activeSession].state == FBSessionStateCreatedTokenLoaded) {
+		[self openSession];
+	}
 }
 
 @end

@@ -7,23 +7,45 @@
 //
 
 #import "SettingsViewController.h"
-#import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface SettingsViewController () <FBLoginViewDelegate>
+@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
 
 @end
 
-@implementation SettingsViewController {
-	AppDelegate *_ad;
+@implementation SettingsViewController
+- (IBAction)printState:(id)sender {
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-	_ad.fbID = 0;
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"fbID"];
+	NSLog(@"logged out");
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-	_ad.fbID = 1;
+	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
+	NSLog(@"logged in");
+}
+
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
+//	NSLog(@"%@", user);
+//	[FBRequestConnection startWithGraphPath:@"/me"
+//								 parameters:nil
+//								 HTTPMethod:@"GET"
+//						  completionHandler:^(
+//											  FBRequestConnection *connection,
+//											  id result,
+//											  NSError *error
+//											  ) {
+//							  if(error) {
+//								  NSLog(@"Graph error : %@", error);
+//							  } else {
+//								  NSDictionary *nsd = (NSDictionary *)result;
+//								  NSLog(@"%@", [nsd objectForKey:@"id"]);
+////								  NSLog(@"%@", result);
+//							  }
+//						  }];
 }
 
 - (IBAction)puchOnOff:(id)sender {
@@ -39,12 +61,16 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_ad = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+	[self.loginBtn setReadPermissions:@[@"basic_info"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,3 +80,34 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
