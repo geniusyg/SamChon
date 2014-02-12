@@ -78,7 +78,7 @@
 
 	_ad = [[UIApplication sharedApplication] delegate];
 	
-	[_ad openSessionWithAllowLoginUI:YES];
+	[_ad openSessionWithAllowLoginUI:NO];
 	
 }
 

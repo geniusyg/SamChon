@@ -22,39 +22,7 @@
 @implementation WriteViewController {
 	int dy;
 }
-//
-//- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-////	self.loginView0.hidden = NO;
-//	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"fbID"];
-//}
-//
-//- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
-////	self.loginView0.hidden = YES;
-//	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
-//	
-//	[FBRequestConnection startWithGraphPath:@"/100001292876154/picture"
-//								 parameters:nil
-//								 HTTPMethod:@"GET"
-//						  completionHandler:^(
-//											  FBRequestConnection *connection,
-//											  id result,
-//											  NSError *error
-//											  ) {
-//							  if(error) {
-//								  NSLog(@"Graph error : %@", error);
-//							  } else {
-//								  NSLog(@"%@", result);
-////								  NSDictionary *nsd = (NSDictionary *)result;
-////								  NSLog(@"%@", nsd);
-//							  }
-//						  }];
-//}
-//
-//- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-////	self.loginView0.hidden = YES;
-//	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
-//}
-//
+
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
 }
