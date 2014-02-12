@@ -202,10 +202,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
-	if([FBSession activeSession].state == FBSessionStateCreatedTokenLoaded) {
-		[self openSession];
-	}
 }
 
 @end

@@ -272,7 +272,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cS6-CF-x1Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="714" y="-805"/>
+            <point key="canvasLocation" x="676" y="-903"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="CJU-c8-RIh">
@@ -285,6 +285,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tabBar" destination="svg-Ii-1oS" id="07C-S7-Tc2"/>
                         <segue destination="pcE-EH-o9x" kind="relationship" relationship="viewControllers" id="Myw-ip-rhD"/>
                         <segue destination="YYa-va-jCk" kind="relationship" relationship="viewControllers" id="R1j-Qj-jmO"/>
                         <segue destination="yRf-LY-GKk" kind="relationship" relationship="viewControllers" id="QRI-jv-Xx4"/>
@@ -355,22 +356,14 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" id="oSS-Zr-4b6" customClass="FBLoginView">
-                                <rect key="frame" x="44" y="229" width="233" height="42"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GeK-Qx-v7V">
+                                <rect key="frame" x="116" y="225" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="delegate" destination="czv-Qb-zEm" id="f7y-T7-Tjy"/>
-                                </connections>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HPe-fq-5IE">
-                                <rect key="frame" x="144" y="373" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="로그인">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="printState:" destination="czv-Qb-zEm" eventType="touchUpInside" id="l2e-Uq-x5b"/>
+                                    <action selector="loginLogout:" destination="czv-Qb-zEm" eventType="touchUpInside" id="UcT-na-Obx"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -378,7 +371,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="설정" id="ew5-mu-kVu"/>
                     <connections>
-                        <outlet property="loginBtn" destination="oSS-Zr-4b6" id="0Y3-Wp-anA"/>
+                        <outlet property="loginButton" destination="GeK-Qx-v7V" id="c9S-xQ-rs6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gIL-Zw-0NG" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -693,14 +686,13 @@
                                 <rect key="frame" x="0.0" y="69" width="320" height="362"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="Td5-rw-ar2" customClass="FBLoginView">
-                                        <rect key="frame" x="65" y="245" width="190" height="65"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="YYa-va-jCk" id="agc-1b-brC"/>
-                                        </connections>
-                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MbN-Ds-kg4">
+                                        <rect key="frame" x="125" y="264" width="70" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="페북 로그인">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.80000001192092896" green="1" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -712,7 +704,6 @@
                         <outlet property="FirstFriends" destination="Jxd-ZS-5Ow" id="Bev-g6-5nM"/>
                         <outlet property="IWant" destination="BOk-Aj-Osv" id="ybS-h6-oxE"/>
                         <outlet property="MyShop" destination="Adz-na-Idc" id="A7n-wh-hHM"/>
-                        <outlet property="loginBtn" destination="Td5-rw-ar2" id="cWB-h4-g8z"/>
                         <outlet property="loginView" destination="FYp-SJ-WKs" id="h0o-7M-3yp"/>
                         <outlet property="segmentedControl" destination="MWb-Uq-uaT" id="VEB-Ok-z8B"/>
                     </connections>

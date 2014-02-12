@@ -8,44 +8,42 @@
 
 #import "SettingsViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface SettingsViewController () <FBLoginViewDelegate>
-@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
 
 @end
 
-@implementation SettingsViewController
-- (IBAction)printState:(id)sender {
+@implementation SettingsViewController {
+	AppDelegate *_ad;
 }
 
-- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
-	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"fbID"];
-	NSLog(@"logged out");
-}
-
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"fbID"];
-	NSLog(@"logged in");
-}
-
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user {
-//	NSLog(@"%@", user);
-//	[FBRequestConnection startWithGraphPath:@"/me"
-//								 parameters:nil
-//								 HTTPMethod:@"GET"
-//						  completionHandler:^(
-//											  FBRequestConnection *connection,
-//											  id result,
-//											  NSError *error
-//											  ) {
-//							  if(error) {
-//								  NSLog(@"Graph error : %@", error);
-//							  } else {
-//								  NSDictionary *nsd = (NSDictionary *)result;
-//								  NSLog(@"%@", [nsd objectForKey:@"id"]);
-////								  NSLog(@"%@", result);
-//							  }
-//						  }];
+- (IBAction)loginLogout:(id)sender {
+	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [FBSession.activeSession closeAndClearTokenInformation];
+    } else {
+        [FBSession openActiveSessionWithReadPermissions:@[@"basic_info"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+			[_ad sessionStateChanged:session state:state error:error];
+			
+			[FBRequestConnection startWithGraphPath:@"/me"
+										 parameters:nil
+										 HTTPMethod:@"GET"
+								  completionHandler:^(
+													  FBRequestConnection *connection,
+													  NSDictionary *result,
+													  NSError *error
+													  ) {
+									  if(error) {
+										  NSLog(@"Graph error : %@", error);
+									  } else {
+										  NSLog(@"%@", [result objectForKey:@"id"]);
+									  }
+								  }];
+		}];
+    }
+	self.tabBarController.selectedIndex = 0;
 }
 
 - (IBAction)puchOnOff:(id)sender {
@@ -63,14 +61,25 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+		[self.loginButton setTitle:@"로그아웃" forState:UIControlStateNormal];
+		
+    } else {
+        [self.loginButton setTitle:@"로그인" forState:UIControlStateNormal];
+    }
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+
+	_ad = [[UIApplication sharedApplication] delegate];
 	
-	[self.loginBtn setReadPermissions:@[@"basic_info"]];
+	[_ad openSessionWithAllowLoginUI:YES];
+	
 }
 
 - (void)didReceiveMemoryWarning

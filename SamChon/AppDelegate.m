@@ -8,10 +8,11 @@
 
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "SettingsViewController.h"
 
 @implementation AppDelegate
 
-NSString *const FBSessionStateChangedNotification = @"본인의 App Bundle Identifier:FBSessionStateChangedNotification";
+NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionStateChangedNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -30,7 +31,7 @@ NSString *const FBSessionStateChangedNotification = @"본인의 App Bundle Ident
     return [FBSession.activeSession handleOpenURL:url];
 }
 
-- (BOOL) openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
 	
     return [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:allowLoginUI completionHandler:^(FBSession *session,FBSessionState state, NSError *error) {
         [self sessionStateChanged:session state:state error:error];
@@ -63,7 +64,11 @@ NSString *const FBSessionStateChangedNotification = @"본인의 App Bundle Ident
         [alertView show];
     }
 }
-							
+
+- (void)moveTap {
+
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

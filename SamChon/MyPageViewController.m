@@ -8,6 +8,7 @@
 
 #import "MyPageViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface MyPageViewController () <FBLoginViewDelegate>
 
@@ -20,7 +21,9 @@
 
 @end
 
-@implementation MyPageViewController
+@implementation MyPageViewController {
+	AppDelegate *_ad;
+}
 
 - (IBAction)segChanged:(id)sender {
 	UISegmentedControl *sc = (UISegmentedControl *)sender;
@@ -56,8 +59,10 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	if(0 == [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]) {
+	if([FBSession activeSession].state == FBSessionStateClosed) {
 		self.loginView.hidden = NO;
+	} else {
+		self.loginBtn.hidden = YES;
 	}
 }
 
