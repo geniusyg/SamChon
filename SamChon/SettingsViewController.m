@@ -23,26 +23,16 @@
 	
 	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
         [FBSession.activeSession closeAndClearTokenInformation];
+		[self performSelector:@selector(goMain) withObject:nil afterDelay:1.0];
     } else {
         [FBSession openActiveSessionWithReadPermissions:@[@"basic_info"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
 			[_ad sessionStateChanged:session state:state error:error];
-			
-			[FBRequestConnection startWithGraphPath:@"/me"
-										 parameters:nil
-										 HTTPMethod:@"GET"
-								  completionHandler:^(
-													  FBRequestConnection *connection,
-													  NSDictionary *result,
-													  NSError *error
-													  ) {
-									  if(error) {
-										  NSLog(@"Graph error : %@", error);
-									  } else {
-										  NSLog(@"%@", [result objectForKey:@"id"]);
-									  }
-								  }];
+			[self performSelector:@selector(goMain) withObject:nil afterDelay:2.0];
 		}];
     }
+}
+
+- (void)goMain {
 	self.tabBarController.selectedIndex = 0;
 }
 

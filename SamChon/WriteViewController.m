@@ -8,10 +8,12 @@
 
 #import "WriteViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate, FBLoginViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UITextField *menuTextField;
 @property (weak, nonatomic) IBOutlet UIView *textFieldViews;
@@ -20,11 +22,27 @@
 @end
 
 @implementation WriteViewController {
+	AppDelegate *_ad;
 	int dy;
 }
 
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
+}
+- (IBAction)login:(id)sender {
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [FBSession.activeSession closeAndClearTokenInformation];
+		[self performSelector:@selector(goMain) withObject:nil afterDelay:1.0];
+    } else {
+        [FBSession openActiveSessionWithReadPermissions:@[@"basic_info"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+			[_ad sessionStateChanged:session state:state error:error];
+			[self performSelector:@selector(goMain) withObject:nil afterDelay:2.0];
+		}];
+    }
+}
+
+- (void)goMain {
+	self.tabBarController.selectedIndex = 0;
 }
 
 - (IBAction)cancelWrite:(id)sender {
@@ -78,14 +96,18 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+	
+	_ad = [[UIApplication sharedApplication] delegate];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	if(0 == [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]) {
-//		self.loginView0.hidden = NO;
-	}
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+		self.loginView.hidden = YES;
+    } else {
+        self.loginView.hidden = NO;
+    }
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
 	
@@ -166,10 +188,6 @@
 	[super viewDidDisappear:animated];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
 }
 
 @end

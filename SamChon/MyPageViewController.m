@@ -17,12 +17,26 @@
 @property (weak, nonatomic) IBOutlet UIView *FirstFriends;
 @property (weak, nonatomic) IBOutlet UIView *IWant;
 @property (weak, nonatomic) IBOutlet UIView *loginView;
-@property (weak, nonatomic) IBOutlet FBLoginView *loginBtn;
 
 @end
 
 @implementation MyPageViewController {
 	AppDelegate *_ad;
+}
+- (IBAction)login:(id)sender {
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+        [FBSession.activeSession closeAndClearTokenInformation];
+		[self performSelector:@selector(goMain) withObject:nil afterDelay:1.0];
+    } else {
+        [FBSession openActiveSessionWithReadPermissions:@[@"basic_info"] allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+			[_ad sessionStateChanged:session state:state error:error];
+			[self performSelector:@selector(goMain) withObject:nil afterDelay:2.0];
+		}];
+    }
+}
+
+- (void)goMain {
+	self.tabBarController.selectedIndex = 0;
 }
 
 - (IBAction)segChanged:(id)sender {
@@ -59,17 +73,18 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	if([FBSession activeSession].state == FBSessionStateClosed) {
-		self.loginView.hidden = NO;
-	} else {
-		self.loginBtn.hidden = YES;
-	}
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+		self.loginView.hidden = YES;
+    } else {
+        self.loginView.hidden = NO;
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+	_ad = [[UIApplication sharedApplication] delegate];
 	
 	self.MyShop.hidden = NO;
 	self.FirstFriends.hidden = YES;

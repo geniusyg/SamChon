@@ -11,11 +11,36 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property NSString *uid;
+@property NSString *uname;
+@property NSString *purl;
+@property NSMutableDictionary *fids;
+
 extern NSString *const FBSessionStateChangedNotification;
 
 - (BOOL) openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
 - (void) sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error;
+- (void) networkLogin;
 
 @property (strong, nonatomic) UIWindow *window;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

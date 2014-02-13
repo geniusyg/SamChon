@@ -7,6 +7,8 @@
 //
 
 #import "MainViewController00.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "AppDelegate.h"
 
 @interface MainViewController00 ()
 @property (weak, nonatomic) IBOutlet UIImageView *profileImg;
@@ -24,6 +26,27 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+		UIImage *imgWeb;
+		NSURL *url;
+		
+		
+		url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
+		
+		if( url != nil )
+			imgWeb = [UIImage imageWithData:[NSData dataWithContentsOfURL:url ]];
+		
+		// 위에서 URL이 잘못되어 있으면 이미지를 가져오지 못하므로 UIImage는 nil이 된다.
+		
+		if( imgWeb != nil )
+			self.profileImg.image = imgWeb;
+    } else {
+        self.profileImg.image = nil;
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -37,3 +60,29 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

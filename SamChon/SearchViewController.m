@@ -26,7 +26,7 @@
 	TMapPathData *path = [[TMapPathData alloc] init];
 	NSArray *result = [path requestFindTitlePOI:keyword];
 	
-	NSLog(@"number : %d", result.count);
+	NSLog(@"number : %ld", result.count);
 	
 	int i=0;
 	

@@ -8,9 +8,12 @@
 
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import "SettingsViewController.h"
+#import "AFNetworking.h"
 
-@implementation AppDelegate
+@implementation AppDelegate {
+	NSArray *fList;
+	NSDictionary *fList2;
+}
 
 NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionStateChangedNotification";
 
@@ -20,10 +23,20 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	[FBLoginView class];
 	
 	[FBSettings setDefaultAppID:@"264586667033355"];
-	
-	NSLog(@"FB ID: %ld", [[NSUserDefaults standardUserDefaults] integerForKey:@"fbID"]);
+
+	[self openSessionWithAllowLoginUI:NO];
 	
     return YES;
+}
+
+- (void)networkLogin {
+					AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+					NSDictionary *parameters = @{@"id":self.uid, @"profilePic":self.purl, @"name":self.uname, @"friId":fList2};
+					[manager POST:@"http://samchon.ygw3429.cloulu.com/login/enrollFriList2" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+						NSLog(@"JSON: %@", responseObject);
+					} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+						NSLog(@"Error: %@", error);
+					}];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -32,7 +45,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 }
 
 - (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
-	
+		
     return [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:allowLoginUI completionHandler:^(FBSession *session,FBSessionState state, NSError *error) {
         [self sessionStateChanged:session state:state error:error];
     }];
@@ -44,7 +57,83 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
         case FBSessionStateOpen:
             if(!error) {
                 NSLog(@"Facebook User session found");
-            }
+            
+			
+			if([[NSUserDefaults standardUserDefaults] integerForKey:@"isFirstLogin"]) {
+				// 첫 로그인이 아님
+			} else {
+				//첫 로그인임
+				[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"isFirstLogin"];
+			}
+			
+			[FBRequestConnection startWithGraphPath:@"/me?fields=id,name,friends,picture"
+										 parameters:nil
+										 HTTPMethod:@"GET"
+								  completionHandler:^(
+													  FBRequestConnection *connection,
+													  NSDictionary *result,
+													  NSError *error
+													  ) {
+									  if(error) {
+										  NSLog(@"Graph error : %@", error);
+									  } else {
+										  self.uid = [NSString stringWithFormat:@"%@", [result objectForKey:@"id"]];
+										  
+										  self.uname = [NSString stringWithFormat:@"%@", [result objectForKey:@"name"]];
+										  
+										  NSDictionary* friends = [result objectForKey:@"friends"];
+										  
+										  NSArray *arr = [friends objectForKey:@"data"];
+										  
+										  self.fids = [[NSMutableDictionary alloc] init];
+										  
+//										  NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+										  
+//										  for(NSDictionary<FBGraphUser>* user in arr) {
+//											  NSMutableDictionary* dicFriend = [[NSMutableDictionary alloc] init];
+//											  
+//											  [dicFriend setObject: [user objectForKey:@"id"] forKey: @"id"];
+//											  [dicFriend setObject: user.name forKey: @"name"];
+//											  
+//											  [self.fids setObject:dicFriend forKey:@"friId"];
+//										  }
+										  fList = [NSArray arrayWithArray:arr];
+										  fList2 = [NSDictionary dictionaryWithDictionary:friends];
+										  NSLog(@"%@", fList);
+//										  NSLog(@"%@, %@", self.uid, self.uname);
+//										  NSLog(@"%@", fids);
+										  
+										  
+										  NSDictionary *pic = [result objectForKey:@"picture"];
+										  NSDictionary *pic2 = [pic objectForKey:@"data"];
+										  self.purl = [pic2 objectForKey:@"url"];
+										  
+										  [[NSUserDefaults standardUserDefaults] setObject:self.uid forKey:@"uid"];
+										  [[NSUserDefaults standardUserDefaults] setObject:self.uname forKey:@"uname"];
+										  [[NSUserDefaults standardUserDefaults] setObject:self.purl forKey:@"upic"];
+										  
+									  }
+								  }];
+
+//				[FBRequestConnection startWithGraphPath:@"/me/picture?type=large"
+//											 parameters:nil
+//											 HTTPMethod:@"GET"
+//									  completionHandler:^(
+//														  FBRequestConnection *connection,
+//														  NSDictionary *result,
+//														  NSError *error
+//														  ) {
+//										  if(error) {
+//											  NSLog(@"Graph error : %@", error);
+//										  } else {
+//											 NSDictionary *pic = [result objectForKey:@"picture"];
+//											 NSDictionary *pic2 = [pic objectForKey:@"data"];
+//											 self.purl = [pic2 objectForKey:@"url"];
+//										  }
+//									  }];
+				
+//				[self performSelector:@selector(networkLogin) withObject:nil afterDelay:2.0];
+			}
             break;
         case FBSessionStateClosed:
             NSLog(@"Facebook SessionStateClosed");
