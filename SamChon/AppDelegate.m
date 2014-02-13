@@ -59,13 +59,13 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
                 NSLog(@"Facebook User session found");
             
 			
-			if([[NSUserDefaults standardUserDefaults] integerForKey:@"isFirstLogin"]) {
-				// 첫 로그인이 아님
-			} else {
-				//첫 로그인임
-				[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"isFirstLogin"];
-			}
-			
+//			if([[NSUserDefaults standardUserDefaults] integerForKey:@"isFirstLogin"]) {
+//				// 첫 로그인이 아님
+//			} else {
+//				//첫 로그인임
+//				[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"isFirstLogin"];
+//			}
+//			
 			[FBRequestConnection startWithGraphPath:@"/me?fields=id,name,friends,picture"
 										 parameters:nil
 										 HTTPMethod:@"GET"
@@ -97,9 +97,9 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 //											  
 //											  [self.fids setObject:dicFriend forKey:@"friId"];
 //										  }
-										  fList = [NSArray arrayWithArray:arr];
-										  fList2 = [NSDictionary dictionaryWithDictionary:friends];
-										  NSLog(@"%@", fList);
+//										  fList = [NSArray arrayWithArray:arr];
+//										  fList2 = [NSDictionary dictionaryWithDictionary:friends];
+//										  NSLog(@"%@", fList);
 //										  NSLog(@"%@, %@", self.uid, self.uname);
 //										  NSLog(@"%@", fids);
 										  

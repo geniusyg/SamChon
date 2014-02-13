@@ -15,6 +15,7 @@
 @property NSString *uname;
 @property NSString *purl;
 @property NSMutableDictionary *fids;
+@property NSDictionary *writeSearch;
 
 extern NSString *const FBSessionStateChangedNotification;
 

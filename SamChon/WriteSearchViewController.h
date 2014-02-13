@@ -10,4 +10,6 @@
 
 @interface WriteSearchViewController : UIViewController
 
+@property NSString *keyword;
+
 @end

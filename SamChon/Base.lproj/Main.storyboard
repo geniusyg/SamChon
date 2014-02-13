@@ -523,17 +523,16 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="식당 이름 검색" minimumFontSize="17" id="wKI-pV-zZK">
-                                        <rect key="frame" x="20" y="10" width="280" height="30"/>
+                                        <rect key="frame" x="20" y="10" width="204" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="yRf-LY-GKk" id="0Ox-he-kLz"/>
-                                            <segue destination="c65-59-2Em" kind="modal" id="tgY-OX-0gw"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="메뉴 이름을 친구들에게 알려주세요!" minimumFontSize="17" id="aKC-hN-XIl">
-                                        <rect key="frame" x="20" y="56" width="280" height="30"/>
+                                        <rect key="frame" x="20" y="73" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -542,7 +541,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="식당은 어떠셨나요? 코멘트를 작성해 주세요!" minimumFontSize="17" id="nyR-mo-4sf">
-                                        <rect key="frame" x="20" y="101" width="280" height="30"/>
+                                        <rect key="frame" x="20" y="112" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -551,14 +550,14 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="z7G-M6-sAo">
-                                        <rect key="frame" x="20" y="139" width="52" height="30"/>
+                                        <rect key="frame" x="8" y="154" width="52" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="페이스북">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="caA-VX-jMJ">
-                                        <rect key="frame" x="96" y="139" width="39" height="30"/>
+                                        <rect key="frame" x="80" y="150" width="39" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="트위터">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -584,6 +583,30 @@
                                             <action selector="cancelWrite:" destination="yRf-LY-GKk" eventType="touchUpInside" id="6ba-84-D4R"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7TX-Dv-MGo">
+                                        <rect key="frame" x="259" y="10" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="검색">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="openModal:" destination="yRf-LY-GKk" eventType="touchUpInside" id="VTt-Fn-rrs"/>
+                                            <segue destination="c65-59-2Em" kind="modal" id="eco-Re-Pbj"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dge-5d-Xmw">
+                                        <rect key="frame" x="60" y="44" width="240" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주소 : " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fF0-gI-TNd">
+                                        <rect key="frame" x="13" y="44" width="44" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -592,7 +615,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="SrP-rq-fUj">
-                                <rect key="frame" x="210" y="113" width="320" height="358"/>
+                                <rect key="frame" x="188" y="-144" width="320" height="358"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fn7-zH-IK8">
@@ -613,10 +636,12 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="글쓰기" id="vXw-gD-4g4"/>
                     <connections>
+                        <outlet property="addressLabel" destination="dge-5d-Xmw" id="KoT-YX-3Gx"/>
                         <outlet property="commentTextField" destination="nyR-mo-4sf" id="1G8-k1-CPz"/>
                         <outlet property="imageView" destination="U1G-FY-yPC" id="Snt-nF-Ub6"/>
                         <outlet property="loginView" destination="SrP-rq-fUj" id="iBh-RC-eih"/>
                         <outlet property="menuTextField" destination="aKC-hN-XIl" id="ECB-iO-SCv"/>
+                        <outlet property="searchBtn" destination="7TX-Dv-MGo" id="D5m-QO-4jY"/>
                         <outlet property="searchTextField" destination="wKI-pV-zZK" id="IQ8-xZ-sMx"/>
                         <outlet property="textFieldViews" destination="osp-z1-pm9" id="cPD-oD-LPh"/>
                     </connections>
@@ -643,25 +668,32 @@
                                     <action selector="closeModal:" destination="c65-59-2Em" eventType="touchUpInside" id="bGk-py-I3G"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="RWt-fh-Ed3">
-                                <rect key="frame" x="0.0" y="57" width="330" height="423"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="iJI-7d-LY5">
+                                <rect key="frame" x="0.0" y="59" width="332" height="421"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RESULT_CELL" id="DN7-Xg-YcS">
-                                        <rect key="frame" x="0.0" y="22" width="330" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SEARCH_CELL" id="5dt-rq-0S0">
+                                        <rect key="frame" x="0.0" y="22" width="332" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DN7-Xg-YcS" id="I4s-5r-FBe">
-                                            <rect key="frame" x="0.0" y="0.0" width="330" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5dt-rq-0S0" id="ial-s0-EqV">
+                                            <rect key="frame" x="0.0" y="0.0" width="332" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="c65-59-2Em" id="Iom-lU-G0P"/>
+                                    <outlet property="delegate" destination="c65-59-2Em" id="FMK-pe-7xE"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="EW0-Rz-hNk"/>
+                    <connections>
+                        <outlet property="table" destination="iJI-7d-LY5" id="GjT-Le-sX6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dfl-Kg-hi1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1073,11 +1105,9 @@
     </scenes>
     <resources>
         <image name="Blank_2.png" width="80" height="80"/>
-        <image name="Blank_2.png" width="80" height="80"/>
         <image name="camera_identification-128.png" width="128" height="128"/>
         <image name="point.png" width="64" height="64"/>
         <image name="question-75.png" width="75" height="75"/>
-        <image name="yungi.jpg" width="960" height="640"/>
         <image name="yungi.jpg" width="960" height="640"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -9,26 +9,73 @@
 #import "WriteViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "AppDelegate.h"
+#import "WriteSearchViewController.h"
+#import "AFNetworking.h"
 
-@interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate, FBLoginViewDelegate>
+@interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UITextField *menuTextField;
 @property (weak, nonatomic) IBOutlet UIView *textFieldViews;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+@property UIImage *selectedImage;
 
 @end
 
 @implementation WriteViewController {
 	AppDelegate *_ad;
 	int dy;
+	BOOL _isChoosePic;
+}
+
+- (IBAction)openModal:(id)sender {
+	if(0 == [self.searchTextField.text length]) {
+		return;
+	}
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	WriteSearchViewController *wvc = [segue destinationViewController];
+	wvc.keyword = self.searchTextField.text;
 }
 
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
+	
+	if(0 == [self.addressLabel.text length] || 0 == [self.searchTextField.text length] || 0 == [self.menuTextField.text length] || 0 == [self.commentTextField.text length] || _isChoosePic) {
+		return;
+	}
+	
+//	id :“user아이디”  //페이스북 아이디
+//storeName: "가게이름"
+//menuName:"메뉴이름"
+//storeAddr:”주소”
+//category:”카테고리 번호”
+//lat:”위도”
+//lng: “경도”
+//userMemo:"간단한 메모"
+//imgUrl:"이미지경로"
+	
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":self.addressLabel.text, @"category":@"0", @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoard" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+		NSData *imgData = UIImageJPEGRepresentation(self.selectedImage, 0.5);
+		NSDate *date = [NSDate date];
+		NSString *fileName = [NSString stringWithFormat:@"%@_%@",_ad.uid,date];
+		[formData appendPartWithFileData:imgData name:@"imgUrl" fileName:fileName mimeType:@"image/jpeg"];
+	} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"Success: %@", responseObject);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
+	
+	[self eraseForm];
 }
+
 - (IBAction)login:(id)sender {
 	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
         [FBSession.activeSession closeAndClearTokenInformation];
@@ -41,16 +88,23 @@
     }
 }
 
-- (void)goMain {
-	self.tabBarController.selectedIndex = 0;
-}
-
-- (IBAction)cancelWrite:(id)sender {
+- (void)eraseForm {
 	[[self firstResponderTextField] resignFirstResponder];
 	self.imageView.image = [UIImage imageNamed:@"camera_identification-128.png"];
 	self.searchTextField.text = @"";
 	self.menuTextField.text = @"";
 	self.commentTextField.text = @"";
+	self.addressLabel.text = @"";
+	_ad.writeSearch = nil;
+	_isChoosePic = NO;
+}
+
+- (void)goMain {
+	self.tabBarController.selectedIndex = 0;
+}
+
+- (IBAction)cancelWrite:(id)sender {
+	[self eraseForm];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -78,8 +132,8 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-	UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
-	self.imageView.image = img;
+	self.selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+	self.imageView.image = self.selectedImage;
 	[picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -98,6 +152,14 @@
 	// Do any additional setup after loading the view.
 	
 	_ad = [[UIApplication sharedApplication] delegate];
+	
+	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
+	
+	self.imageView.userInteractionEnabled = YES;
+	
+	_isChoosePic = NO;
+	
+	[self.imageView addGestureRecognizer:singleTap];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -109,11 +171,8 @@
         self.loginView.hidden = NO;
     }
 	
-	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
-	
-	self.imageView.userInteractionEnabled = YES;
-	
-	[self.imageView addGestureRecognizer:singleTap];
+	self.addressLabel.text = [_ad.writeSearch objectForKey:@"addr"];
+	self.searchTextField.text = [_ad.writeSearch objectForKey:@"name"];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	

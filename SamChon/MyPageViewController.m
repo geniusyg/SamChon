@@ -10,7 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "AppDelegate.h"
 
-@interface MyPageViewController () <FBLoginViewDelegate>
+@interface MyPageViewController () 
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *MyShop;
