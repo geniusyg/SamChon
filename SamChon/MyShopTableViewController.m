@@ -7,17 +7,24 @@
 //
 
 #import "MyShopTableViewController.h"
+#import "AppDelegate.h"
+#import "AFNetworking.h"
 
 @interface MyShopTableViewController () <UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *table;
 @property UITextField *replyTextField;
-
 @end
 
 @implementation MyShopTableViewController {
+	AppDelegate *_ad;
+	NSArray *aa;
 	NSMutableArray *_images;
-	NSMutableArray *_replys[9];
+	NSMutableArray *_rnames;
+	NSMutableArray *_rmenus;
+	NSMutableArray *_storeIDs;
+	NSMutableArray *_postingIDs;
+	NSMutableArray *_replys;
 	UIScrollView *_sv;
 	UIPageControl *_pc;
 }
@@ -48,34 +55,68 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	self.table.separatorColor = [UIColor clearColor];
-	
+	_ad = [[UIApplication sharedApplication] delegate];
 	_images = [[NSMutableArray alloc] init];
+	_rnames = [[NSMutableArray alloc] init];
+	_rmenus = [[NSMutableArray alloc] init];
+	_replys = [[NSMutableArray alloc] init];
 	
-	_replys[0] = [NSMutableArray arrayWithObjects:@"AA",@"BB",@"CC",@"DD",@"EE", nil];
-	_replys[1] = [NSMutableArray arrayWithObjects:@"FF",@"GG",@"HH",@"II",@"JJ", nil];
-	_replys[2] = [NSMutableArray arrayWithObjects:@"KK",@"LL",@"MM",@"NN",@"EE", nil];
-	_replys[3] = [NSMutableArray arrayWithObjects:@"OO",@"PP",@"QQ",@"RR",@"EE", nil];
-	_replys[4] = [NSMutableArray arrayWithObjects:@"SS",@"TT",@"UU",@"VV",@"WW", nil];
-	_replys[5] = [NSMutableArray arrayWithObjects:@"XX",@"YY",@"ZZ",@"AA",@"BB", nil];
-	_replys[6] = [NSMutableArray arrayWithObjects:@"CC",@"BB",@"AA",@"DD",@"EE", nil];
-	_replys[7] = [NSMutableArray arrayWithObjects:@"HH",@"GG",@"FF",@"GG",@"HH", nil];
-	_replys[8] = [NSMutableArray arrayWithObjects:@"MM",@"NN",@"OO",@"TT",@"QQ", nil];
+	_storeIDs = [[NSMutableArray alloc] init];
+	_postingIDs = [[NSMutableArray alloc] init];
 	
-	for(int i=0; i<9; i++) {
-		NSString *tmp = [NSString stringWithFormat:@"img%d", i];
-		UIImage *img = [UIImage imageNamed:[tmp stringByAppendingString:@".jpg"]];
+	for(NSArray *arr in _ad.myBoardList) {
+		NSDictionary *tmp = (NSDictionary *)arr;
+		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
+		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		NSData *data = [NSData dataWithContentsOfURL:url];
+		UIImage *img = [UIImage imageWithData:data];
 		[_images addObject:img];
+		[_rnames addObject:[tmp objectForKey:@"storeName"]];
+		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
+		[_storeIDs addObject:[tmp objectForKey:@"storeId"]];
+		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
+		
+//		NSArray *arr = [_ad getReplys:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+//		NSLog(@"inside - %@", arr);
+		
+		AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+		NSDictionary *parameters = @{@"id":_ad.uid, @"storeId":[tmp objectForKey:@"storeId"], @"postingNum":[tmp objectForKey:@"postingNum"]};
+		[manager POST:@"http://samchon.ygw3429.cloulu.com/myPage/myBoard" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			aa =  [NSArray arrayWithArray:[responseObject objectForKey:@"reply"]];
+			NSLog(@"direct - %@", [responseObject objectForKey:@"reply"]);
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			NSLog(@"Error: %@", error);
+		}];
+		
+		NSLog(@"%@", aa);
+		
+//		NSDictionary *nsd = [arr objectAtIndex:0];
+//		NSLog(@"%@", nsd);
+//		[_replys addObject:arr];
+		//NSLog(@"%@", [arr objectAtIndex:1]);
 	}
+	
+	self.table.separatorColor = [UIColor clearColor];
 	
 	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
 	
 	int i=0;
-	for (; i<9; i++) {
+	for (; i<[_ad.myBoardList count]; i++) {
 		UIImageView *imgView = [[UIImageView alloc] initWithImage:[_images objectAtIndex:i]];
-		imgView.frame = CGRectMake(_sv.frame.size.width*i, 0, _sv.frame.size.width, _sv.frame.size.height);
+		imgView.frame = CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height);
+		
+		UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 0, _sv.frame.size.width - 40, 20)];
+		rname.textAlignment = NSTextAlignmentCenter;
+		rname.text = [_rnames objectAtIndex:i];
+		
+		UILabel *rmenu = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 30, _sv.frame.size.width - 40, 20)];
+		rmenu.textAlignment = NSTextAlignmentCenter;
+		rmenu.text = [_rmenus objectAtIndex:i];
 		
 		[_sv addSubview:imgView];
+		[_sv addSubview:rname];
+		[_sv addSubview:rmenu];
+		
 	}
 	
 	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
@@ -87,9 +128,9 @@
 	_sv.pagingEnabled=YES;
 	_sv.delegate=self;
 	
-	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 230, 100, 20)];
+	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
 	_pc.currentPage = self.loadedPage;
-	_pc.numberOfPages = 9;
+	_pc.numberOfPages = [_ad.myBoardList count];
 	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
 	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * self.loadedPage), 0)];
@@ -127,8 +168,9 @@
 - (void)writeReply {
 	NSString *reply = self.replyTextField.text;
 	if([reply length] > 0) {
-	NSLog(@"%@", reply);
-	self.replyTextField.text = @"";
+		[_ad writeReplys:[_postingIDs objectAtIndex:_pc.currentPage] comment:self.replyTextField.text];
+		self.replyTextField.text = @"";
+		[self.table reloadData];
 	} else {
 		return;
 	}
@@ -153,7 +195,7 @@
 		case 0:
 			return 73;
 		case 1:
-			return 250;
+			return 300;
 		case 2:
 			return 50;
 		case 3:
@@ -174,7 +216,12 @@
 		case 2:
 			return 1;
 		case 3:
-			return [_replys[_pc.currentPage] count];
+//			NSArray *tmp = [NSArray arrayWithArray:[_replys objectAtIndex:_pc.currentPage]];
+//			return [tmp count];
+//		}
+//			NSLog(@"%ld", [_replys count]);
+//			return [_replys count];
+			return 1;
 	}
     return 0;
 }
@@ -184,8 +231,21 @@
     UITableViewCell *cell;
 	
 	switch (indexPath.section) {
-		case 0:
+		case 0: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"TITLE_CELL"];
+			UIImageView *profileImage = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
+			NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
+			
+			UIImage *imgWeb = [UIImage imageWithData:[NSData dataWithContentsOfURL:url ]];
+			
+			profileImage.image = imgWeb;
+			
+			UIImageView *profileImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
+			profileImage2.image = [UIImage imageNamed:@"Blank_2.png"];
+			
+			[cell addSubview:profileImage];
+			[cell addSubview:profileImage2];
+		}
 			break;
 		case 1: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"SCROLL_CELL"];
@@ -200,7 +260,7 @@
 			break;
 		case 3: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL"];
-			cell.textLabel.text = [_replys[_pc.currentPage] objectAtIndex:indexPath.row];
+//			cell.textLabel.text = [_replys[_pc.currentPage] objectAtIndex:indexPath.row];
 		}
 			break;
 		default:

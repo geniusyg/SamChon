@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 
 @interface MyPageViewController () 
+@property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *MyShop;
@@ -75,6 +76,19 @@
 	
 	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
 		self.loginView.hidden = YES;
+		
+		UIImage *imgWeb;
+		NSURL *url;
+		
+		
+		url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
+		
+		if( url != nil )
+			imgWeb = [UIImage imageWithData:[NSData dataWithContentsOfURL:url ]];
+		
+		if( imgWeb != nil )
+			self.profileImage.image = imgWeb;
+		
     } else {
         self.loginView.hidden = NO;
     }

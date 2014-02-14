@@ -73,6 +73,7 @@
 		NSLog(@"Error: %@", error);
 	}];
 	
+	[_ad getMyBoardList];
 	[self eraseForm];
 }
 

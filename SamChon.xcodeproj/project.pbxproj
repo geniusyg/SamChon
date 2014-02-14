@@ -60,7 +60,6 @@
 		00726F781896530F002A2F5E /* FirstFriendsTapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F771896530F002A2F5E /* FirstFriendsTapViewController.m */; };
 		00726F7B18965410002A2F5E /* MyShopTapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F7A18965410002A2F5E /* MyShopTapViewController.m */; };
 		00726F7E18965476002A2F5E /* IWantTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00726F7D18965476002A2F5E /* IWantTabViewController.m */; };
-		00A9345918974AB700368CD4 /* MyShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A9345818974AB700368CD4 /* MyShopViewController.m */; };
 		00A934631897A6C100368CD4 /* img8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00A9345A1897A6C100368CD4 /* img8.jpg */; };
 		00A934641897A6C100368CD4 /* img7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00A9345B1897A6C100368CD4 /* img7.jpg */; };
 		00A934651897A6C100368CD4 /* img6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 00A9345C1897A6C100368CD4 /* img6.jpg */; };
@@ -184,8 +183,6 @@
 		00726F7A18965410002A2F5E /* MyShopTapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShopTapViewController.m; sourceTree = "<group>"; };
 		00726F7C18965476002A2F5E /* IWantTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWantTabViewController.h; sourceTree = "<group>"; };
 		00726F7D18965476002A2F5E /* IWantTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWantTabViewController.m; sourceTree = "<group>"; };
-		00A9345718974AB700368CD4 /* MyShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyShopViewController.h; sourceTree = "<group>"; };
-		00A9345818974AB700368CD4 /* MyShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyShopViewController.m; sourceTree = "<group>"; };
 		00A9345A1897A6C100368CD4 /* img8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img8.jpg; sourceTree = "<group>"; };
 		00A9345B1897A6C100368CD4 /* img7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img7.jpg; sourceTree = "<group>"; };
 		00A9345C1897A6C100368CD4 /* img6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img6.jpg; sourceTree = "<group>"; };
@@ -304,8 +301,6 @@
 				0051CE3918988AAB00208D96 /* MyShopTableViewController.m */,
 				00726F7C18965476002A2F5E /* IWantTabViewController.h */,
 				00726F7D18965476002A2F5E /* IWantTabViewController.m */,
-				00A9345718974AB700368CD4 /* MyShopViewController.h */,
-				00A9345818974AB700368CD4 /* MyShopViewController.m */,
 				00726F7918965410002A2F5E /* MyShopTapViewController.h */,
 				00726F7A18965410002A2F5E /* MyShopTapViewController.m */,
 				00726F761896530F002A2F5E /* FirstFriendsTapViewController.h */,
@@ -623,7 +618,6 @@
 				0054166A18925229003F5AA4 /* SearchViewController.m in Sources */,
 				00726F6F189628ED002A2F5E /* MyPageViewController.m in Sources */,
 				0054166F189259F3003F5AA4 /* WriteViewController.m in Sources */,
-				00A9345918974AB700368CD4 /* MyShopViewController.m in Sources */,
 				00AC13CF18AC649F008CAF9F /* AFHTTPRequestOperationManager.m in Sources */,
 				00AC13D218AC649F008CAF9F /* AFSecurityPolicy.m in Sources */,
 				0018FD7D1890D8BA00CCCFCB /* main.m in Sources */,

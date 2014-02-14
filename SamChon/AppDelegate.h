@@ -17,11 +17,17 @@
 @property NSMutableDictionary *fids;
 @property NSDictionary *writeSearch;
 
+@property NSArray *reply;
+@property NSMutableArray *myBoardList;
+
 extern NSString *const FBSessionStateChangedNotification;
 
 - (BOOL) openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
 - (void) sessionStateChanged:(FBSession *)session state:(FBSessionState)state error:(NSError *)error;
 - (void) networkLogin;
+- (void)getMyBoardList;
+- (NSArray *)getReplys:(NSString *)storeID postingNum:(NSString *)postingNum;
+- (void)writeReplys:(NSString *)storeID comment:(NSString *)comment;
 
 @property (strong, nonatomic) UIWindow *window;
 
