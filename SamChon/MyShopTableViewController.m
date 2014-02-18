@@ -79,16 +79,6 @@
 //		NSArray *arr = [_ad getReplys:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 //		NSLog(@"inside - %@", arr);
 		
-		AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-		NSDictionary *parameters = @{@"id":_ad.uid, @"storeId":[tmp objectForKey:@"storeId"], @"postingNum":[tmp objectForKey:@"postingNum"]};
-		[manager POST:@"http://samchon.ygw3429.cloulu.com/myPage/myBoard" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-			aa =  [NSArray arrayWithArray:[responseObject objectForKey:@"reply"]];
-			NSLog(@"direct - %@", [responseObject objectForKey:@"reply"]);
-		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-			NSLog(@"Error: %@", error);
-		}];
-		
-		NSLog(@"%@", aa);
 		
 //		NSDictionary *nsd = [arr objectAtIndex:0];
 //		NSLog(@"%@", nsd);
@@ -120,7 +110,7 @@
 	}
 	
 	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
-		
+	
 	_sv.showsVerticalScrollIndicator=NO;
 	_sv.showsHorizontalScrollIndicator=YES;
 	_sv.alwaysBounceVertical=NO;
@@ -156,8 +146,11 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	self.replyTextField.text = @"";
-	[self.table reloadData];
+	if(![scrollView isKindOfClass:[self.table class]]) {
+		self.replyTextField.text = @"";		
+		
+		[self.table reloadData];
+	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

@@ -47,15 +47,36 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SEARCH_CELL"];
+		
+	if(cell == nil) {
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SEARCH_CELL"];
+	}
+		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 200, 20)];
+		UILabel *addrLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 300, 20)];
+		nameLabel.tag = 111;
+		addrLabel.tag = 112;
+		
+//		[cell addSubview:nameLabel];
+//		[cell addSubview:addrLabel];
+//	}
+//	
+//	else {
+//		UILabel *nameLabel = (UILabel *)[cell viewWithTag:111];
+//		UILabel *addrLabel = (UILabel *)[cell viewWithTag:112];
 	
-	UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 200, 20)];
-	UILabel *addrLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 300, 20)];
+		NSDictionary *tmp = [_data objectAtIndex:indexPath.row];
+		nameLabel.text = [tmp objectForKey:@"name"];
+		addrLabel.text = [tmp objectForKey:@"addr"];
 	
-	NSDictionary *tmp = [_data objectAtIndex:indexPath.row];
-	nameLabel.text = [tmp objectForKey:@"name"];
-	addrLabel.text = [tmp objectForKey:@"addr"];
-	[cell addSubview:nameLabel];
-	[cell addSubview:addrLabel];
+	for(UIView *v in [cell subviews])
+	{
+		if([v isKindOfClass:[UILabel class]])
+			[v removeFromSuperview];
+	}
+		[cell addSubview:nameLabel];
+		[cell addSubview:addrLabel];
+
+//	}
 	return cell;
 }
 

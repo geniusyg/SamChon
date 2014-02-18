@@ -19,6 +19,7 @@
 
 @property NSArray *reply;
 @property NSMutableArray *myBoardList;
+@property NSMutableArray *myFriends;
 
 extern NSString *const FBSessionStateChangedNotification;
 

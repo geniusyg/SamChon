@@ -52,6 +52,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SHOP_CELL"];
 	
+	if(cell == nil)
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SHOP_CELL"];
+	
 	tableView.separatorColor = [UIColor clearColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
@@ -62,16 +65,32 @@
 	UIImage *img = [UIImage imageWithData:data];
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 8, 50, 50)];
 	imageView.image = img;
+	imageView.tag = 116;
 	
 	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 20)];
 	rname.text = [tmp objectForKey:@"storeName"];
+	rname.tag = 113;
 	
 	UILabel *raddr = [[UILabel alloc] initWithFrame:CGRectMake(70, 30, 200, 20)];
 	raddr.text = [tmp objectForKey:@"storeAddr"];
+	raddr.tag = 114;
 	
 	UILabel *rdate = [[UILabel alloc] initWithFrame:CGRectMake(200, 10, 50, 20)];
 	rdate.text = [tmp objectForKey:@"regDate"];
 	rdate.textAlignment=NSTextAlignmentRight;
+	rdate.tag = 115;
+	
+	for(UIView *v in [cell subviews])
+	{
+		if([v isKindOfClass:[UILabel class]])
+			[v removeFromSuperview];
+	}
+	
+	for(UIImageView *v in [cell subviews])
+	{
+		if([v isKindOfClass:[UIImageView class]])
+			[v removeFromSuperview];
+	}
 	
 	[cell addSubview:imageView];
 	[cell addSubview:rname];
@@ -79,6 +98,12 @@
 	[cell addSubview:rdate];
 	
 	return cell;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[self.table reloadData];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

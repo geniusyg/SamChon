@@ -18,6 +18,10 @@
 
 @implementation SearchViewController
 
+- (void)onCalloutRightbuttonClick:(TMapMarkerItem *)markerItem {
+	
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 	[searchBar resignFirstResponder];
 	[_mapView clearCustomObjects];

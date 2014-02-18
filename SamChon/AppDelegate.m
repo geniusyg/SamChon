@@ -48,6 +48,14 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
 	}];
+	
+	AFHTTPRequestOperationManager *manager2 = [AFHTTPRequestOperationManager manager];
+	[manager2 POST:@"http://samchon.ygw3429.cloulu.com/fri/myFriends" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		self.myFriends = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"fri1"]];
+		NSLog(@"%@",self.myFriends);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
 }
 
 - (NSArray *)getReplys:(NSString *)storeID postingNum:(NSString *)postingNum; {
@@ -59,7 +67,6 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
 	}];
-	NSLog(@"tmp - %@", replyArr);
 	return replyArr;
 }
 
@@ -149,22 +156,6 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 									  }
 								  }];
 
-//				[FBRequestConnection startWithGraphPath:@"/me/picture?type=large"
-//											 parameters:nil
-//											 HTTPMethod:@"GET"
-//									  completionHandler:^(
-//														  FBRequestConnection *connection,
-//														  NSDictionary *result,
-//														  NSError *error
-//														  ) {
-//										  if(error) {
-//											  NSLog(@"Graph error : %@", error);
-//										  } else {
-//											 NSDictionary *pic = [result objectForKey:@"picture"];
-//											 NSDictionary *pic2 = [pic objectForKey:@"data"];
-//											 self.purl = [pic2 objectForKey:@"url"];
-//										  }
-//									  }];
 				
 //				[self performSelector:@selector(networkLogin) withObject:nil afterDelay:2.0];
 				[self performSelector:@selector(getMyBoardList) withObject:nil afterDelay:1.5];
