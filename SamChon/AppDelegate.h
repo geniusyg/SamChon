@@ -9,17 +9,26 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
 
 @property NSString *uid;
 @property NSString *uname;
 @property NSString *purl;
 @property NSMutableDictionary *fids;
 @property NSDictionary *writeSearch;
+@property NSString *selectedCategory;
 
-@property NSArray *reply;
+@property NSArray *categories;
+
+@property NSMutableArray *reply;
 @property NSMutableArray *myBoardList;
-@property NSMutableArray *myFriends;
+
+@property NSArray *storeFri1;
+@property NSArray *storeFri2;
+@property NSArray *storeFri3;
+
+@property NSString *currentLat;
+@property NSString *currentLng;
 
 extern NSString *const FBSessionStateChangedNotification;
 
@@ -29,6 +38,7 @@ extern NSString *const FBSessionStateChangedNotification;
 - (void)getMyBoardList;
 - (NSArray *)getReplys:(NSString *)storeID postingNum:(NSString *)postingNum;
 - (void)writeReplys:(NSString *)storeID comment:(NSString *)comment;
+- (void)getStoreFris:(NSString *)lat lng:(NSString *)lng;
 
 @property (strong, nonatomic) UIWindow *window;
 

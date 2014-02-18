@@ -21,6 +21,10 @@
 	AppDelegate *_ad;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return @"삭제";
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
 	MyShopTableViewController *mtvc = segue.destinationViewController;
@@ -52,8 +56,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SHOP_CELL"];
 	
-	if(cell == nil)
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SHOP_CELL"];
+//		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SHOP_CELL"];
 	
 	tableView.separatorColor = [UIColor clearColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -64,38 +67,49 @@
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	UIImage *img = [UIImage imageWithData:data];
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 8, 50, 50)];
-	imageView.image = img;
-	imageView.tag = 116;
+//	imageView.image = img;
+	imageView.tag = 126;
 	
 	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 20)];
-	rname.text = [tmp objectForKey:@"storeName"];
-	rname.tag = 113;
+//	rname.text = [tmp objectForKey:@"storeName"];
+	rname.tag = 123;
 	
 	UILabel *raddr = [[UILabel alloc] initWithFrame:CGRectMake(70, 30, 200, 20)];
-	raddr.text = [tmp objectForKey:@"storeAddr"];
-	raddr.tag = 114;
+//	raddr.text = [tmp objectForKey:@"storeAddr"];
+	raddr.tag = 124;
 	
 	UILabel *rdate = [[UILabel alloc] initWithFrame:CGRectMake(200, 10, 50, 20)];
-	rdate.text = [tmp objectForKey:@"regDate"];
+//	rdate.text = [tmp objectForKey:@"regDate"];
 	rdate.textAlignment=NSTextAlignmentRight;
-	rdate.tag = 115;
+	rdate.tag = 125;
 	
-	for(UIView *v in [cell subviews])
-	{
-		if([v isKindOfClass:[UILabel class]])
-			[v removeFromSuperview];
-	}
+	[cell.contentView addSubview:imageView];
+	[cell.contentView addSubview:rname];
+	[cell.contentView addSubview:raddr];
+	[cell.contentView addSubview:rdate];
 	
-	for(UIImageView *v in [cell subviews])
-	{
-		if([v isKindOfClass:[UIImageView class]])
-			[v removeFromSuperview];
-	}
+	((UIImageView *)[cell.contentView viewWithTag:126]).image = img;
+	((UILabel *)[cell.contentView viewWithTag:123]).text = [tmp objectForKey:@"storeName"];
+	((UILabel *)[cell.contentView viewWithTag:124]).text = [tmp objectForKey:@"storeAddr"];
+	((UILabel *)[cell.contentView viewWithTag:125]).text = [tmp objectForKey:@"regDate"];
 	
-	[cell addSubview:imageView];
-	[cell addSubview:rname];
-	[cell addSubview:raddr];
-	[cell addSubview:rdate];
+	
+//	for(UIView *v in [cell subviews])
+//	{
+//		if([v isKindOfClass:[UILabel class]])
+//			[v removeFromSuperview];
+//	}
+//	
+//	for(UIImageView *v in [cell subviews])
+//	{
+//		if([v isKindOfClass:[UIImageView class]])
+//			[v removeFromSuperview];
+//	}
+//	
+//	[cell addSubview:imageView];
+//	[cell addSubview:rname];
+//	[cell addSubview:raddr];
+//	[cell addSubview:rdate];
 	
 	return cell;
 }

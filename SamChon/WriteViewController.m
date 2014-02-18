@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView *textFieldViews;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property UIImage *selectedImage;
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 
 @end
 
@@ -61,7 +62,8 @@
 //imgUrl:"이미지경로"
 	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":self.addressLabel.text, @"category":@"0", @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text};
+	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":self.addressLabel.text, @"category":@"0", @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text, @"category":_ad.selectedCategory};
+	
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoard" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		NSData *imgData = UIImageJPEGRepresentation(self.selectedImage, 0.5);
 		NSDate *date = [NSDate date];
@@ -96,6 +98,7 @@
 	self.menuTextField.text = @"";
 	self.commentTextField.text = @"";
 	self.addressLabel.text = @"";
+	self.categoryLabel.text = @"";
 	_ad.writeSearch = nil;
 	_isChoosePic = NO;
 }
@@ -152,7 +155,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_ad = [[UIApplication sharedApplication] delegate];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped)];
 	
@@ -174,6 +177,11 @@
 	
 	self.addressLabel.text = [_ad.writeSearch objectForKey:@"addr"];
 	self.searchTextField.text = [_ad.writeSearch objectForKey:@"name"];
+	if([_ad.selectedCategory isEqualToString:@"9"]) {
+		self.categoryLabel.text = @"";
+	} else {
+		self.categoryLabel.text = [_ad.categories objectAtIndex:[_ad.selectedCategory integerValue]];
+	}
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 	

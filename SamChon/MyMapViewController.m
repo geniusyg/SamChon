@@ -92,7 +92,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_ad = [[UIApplication sharedApplication] delegate];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	_mapView = [[TMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 408)];
 	[_mapView setSKPMapApiKey:TMAPID];
@@ -109,7 +109,7 @@
 	for(int i=0; i<[_ad.myBoardList count]; i++) {
 		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:i];
 		
-		NSString *markerID = [NSString stringWithFormat:@"marker2_%d", i++];
+		NSString *markerID = [NSString stringWithFormat:@"marker2_%d", i];
 		TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
 		
 		double dlat = [[tmp objectForKey:@"lat"] doubleValue];

@@ -7,7 +7,7 @@
 //
 
 #import "RecommendViewController.h"
-#define IMAGE_NUM 9
+#import "AppDelegate.h"
 
 @interface RecommendViewController () <UIScrollViewAccessibilityDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *closePopupBtn;
@@ -26,8 +26,7 @@
 @end
 
 @implementation RecommendViewController {
-	NSMutableArray *_images;
-	NSArray *_names;
+	AppDelegate *_ad;
 	BOOL _checked;
 }
 - (IBAction)closePopup:(id)sender {
@@ -71,17 +70,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	_images = [NSMutableArray array];
-	
-	for(int i=0; i<9; i++) {
-		NSString *fileName = [NSString stringWithFormat:@"image%d",i];
-		NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"jpg"];
-		UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-		
-		[_images addObject:image];
-	}
-	
-	_names = @[@"채윤기",@"강대철",@"김보라",@"전경민",@"김한준",@"아해은",@"이종은",@"카르딕",@"넥서스"];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	_checked = NO;
 }
 
@@ -89,11 +78,14 @@
 	UIImageView *theTappedImageView = (UIImageView *)gr.view;
 	NSInteger tag = theTappedImageView.tag - 100;
 	
-	NSString *fileName = [NSString stringWithFormat:@"image%ld",(long)tag];
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:@"jpg"];
-	UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:tag];
 	
-	self.imageView.image = image;
+	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
+	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	UIImage *img = [UIImage imageWithData:data];
+	
+	self.imageView.image = img;
 	_checked = YES;
 }
 
@@ -103,11 +95,13 @@
 	[self becomeFirstResponder];
 	
 	CGFloat scrollWidth = 10.f;
-	for (int i = 0; i<9; i++) {
+	for (int i = 0; i<[_ad.storeFri1 count]; i++) {
+		NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:i];
+		
 		UIImageView *theView = [[UIImageView alloc] initWithFrame:
 								CGRectMake(scrollWidth, 0, 80, 80)];
-		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth+10, 90, 60, 20)];
-		nameLabel.text = [_names objectAtIndex:i];
+		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth+10, 90, 100, 20)];
+		nameLabel.text = [tmp objectForKey:@"friName"];
 		
 		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
 		
@@ -116,7 +110,12 @@
 		theView.tag = i + 100;
 		[theView addGestureRecognizer:singleTap];
 		
-		theView.image = [_images objectAtIndex:i];
+		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"friPic"]];
+		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		NSData *data = [NSData dataWithContentsOfURL:url];
+		UIImage *img = [UIImage imageWithData:data];
+		
+		theView.image = img;
 		[self.scrollView addSubview:theView];
 		[self.scrollView addSubview:nameLabel];
 		scrollWidth += 100;

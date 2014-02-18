@@ -9,6 +9,9 @@
 #import "MyShopTableViewController.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
+#import "ModifyViewController.h"
+
+#define COUNT 5
 
 @interface MyShopTableViewController () <UITextFieldDelegate, UIScrollViewDelegate>
 
@@ -27,7 +30,15 @@
 	NSMutableArray *_replys;
 	UIScrollView *_sv;
 	UIPageControl *_pc;
+	
+	NSMutableArray *_arr[COUNT];
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	ModifyViewController *mvc = (ModifyViewController *)segue.destinationViewController;
+	mvc.index = _pc.currentPage;
+}
+
 - (IBAction)closeModal:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -55,7 +66,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	_ad = [[UIApplication sharedApplication] delegate];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	_images = [[NSMutableArray alloc] init];
 	_rnames = [[NSMutableArray alloc] init];
 	_rmenus = [[NSMutableArray alloc] init];
@@ -73,8 +84,8 @@
 		[_images addObject:img];
 		[_rnames addObject:[tmp objectForKey:@"storeName"]];
 		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
-		[_storeIDs addObject:[tmp objectForKey:@"storeId"]];
-		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
+//		[_storeIDs addObject:[tmp objectForKey:@"storeId"]];
+//		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
 		
 //		NSArray *arr = [_ad getReplys:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 //		NSLog(@"inside - %@", arr);
@@ -125,7 +136,6 @@
 	
 	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * self.loadedPage), 0)];
 
-	
 	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
 	self.replyTextField.delegate = self;
 	[self.replyTextField resignFirstResponder];
