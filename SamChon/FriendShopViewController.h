@@ -1,5 +1,5 @@
 //
-//  FriendPageViewController.h
+//  FriendShopViewController.h
 //  SamChon
 //
 //  Created by SDT-1 on 2014. 2. 19..
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FriendPageViewController : UIViewController
+@interface FriendShopViewController : UIViewController
 
+@property NSInteger loadedPage;
 @property NSString *friId;
-@property NSString *friName;
 
 @end

@@ -51,16 +51,6 @@
 		return;
 	}
 	
-//	id :“user아이디”  //페이스북 아이디
-//storeName: "가게이름"
-//menuName:"메뉴이름"
-//storeAddr:”주소”
-//category:”카테고리 번호”
-//lat:”위도”
-//lng: “경도”
-//userMemo:"간단한 메모"
-//imgUrl:"이미지경로"
-	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":self.addressLabel.text, @"category":@"0", @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text, @"category":_ad.selectedCategory};
 	

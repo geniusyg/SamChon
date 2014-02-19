@@ -8,6 +8,7 @@
 
 #import "RecommendViewController.h"
 #import "AppDelegate.h"
+#import "AFNetworking.h"
 
 @interface RecommendViewController () <UIScrollViewAccessibilityDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *closePopupBtn;
@@ -21,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *recommendView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIImageView *myPic;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 
 @end
@@ -28,7 +30,28 @@
 @implementation RecommendViewController {
 	AppDelegate *_ad;
 	BOOL _checked;
+	NSInteger _index;
 }
+
+- (void)recommendRequest {
+	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:_index];
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	
+	NSDictionary *parameters = @{@"id":_ad.uid, @"friId":[tmp objectForKey:@"friId"], @"friendNum":[NSString stringWithFormat:@"%ld", [_ad.storeFri1 count]]};
+	
+	NSLog(@"%@,%@,%ld", _ad.uid, [tmp objectForKey:@"friId"], [_ad.storeFri1 count]);
+	
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/main/recommendWithFri" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if(nil != responseObject) {
+			NSArray *arr = [responseObject objectForKey:@"storeList"];
+//			[[NSNotificationCenter defaultCenter] postNotificationName:@"fristores" object:nil];
+			NSLog(@"sl : %@", responseObject);
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
+}
+
 - (IBAction)closePopup:(id)sender {
 	self.recommendView.hidden = YES;
 	self.closeModalBtn.hidden = NO;
@@ -43,9 +66,12 @@
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.type == UIEventSubtypeMotionShake && _checked) {
 		self.recommendView.hidden = NO;
-		NSInteger rnd = (int)(arc4random()%9);
-		NSString *fileName = [NSString stringWithFormat:@"img%ld.jpg",(long)rnd];
-		self.recommendImage.image = [UIImage imageNamed:fileName];
+		
+		[self recommendRequest];
+		
+//		self.recommendImage.image = [UIImage imageNamed:fileName];
+		
+		
 		self.topView.alpha = 0.5;
 		self.bottomView.alpha = 0.5;
 		self.closeModalBtn.hidden = YES;
@@ -76,11 +102,11 @@
 
 - (void) imageTapped:(UITapGestureRecognizer *)gr {	
 	UIImageView *theTappedImageView = (UIImageView *)gr.view;
-	NSInteger tag = theTappedImageView.tag - 100;
+	_index = theTappedImageView.tag - 100;
 	
-	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:tag];
+	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:_index];
 	
-	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
+	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"friPic"]];
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	UIImage *img = [UIImage imageWithData:data];
@@ -93,6 +119,12 @@
 	[super viewDidAppear:animated];
 	
 	[self becomeFirstResponder];
+	
+	NSString *path = _ad.purl;
+	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	UIImage *img = [UIImage imageWithData:data];
+	self.myPic.image = img;
 	
 	CGFloat scrollWidth = 10.f;
 	for (int i = 0; i<[_ad.storeFri1 count]; i++) {
@@ -110,10 +142,10 @@
 		theView.tag = i + 100;
 		[theView addGestureRecognizer:singleTap];
 		
-		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"friPic"]];
-		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-		NSData *data = [NSData dataWithContentsOfURL:url];
-		UIImage *img = [UIImage imageWithData:data];
+		path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"friPic"]];
+		url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		data = [NSData dataWithContentsOfURL:url];
+		img = [UIImage imageWithData:data];
 		
 		theView.image = img;
 		[self.scrollView addSubview:theView];

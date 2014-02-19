@@ -1,23 +1,23 @@
 //
-//  MyShopTableViewController.m
+//  FriendShopViewController.m
 //  SamChon
 //
-//  Created by SDT-1 on 2014. 1. 29..
+//  Created by SDT-1 on 2014. 2. 19..
 //  Copyright (c) 2014년 T. All rights reserved.
 //
 
-#import "MyShopTableViewController.h"
+#import "FriendShopViewController.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
-#import "ModifyViewController.h"
 
-@interface MyShopTableViewController () <UITextFieldDelegate, UIScrollViewDelegate>
+@interface FriendShopViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+@property (weak, nonatomic) IBOutlet UITableView *table;
 
-@property (strong, nonatomic) IBOutlet UITableView *table;
 @property UITextField *replyTextField;
 @end
 
-@implementation MyShopTableViewController {
+@implementation FriendShopViewController {
 	AppDelegate *_ad;
 	NSArray *aa;
 	NSMutableArray *_images;
@@ -26,44 +26,86 @@
 	NSMutableArray *_storeIDs;
 	NSMutableArray *_postingIDs;
 	NSMutableArray *_likes;
-
+	
 	UIScrollView *_sv;
 	UIPageControl *_pc;
+	int dy;
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-	ModifyViewController *mvc = (ModifyViewController *)segue.destinationViewController;
-	mvc.index = _pc.currentPage;
+- (IBAction)writeReply:(id)sender {
+	NSString *reply = self.replyTextField.text;
+	if([reply length] > 0) {
+		[_ad writeReplys:[_postingIDs objectAtIndex:_pc.currentPage] comment:reply];
+		self.replyTextField.text = @"";
+		NSDictionary *tmp = [_ad.friStores objectAtIndex:_pc.currentPage];
+		
+		[_ad getReplys:self.friId storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+		
+		[self.table reloadData];
+	} else {
+		return;
+	}
 }
 
 - (IBAction)closeModal:(id)sender {
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
-- (IBAction)write:(id)sender {
-	[self writeReply];
-	[self.replyTextField resignFirstResponder];
-}
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
     return self;
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+		UITableViewCell *cell;
+		
+		switch (indexPath.section) {
+			case 0: {
+				cell = [tableView dequeueReusableCellWithIdentifier:@"SCROLL_CELL2"];
+				
+				[cell addSubview:_sv];
+				[cell addSubview:_pc];
+				break;
+			}
+			case 1:
+				cell = [tableView dequeueReusableCellWithIdentifier:@"WRITE_CELL2"];
+				[cell addSubview:self.replyTextField];
+				break;
+			case 2: {
+				cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL2"];
+				NSDictionary *tmp = [_ad.reply objectAtIndex:indexPath.row];
+				cell.textLabel.text = [tmp objectForKey:@"repMemo"];
+			}
+				break;
+			default:
+				break;
+		}
+		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		return cell;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+	NSURL *url = [NSURL URLWithString:[_ad.friPic stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	UIImage *img = [UIImage imageWithData:data];
+	self.userImageView.image = img;
+	
 	_images = [[NSMutableArray alloc] init];
 	_rnames = [[NSMutableArray alloc] init];
 	_rmenus = [[NSMutableArray alloc] init];
@@ -72,16 +114,19 @@
 	_storeIDs = [[NSMutableArray alloc] init];
 	_postingIDs = [[NSMutableArray alloc] init];
 	
-	for(NSArray *arr in _ad.myBoardList) {
+	for(NSArray *arr in _ad.friStores) {
 		NSDictionary *tmp = (NSDictionary *)arr;
 		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 		NSData *data = [NSData dataWithContentsOfURL:url];
 		UIImage *img = [UIImage imageWithData:data];
+		
 		[_images addObject:img];
 		[_rnames addObject:[tmp objectForKey:@"storeName"]];
-		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
 		[_likes addObject:[tmp objectForKey:@"isLike"]];
+		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
+		
+		
 		[_storeIDs addObject:[tmp objectForKey:@"storeId"]];
 		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
 	}
@@ -91,7 +136,7 @@
 	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
 	
 	int i=0;
-	for (; i<[_ad.myBoardList count]; i++) {
+	for (; i<[_ad.friStores count]; i++) {
 		UIImageView *imgView = [[UIImageView alloc] initWithImage:[_images objectAtIndex:i]];
 		imgView.frame = CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height);
 		
@@ -113,7 +158,7 @@
 			[heart setTitle:@"찜" forState:UIControlStateNormal];
 			[heart addTarget:self action:@selector(unPick:) forControlEvents:UIControlEventTouchDown];
 		}
-			
+		
 		[_sv addSubview:imgView];
 		[_sv addSubview:rname];
 		[_sv addSubview:rmenu];
@@ -131,11 +176,11 @@
 	
 	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
 	_pc.currentPage = self.loadedPage;
-	_pc.numberOfPages = [_ad.myBoardList count];
+	_pc.numberOfPages = [_ad.friStores count];
 	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
 	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * self.loadedPage), 0)];
-
+	
 	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
 	self.replyTextField.delegate = self;
 	[self.replyTextField resignFirstResponder];
@@ -163,6 +208,7 @@
 	
 	[_ad getMyBoardList];
 	[_ad getMyPick];
+	[_ad getFriendStores:self.friId];
 }
 
 - (void)unPick:(UIButton *) sender {
@@ -182,6 +228,7 @@
 	
 	[_ad getMyBoardList];
 	[_ad getMyPick];
+	[_ad getFriendStores:self.friId];
 }
 
 - (void)refreshReply {
@@ -202,11 +249,11 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	if(![scrollView isKindOfClass:[self.table class]]) {
-		self.replyTextField.text = @"";		
+		self.replyTextField.text = @"";
 		
-		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
+		NSDictionary *tmp = [_ad.friStores objectAtIndex:_pc.currentPage];
 		
-		[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+		[_ad getReplys:self.friId storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 		
 		[self.table reloadData];
 	}
@@ -217,44 +264,25 @@
 	return YES;
 }
 
-- (void)writeReply {
-	NSString *reply = self.replyTextField.text;
-	if([reply length] > 0) {
-		[_ad writeReplys:[_postingIDs objectAtIndex:_pc.currentPage] comment:reply];
-		self.replyTextField.text = @"";
-		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
-		
-		[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
-		
-		[self.table reloadData];
-	} else {
-		return;
-	}
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 4;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	switch (indexPath.section) {
 		case 0:
-			return 73;
-		case 1:
 			return 300;
-		case 2:
+		case 1:
 			return 50;
-		case 3:
+		case 2:
 			return 50;
 			
 		default:
@@ -269,77 +297,72 @@
     switch (section) {
 		case 0:
 		case 1:
-		case 2:
 			return 1;
-		case 3:
-//			NSArray *tmp = [NSArray arrayWithArray:[_replys objectAtIndex:_pc.currentPage]];
-//			return [tmp count];
-//		}
-//			NSLog(@"%ld", [_replys count]);
-//			return [_replys count];
+		case 2:
 			return [_ad.reply count];
 	}
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell;
-	
-	switch (indexPath.section) {
-		case 0: {
-			cell = [tableView dequeueReusableCellWithIdentifier:@"TITLE_CELL"];
-			UIImageView *profileImage = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
-			NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
-			
-			UIImage *imgWeb = [UIImage imageWithData:[NSData dataWithContentsOfURL:url ]];
-			
-			profileImage.image = imgWeb;
-			
-			UIImageView *profileImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
-			profileImage2.image = [UIImage imageNamed:@"Blank_2.png"];
-			
-			[cell addSubview:profileImage];
-			[cell addSubview:profileImage2];
+- (UITextField *)firstResponderTextField {
+	for(id child in self.view.subviews){
+		if([child isKindOfClass:[UITextField class]]){
+			UITextField *textField = (UITextField *)child;
+			if(textField.isFirstResponder) {
+				return textField;
+			}
 		}
-			break;
-		case 1: {
-			cell = [tableView dequeueReusableCellWithIdentifier:@"SCROLL_CELL"];
-						
-			[cell addSubview:_sv];
-			[cell addSubview:_pc];
-			break;
-		}
-		case 2:
-			cell = [tableView dequeueReusableCellWithIdentifier:@"WRITE_CELL"];
-			[cell addSubview:self.replyTextField];
-			break;
-		case 3: {
-			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL"];
-			NSDictionary *tmp = [_ad.reply objectAtIndex:indexPath.row];
-			cell.textLabel.text = [tmp objectForKey:@"repMemo"];
-		}
-			break;
-		default:
-			break;
 	}
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    return cell;
+	return nil;
 }
+
+- (void)keyboardWillShow:(NSNotification *)noti {
+	
+	UITextField *firstResponder = (UITextField *)[self firstResponderTextField];
+	int y = firstResponder.frame.origin.y + firstResponder.frame.size.height+5+450;
+	int viewHeight = self.view.frame.size.height;
+	
+	NSDictionary *userInfo = [noti userInfo];
+	CGRect rect = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+	int keyboardHeight = (int)rect.size.height;
+	
+	float ani = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+	
+	if(keyboardHeight > (viewHeight - y)){
+		[UIView animateWithDuration:ani animations:^{
+			dy = keyboardHeight - (viewHeight -y);
+			self.view.center = CGPointMake(self.view.center.x, self.view.center.y-dy);
+		}];
+	} else {
+		dy = 0;
+	}
+}
+
+- (void)keyboardWillHide:(NSNotification *)noti {
+	
+	if(dy>0) {
+		float ani = [[[noti userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+		[UIView animateWithDuration:ani animations:^{
+			self.view.center = CGPointMake(self.view.center.x, self.view.center.y + dy);
+		}];
+	}
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
 	[_sv flashScrollIndicators];
 	
-	NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
+	NSDictionary *tmp = [_ad.friStores objectAtIndex:_pc.currentPage];
 	
-	[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+	[_ad getReplys:self.friId storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 	
 	[self.table reloadData];
-
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -347,23 +370,6 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

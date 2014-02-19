@@ -8,6 +8,7 @@
 
 #import "FirstFriendsTapViewController.h"
 #import "AppDelegate.h"
+#import "FriendPageViewController.h"
 
 @interface FirstFriendsTapViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -16,6 +17,14 @@
 
 @implementation FirstFriendsTapViewController {
 	AppDelegate *_ad;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	FriendPageViewController *fpvc = (FriendPageViewController *)segue.destinationViewController;
+	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
+	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:indexPath.row];
+	fpvc.friId = [tmp objectForKey:@"friId"];
+	fpvc.friName = [tmp objectForKey:@"friName"];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {

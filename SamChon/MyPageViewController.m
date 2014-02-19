@@ -98,11 +98,13 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	_ad = [[UIApplication sharedApplication] delegate];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.MyShop.hidden = NO;
 	self.FirstFriends.hidden = YES;
 	self.IWant.hidden = YES;
+	
+//	NSLog(@"%@", _ad.myPicks);
 }
 
 - (void)didReceiveMemoryWarning
