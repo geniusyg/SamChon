@@ -527,19 +527,19 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL1" rowHeight="90" id="Nen-mi-acD">
-                                        <rect key="frame" x="0.0" y="22" width="300" height="90"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL1" rowHeight="80" id="Nen-mi-acD">
+                                        <rect key="frame" x="0.0" y="22" width="300" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nen-mi-acD" id="3UX-Dr-W6A">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list.png" id="w0L-Tg-Sfd">
-                                                    <rect key="frame" x="0.0" y="10" width="300" height="70"/>
+                                                    <rect key="frame" x="0.0" y="5" width="300" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_small.png" id="BrW-Pe-Ecn">
-                                                    <rect key="frame" x="68" y="59" width="9" height="12"/>
+                                                    <rect key="frame" x="68" y="57" width="9" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mans.png" id="1ZL-vv-lqr">
@@ -549,19 +549,19 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL2" rowHeight="90" id="Dbj-X6-A1e">
-                                        <rect key="frame" x="0.0" y="112" width="300" height="90"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL2" rowHeight="80" id="Dbj-X6-A1e">
+                                        <rect key="frame" x="0.0" y="102" width="300" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dbj-X6-A1e" id="LUm-8w-yFd">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list.png" id="fVj-L6-Gdt">
-                                                    <rect key="frame" x="0.0" y="10" width="300" height="70"/>
+                                                    <rect key="frame" x="0.0" y="5" width="300" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_small.png" id="6tF-YH-B0i">
-                                                    <rect key="frame" x="68" y="59" width="9" height="12"/>
+                                                    <rect key="frame" x="68" y="57" width="9" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mans.png" id="yPu-bT-ICb">
@@ -571,19 +571,19 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL3" rowHeight="90" id="9cX-FK-0xF">
-                                        <rect key="frame" x="0.0" y="202" width="300" height="90"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RECOMMEND_CELL3" rowHeight="80" id="9cX-FK-0xF">
+                                        <rect key="frame" x="0.0" y="182" width="300" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9cX-FK-0xF" id="9Ea-xe-BWc">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list.png" id="EgG-47-xVk">
-                                                    <rect key="frame" x="0.0" y="10" width="300" height="70"/>
+                                                    <rect key="frame" x="0.0" y="5" width="300" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_small.png" id="Fkh-IZ-Suv">
-                                                    <rect key="frame" x="68" y="59" width="9" height="12"/>
+                                                    <rect key="frame" x="68" y="57" width="9" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mans.png" id="uY3-0F-r5T">
@@ -1802,24 +1802,12 @@
         <image name="g_0.png" width="128" height="178"/>
         <image name="home.png" width="25" height="25"/>
         <image name="list.png" width="277" height="70"/>
-        <image name="list.png" width="277" height="70"/>
-        <image name="list.png" width="277" height="70"/>
-        <image name="list.png" width="277" height="70"/>
-        <image name="list.png" width="277" height="70"/>
-        <image name="mans.png" width="19" height="10"/>
-        <image name="mans.png" width="19" height="10"/>
         <image name="mans.png" width="19" height="10"/>
         <image name="me.png" width="25" height="25"/>
         <image name="ment_bar.png" width="275" height="35"/>
         <image name="one_chon_y.png" width="51" height="51"/>
         <image name="photo.png" width="310" height="136"/>
         <image name="poi.png" width="16" height="21"/>
-        <image name="poi.png" width="16" height="21"/>
-        <image name="poi_small.png" width="9" height="12"/>
-        <image name="poi_small.png" width="9" height="12"/>
-        <image name="poi_small.png" width="9" height="12"/>
-        <image name="poi_small.png" width="9" height="12"/>
-        <image name="poi_small.png" width="9" height="12"/>
         <image name="poi_small.png" width="9" height="12"/>
         <image name="point.png" width="64" height="64"/>
         <image name="pop_1.png" width="216" height="304"/>
@@ -1827,7 +1815,6 @@
         <image name="refresh.png" width="58" height="58"/>
         <image name="res.png" width="51" height="51"/>
         <image name="sam.png" width="25" height="25"/>
-        <image name="search_b.png" width="44" height="36"/>
         <image name="search_b.png" width="44" height="36"/>
         <image name="setting.png" width="25" height="25"/>
         <image name="shake_w_f.png" width="165" height="59"/>

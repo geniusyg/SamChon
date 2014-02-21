@@ -100,6 +100,7 @@
 		00A9C37D18B3574F0082AE3C /* ModifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A9C37C18B3574F0082AE3C /* ModifyViewController.m */; };
 		00A9C38018B3B4AF0082AE3C /* FriendPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A9C37F18B3B4AF0082AE3C /* FriendPageViewController.m */; };
 		00A9FB8618A0BBB000E4E81F /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A9FB8518A0BBB000E4E81F /* NoticeViewController.m */; };
+		00ABF34818B77346000871DF /* launcher_120.png in Resources */ = {isa = PBXBuildFile; fileRef = 00ABF34718B77346000871DF /* launcher_120.png */; };
 		00AC13CE18AC649F008CAF9F /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC13BC18AC649F008CAF9F /* AFHTTPRequestOperation.m */; };
 		00AC13CF18AC649F008CAF9F /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC13BE18AC649F008CAF9F /* AFHTTPRequestOperationManager.m */; };
 		00AC13D018AC649F008CAF9F /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AC13C018AC649F008CAF9F /* AFHTTPSessionManager.m */; };
@@ -272,6 +273,7 @@
 		00A9C37F18B3B4AF0082AE3C /* FriendPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendPageViewController.m; sourceTree = "<group>"; };
 		00A9FB8418A0BBB000E4E81F /* NoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeViewController.h; sourceTree = "<group>"; };
 		00A9FB8518A0BBB000E4E81F /* NoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeViewController.m; sourceTree = "<group>"; };
+		00ABF34718B77346000871DF /* launcher_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launcher_120.png; sourceTree = "<group>"; };
 		00AC13BB18AC649F008CAF9F /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		00AC13BC18AC649F008CAF9F /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		00AC13BD18AC649F008CAF9F /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 				0001BB7B18B65B83008EFA18 /* write */,
 				0001BB2B18B6583A008EFA18 /* Tabbar */,
 				00CC733818B726BA0097606C /* myplace_b.png */,
+				00ABF34718B77346000871DF /* launcher_120.png */,
 				00CC733A18B72E530097606C /* launcher_1024.png */,
 				00CC732518B6E8870097606C /* finder */,
 				0001BBAF18B65F55008EFA18 /* 3_re */,
@@ -769,6 +772,7 @@
 				0001BBAE18B65B83008EFA18 /* upload_b@2x.png in Resources */,
 				0001BB8318B65B83008EFA18 /* alert@2x.png in Resources */,
 				0001BBA918B65B83008EFA18 /* blank_2@2x.png in Resources */,
+				00ABF34818B77346000871DF /* launcher_120.png in Resources */,
 				0001BBAA18B65B83008EFA18 /* facebook_small@2x.png in Resources */,
 				0001BB8B18B65B83008EFA18 /* y_b@2x.png in Resources */,
 				00CC733318B6E8870097606C /* poi_y@2x.png in Resources */,

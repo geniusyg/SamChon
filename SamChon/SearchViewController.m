@@ -74,7 +74,7 @@
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 			NSData *data = [NSData dataWithContentsOfURL:url];
 			UIImage *img = [UIImage imageWithData:data];
-			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 20, 60, 60)];
+			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
 			
@@ -116,11 +116,11 @@
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 			NSData *data = [NSData dataWithContentsOfURL:url];
 			UIImage *img = [UIImage imageWithData:data];
-			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 20, 50, 50)];
+			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
 			
-			UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(66, 38, 200, 20)];
+			UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(70, 38, 200, 20)];
 			rname.font = [UIFont systemFontOfSize:13];
 			rname.tag = 173;
 			
@@ -128,7 +128,7 @@
 			raddr.font = [UIFont systemFontOfSize:10];
 			raddr.tag = 174;
 			
-			UIImageView *fsc = [[UIImageView alloc] initWithFrame:CGRectMake(66, 20, 61, 17)];
+			UIImageView *fsc = [[UIImageView alloc] initWithFrame:CGRectMake(70, 20, 61, 17)];
 			//	rdate.text = [tmp objectForKey:@"regDate"];
 			fsc.tag = 175;
 			
@@ -159,11 +159,11 @@
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 			NSData *data = [NSData dataWithContentsOfURL:url];
 			UIImage *img = [UIImage imageWithData:data];
-			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 20, 50, 50)];
+			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
 			
-			UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(66, 38, 200, 20)];
+			UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(70, 38, 200, 20)];
 			rname.font = [UIFont systemFontOfSize:13];
 			rname.tag = 173;
 			
@@ -171,7 +171,7 @@
 			raddr.font = [UIFont systemFontOfSize:10];
 			raddr.tag = 174;
 			
-			UIImageView *fsc = [[UIImageView alloc] initWithFrame:CGRectMake(66, 20, 61, 17)];
+			UIImageView *fsc = [[UIImageView alloc] initWithFrame:CGRectMake(70, 20, 61, 17)];
 			//	rdate.text = [tmp objectForKey:@"regDate"];
 			fsc.tag = 175;
 			
