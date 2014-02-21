@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView *textFieldViews;
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property UIImage *selectedImage;
-@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (weak, nonatomic) IBOutlet UITextField *categoryText;
 
 @end
 
@@ -83,14 +83,15 @@
 
 - (void)eraseForm {
 	[[self firstResponderTextField] resignFirstResponder];
-	self.imageView.image = [UIImage imageNamed:@"camera_identification-128.png"];
+	self.imageView.image = [UIImage imageNamed:@"photo.png"];
 	self.searchTextField.text = @"";
 	self.menuTextField.text = @"";
 	self.commentTextField.text = @"";
 	self.addressLabel.text = @"";
-	self.categoryLabel.text = @"";
+	self.categoryText.text = @"";
 	_ad.writeSearch = nil;
 	_isChoosePic = NO;
+	_ad.selectedCategory = @"9";
 }
 
 - (void)goMain {
@@ -154,6 +155,8 @@
 	_isChoosePic = NO;
 	
 	[self.imageView addGestureRecognizer:singleTap];
+	
+	self.categoryText.enabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -168,9 +171,9 @@
 	self.addressLabel.text = [_ad.writeSearch objectForKey:@"addr"];
 	self.searchTextField.text = [_ad.writeSearch objectForKey:@"name"];
 	if([_ad.selectedCategory isEqualToString:@"9"]) {
-		self.categoryLabel.text = @"";
+		self.categoryText.text = @"";
 	} else {
-		self.categoryLabel.text = [_ad.categories objectAtIndex:[_ad.selectedCategory integerValue]];
+		self.categoryText.text = [_ad.categories objectAtIndex:[_ad.selectedCategory integerValue]];
 	}
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];

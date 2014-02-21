@@ -32,7 +32,6 @@
 		UIImage *imgWeb;
 		NSURL *url;
 		
-		
 		url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
 		
 		if( url != nil )

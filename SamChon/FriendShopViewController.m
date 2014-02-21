@@ -19,7 +19,6 @@
 
 @implementation FriendShopViewController {
 	AppDelegate *_ad;
-	NSArray *aa;
 	NSMutableArray *_images;
 	NSMutableArray *_rnames;
 	NSMutableArray *_rmenus;
@@ -317,7 +316,6 @@
 }
 
 - (void)keyboardWillShow:(NSNotification *)noti {
-	
 	UITextField *firstResponder = (UITextField *)[self firstResponderTextField];
 	int y = firstResponder.frame.origin.y + firstResponder.frame.size.height+5+450;
 	int viewHeight = self.view.frame.size.height;

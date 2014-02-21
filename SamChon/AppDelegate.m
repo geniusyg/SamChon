@@ -14,7 +14,6 @@
 	NSArray *fList;
 	NSDictionary *fList2;
 	NSArray *replyArr;
-	NSInteger _isLogged;
 	CLLocationManager *_lm;
 }
 
@@ -28,8 +27,6 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	
 	self.categories = @[@"한식", @"일식", @"중식", @"양식", @"치킨", @"패스트푸드", @"세계요리", @"기타"];
 	self.selectedCategory = @"9";
-
-	_isLogged = 0;
 	
 	[FBLoginView class];
 	
@@ -44,13 +41,39 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	_lm.distanceFilter = 1000.0f;
 	[_lm startUpdatingLocation];
 	
+//	[NSThread sleepForTimeInterval:1.5f];
+	
     return YES;
+}
+
+- (void)getStoreInfo:(NSString *)storeID {
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	NSDictionary *parameters = @{@"storeId":storeID, @"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if(nil != responseObject) {
+			self.storeInfo_storeId = [responseObject objectForKey:@"storeId"];
+			self.storeInfo_storeName = [responseObject objectForKey:@"storeName"];
+			self.storeInfo_storeAddr = [responseObject objectForKey:@"storeAddr"];
+			self.storeInfo_lat = [responseObject objectForKey:@"lat"];
+			self.storeInfo_lng = [responseObject objectForKey:@"lng"];
+			self.storeInfo_isLike = [responseObject objectForKey:@"isLike"];
+			self.storeInfo_storeFri1 = [responseObject objectForKey:@"storeFri1"];
+			self.storeInfo_storeFri2 = [responseObject objectForKey:@"storeFri2"];
+			self.storeInfo_storeFri3 = [responseObject objectForKey:@"storeFri3"];
+			self.storeInfo_storePic = [responseObject objectForKey:@"storePic"];
+			self.storeInfo_reply = [responseObject objectForKey:@"reply"];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"shopInfo" object:nil];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
 }
 
 - (void)getFriendStores:(NSString *)friId {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"friId":friId, @"id":self.uid};
-	[manager POST:@"http://samchon.ygw3429.cloulu.com/fri/friBoardList1" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+	NSDictionary *parameters = @{@"friId":friId, @"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/fri/friBoardList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.friPic = [responseObject objectForKey:@"picture"];
 			self.friStores = [responseObject objectForKey:@"myStoreList"];
@@ -66,11 +89,13 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	CLLocation *location = [locations lastObject];
     self.currentLat = [NSString stringWithFormat:@"%lf", location.coordinate.latitude];
     self.currentLng = [NSString stringWithFormat:@"%lf", location.coordinate.longitude];
+	
+	[_lm stopUpdatingLocation];
 }
 
 - (void)getStoreFris:(NSString *)lat lng:(NSString *)lng {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid, @"lat":lat, @"lng":lng};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"lat":lat, @"lng":lng};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com//finder/recommendList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 		NSLog(@"%@", responseObject);
@@ -83,9 +108,21 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	}];
 }
 
+- (void)writeShopReplys:(NSString *)comment {
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"storeId":self.storeInfo_storeId, @"comment":comment};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/writeReply" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if(nil != responseObject) {
+			NSLog(@"success Write Reply");
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
+}
+
 - (void)writeReplys:(NSString *)postingNum comment:(NSString *)comment {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid, @"postingNum":postingNum, @"comment":comment};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"postingNum":postingNum, @"comment":comment};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeReplyBoard" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 		NSLog(@"success Write Reply");
@@ -97,7 +134,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)getMyBoardList {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/myPage/myBoardList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
@@ -110,7 +147,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)getMyPick {
 	AFHTTPRequestOperationManager *manager3 = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
 	[manager3 POST:@"http://samchon.ygw3429.cloulu.com/myPage/myPickList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.myPicks = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myPickList"]];
@@ -123,7 +160,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)login {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/myPage/myBoardList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 		self.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
@@ -137,7 +174,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	[manager2 POST:@"http://samchon.ygw3429.cloulu.com/fri/myFriends" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.storeFri1 = [NSArray arrayWithArray:[responseObject objectForKey:@"fri1"]];
-			NSLog(@"%@",[responseObject objectForKey:@"fri1"]);
+//			NSLog(@"%@",[responseObject objectForKey:@"fri1"]);
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
@@ -154,7 +191,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	}];
 	
 	AFHTTPRequestOperationManager *manager4 = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters4 = @{@"id":self.uid, @"lat":self.currentLat, @"lng":self.currentLng};
+	NSDictionary *parameters4 = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"lat":self.currentLat, @"lng":self.currentLng};
 	[manager4 POST:@"http://samchon.ygw3429.cloulu.com/finder/recommendList2" parameters:parameters4 success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.recommendFri1 = [responseObject objectForKey:@"fri1"];
@@ -169,12 +206,28 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)getRecommendList {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid, @"lat":self.currentLat, @"lng":self.currentLng};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"lat":self.currentLat, @"lng":self.currentLng};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/finder/recommendList2" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 		self.recommendFri1 = [responseObject objectForKey:@"fri1"];
 		self.recommendFri2 = [responseObject objectForKey:@"fri2"];
 		self.recommendFri3 = [responseObject objectForKey:@"fri3"];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
+}
+
+- (void)getShopReplys {
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]  , @"storeId":self.storeInfo_storeId};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfoReply" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if(nil != responseObject) {
+			self.storeInfo_reply =  [NSMutableArray arrayWithArray:[responseObject objectForKey:@"reply"]];
+			//		NSLog(@"direct - %@", [responseObject objectForKey:@"reply"]);
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"store_reply" object:nil];
+			
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
@@ -199,7 +252,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)networkLogin {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":self.uid, @"profilePic":self.purl, @"name":self.uname, @"friId":fList2};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"profilePic":self.purl, @"name":self.uname, @"friId":fList2};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/login/enrollFriList2" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 		NSLog(@"JSON: %@", responseObject);
@@ -227,8 +280,6 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
         case FBSessionStateOpen:
             if(!error) {
                 NSLog(@"Facebook User session found");
-            
-				if(_isLogged++ == 0) {
 					
 			[FBRequestConnection startWithGraphPath:@"/me?fields=id,name,friends,picture.type(large)"
 										 parameters:nil
@@ -283,7 +334,6 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 				[self performSelector:@selector(login) withObject:nil afterDelay:1.5];
 //					[self getMyBoardList];
 					
-				}
 			}
             break;
         case FBSessionStateClosed:

@@ -38,6 +38,19 @@
 @property NSArray *recommendFri2;
 @property NSArray *recommendFri3;
 
+@property NSString *storeInfo_storeId;
+@property NSString *storeInfo_storeName;
+@property NSString *storeInfo_storeAddr;
+@property NSString *storeInfo_lat;
+@property NSString *storeInfo_lng;
+@property NSString *storeInfo_isLike;
+@property NSArray *storeInfo_storeFri1;
+@property NSArray *storeInfo_storeFri2;
+@property NSArray *storeInfo_storeFri3;
+@property NSArray *storeInfo_storePic;
+@property NSArray *storeInfo_reply;
+
+
 extern NSString *const FBSessionStateChangedNotification;
 
 - (BOOL) openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
@@ -50,6 +63,8 @@ extern NSString *const FBSessionStateChangedNotification;
 - (void)getStoreFris:(NSString *)lat lng:(NSString *)lng;
 - (void)getFriendStores:(NSString *)friId;
 - (void)getRecommendList;
+- (void)getShopReplys;
+- (void)writeShopReplys:(NSString *)comment;
 
 @property (strong, nonatomic) UIWindow *window;
 

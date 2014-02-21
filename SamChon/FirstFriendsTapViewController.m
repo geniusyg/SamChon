@@ -59,11 +59,16 @@
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	UIImage *img = [UIImage imageWithData:data];
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 8, 50, 50)];
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 49, 49)];
+	imageView.layer.cornerRadius = 25.0f;
+	imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	
+	imageView.layer.shouldRasterize = YES;
+	imageView.clipsToBounds = YES;
 //	imageView.image = img;
 	imageView.tag = 118;
 	
-	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 20)];
+	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 24, 200, 20)];
 //	rname.text = [tmp objectForKey:@"friName"];
 	rname.tag = 119;
 	

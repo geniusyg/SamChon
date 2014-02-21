@@ -31,7 +31,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 70;
+	return 90;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -49,22 +49,18 @@
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	UIImage *img = [UIImage imageWithData:data];
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 8, 50, 50)];
-	//	imageView.image = img;
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 16, 60, 60)];
 	imageView.tag = 155;
 	
-	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 200, 20)];
+	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(89, 10, 150, 20)];
 	//	rname.text = [tmp objectForKey:@"storeName"];
+	rname.font = [UIFont systemFontOfSize:13];
 	rname.tag = 153;
 	
-	UILabel *raddr = [[UILabel alloc] initWithFrame:CGRectMake(70, 30, 200, 20)];
+	UILabel *raddr = [[UILabel alloc] initWithFrame:CGRectMake(99, 30, 200, 20)];
 	//	raddr.text = [tmp objectForKey:@"storeAddr"];
+	raddr.font = [UIFont systemFontOfSize:10];
 	raddr.tag = 154;
-	
-//	UILabel *rdate = [[UILabel alloc] initWithFrame:CGRectMake(200, 10, 50, 20)];
-//	//	rdate.text = [tmp objectForKey:@"regDate"];
-//	rdate.textAlignment=NSTextAlignmentRight;
-//	rdate.tag = 125;
 	
 	[cell.contentView addSubview:imageView];
 	[cell.contentView addSubview:rname];

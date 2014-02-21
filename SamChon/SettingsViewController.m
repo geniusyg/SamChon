@@ -66,10 +66,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 
-	_ad = [[UIApplication sharedApplication] delegate];
+	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	[_ad openSessionWithAllowLoginUI:NO];
-	
 }
 
 - (void)didReceiveMemoryWarning

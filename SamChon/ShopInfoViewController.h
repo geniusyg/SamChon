@@ -10,4 +10,6 @@
 
 @interface ShopInfoViewController : UIViewController
 
+@property NSInteger loadedPage;
+
 @end

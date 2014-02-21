@@ -21,9 +21,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *recommendView;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIImageView *myPic;
 @property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIImageView *bottomView2;
 
 @end
 
@@ -32,15 +32,13 @@
 	BOOL _checked;
 	NSInteger _index;
 }
+- (IBAction)refresh:(id)sender {
+}
 
 - (void)recommendRequest {
 	NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:_index];
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	
 	NSDictionary *parameters = @{@"id":_ad.uid, @"friId":[tmp objectForKey:@"friId"], @"friendNum":[NSString stringWithFormat:@"%ld", [_ad.storeFri1 count]]};
-	
-	NSLog(@"%@,%@,%ld", _ad.uid, [tmp objectForKey:@"friId"], [_ad.storeFri1 count]);
-	
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/main/recommendWithFri" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			NSArray *arr = [responseObject objectForKey:@"storeList"];
@@ -55,7 +53,7 @@
 - (IBAction)closePopup:(id)sender {
 	self.recommendView.hidden = YES;
 	self.closeModalBtn.hidden = NO;
-	self.bottomView.alpha = 1.0;
+	self.bottomView2.alpha = 1.0;
 	self.topView.alpha = 1.0;
 }
 
@@ -73,7 +71,7 @@
 		
 		
 		self.topView.alpha = 0.5;
-		self.bottomView.alpha = 0.5;
+		self.bottomView2.alpha = 0.5;
 		self.closeModalBtn.hidden = YES;
     }
 }
@@ -112,6 +110,12 @@
 	UIImage *img = [UIImage imageWithData:data];
 	
 	self.imageView.image = img;
+	self.imageView.layer.cornerRadius = 30.0f;
+	self.imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	
+	self.imageView.layer.shouldRasterize = YES;
+	self.imageView.clipsToBounds = YES;
+	
 	_checked = YES;
 }
 
@@ -126,14 +130,22 @@
 	UIImage *img = [UIImage imageWithData:data];
 	self.myPic.image = img;
 	
+	self.myPic.layer.cornerRadius = 30.0f;
+	self.myPic.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	
+	self.myPic.layer.shouldRasterize = YES;
+	self.myPic.clipsToBounds = YES;
+	
 	CGFloat scrollWidth = 10.f;
 	for (int i = 0; i<[_ad.storeFri1 count]; i++) {
 		NSDictionary *tmp = [_ad.storeFri1 objectAtIndex:i];
 		
 		UIImageView *theView = [[UIImageView alloc] initWithFrame:
-								CGRectMake(scrollWidth, 0, 80, 80)];
-		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth+10, 90, 100, 20)];
+								CGRectMake(scrollWidth, 0, 61, 61)];
+		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth, 70, 61, 20)];
 		nameLabel.text = [tmp objectForKey:@"friName"];
+		nameLabel.textAlignment = NSTextAlignmentCenter;
+		nameLabel.font = [UIFont fontWithName:UIFontTextStyleBody size:12];
 		
 		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
 		
@@ -148,6 +160,11 @@
 		img = [UIImage imageWithData:data];
 		
 		theView.image = img;
+		theView.layer.cornerRadius = 30.0f;
+		theView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+		
+		theView.layer.shouldRasterize = YES;
+		theView.clipsToBounds = YES;
 		[self.scrollView addSubview:theView];
 		[self.scrollView addSubview:nameLabel];
 		scrollWidth += 100;

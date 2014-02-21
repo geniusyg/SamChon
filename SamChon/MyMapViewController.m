@@ -76,7 +76,7 @@
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
-	_mapView = [[TMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 408)];
+	_mapView = [[TMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 496)];
 	[_mapView setSKPMapApiKey:TMAPID];
 	
 	_mapView.delegate = self;

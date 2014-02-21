@@ -26,6 +26,7 @@
 	NSMutableArray *_storeIDs;
 	NSMutableArray *_postingIDs;
 	NSMutableArray *_likes;
+	NSMutableArray *_comments;
 
 	UIScrollView *_sv;
 	UIPageControl *_pc;
@@ -68,6 +69,7 @@
 	_rnames = [[NSMutableArray alloc] init];
 	_rmenus = [[NSMutableArray alloc] init];
 	_likes = [[NSMutableArray alloc] init];
+	_comments = [[NSMutableArray alloc] init];
 	
 	_storeIDs = [[NSMutableArray alloc] init];
 	_postingIDs = [[NSMutableArray alloc] init];
@@ -84,6 +86,7 @@
 		[_likes addObject:[tmp objectForKey:@"isLike"]];
 		[_storeIDs addObject:[tmp objectForKey:@"storeId"]];
 		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
+		[_comments addObject:[tmp objectForKey:@"userMemo"]];
 	}
 	
 	self.table.separatorColor = [UIColor clearColor];
@@ -289,18 +292,20 @@
 	switch (indexPath.section) {
 		case 0: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"TITLE_CELL"];
-			UIImageView *profileImage = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
+			UIImageView *profileImage = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 61, 61)];
 			NSURL *url = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"upic"]];
 			
 			UIImage *imgWeb = [UIImage imageWithData:[NSData dataWithContentsOfURL:url ]];
 			
 			profileImage.image = imgWeb;
 			
-			UIImageView *profileImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(cell.center.x-25, cell.center.y-25, 55, 55)];
-			profileImage2.image = [UIImage imageNamed:@"Blank_2.png"];
+			profileImage.layer.cornerRadius = 30.0f;
+			profileImage.layer.rasterizationScale = [UIScreen mainScreen].scale;
+			
+			profileImage.layer.shouldRasterize = YES;
+			profileImage.clipsToBounds = YES;
 			
 			[cell addSubview:profileImage];
-			[cell addSubview:profileImage2];
 		}
 			break;
 		case 1: {
@@ -312,6 +317,7 @@
 		}
 		case 2:
 			cell = [tableView dequeueReusableCellWithIdentifier:@"WRITE_CELL"];
+			
 			[cell addSubview:self.replyTextField];
 			break;
 		case 3: {
