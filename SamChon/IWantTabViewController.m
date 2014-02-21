@@ -31,7 +31,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 90;
+	return 80;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -49,7 +49,7 @@
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSData *data = [NSData dataWithContentsOfURL:url];
 	UIImage *img = [UIImage imageWithData:data];
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 16, 60, 60)];
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 	imageView.tag = 155;
 	
 	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(89, 10, 150, 20)];

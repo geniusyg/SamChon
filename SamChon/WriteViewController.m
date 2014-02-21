@@ -98,10 +98,6 @@
 	self.tabBarController.selectedIndex = 0;
 }
 
-- (IBAction)cancelWrite:(id)sender {
-	[self eraseForm];
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[textField resignFirstResponder];
 	return YES;
@@ -130,6 +126,7 @@
 	self.selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
 	self.imageView.image = self.selectedImage;
 	[picker dismissViewControllerAnimated:YES completion:nil];
+	_ad.isClear = NO;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -170,10 +167,15 @@
 	
 	self.addressLabel.text = [_ad.writeSearch objectForKey:@"addr"];
 	self.searchTextField.text = [_ad.writeSearch objectForKey:@"name"];
+	
 	if([_ad.selectedCategory isEqualToString:@"9"]) {
 		self.categoryText.text = @"";
 	} else {
 		self.categoryText.text = [_ad.categories objectAtIndex:[_ad.selectedCategory integerValue]];
+	}
+	
+	if(_ad.isClear) {
+		[self eraseForm];
 	}
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -249,6 +251,8 @@
 	[super viewDidDisappear:animated];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	_ad.isClear = YES;
 }
 
 @end

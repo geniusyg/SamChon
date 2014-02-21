@@ -87,7 +87,7 @@
 	
 	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
 	[marker setTMapPoint:point];
-	[marker setIcon:[UIImage imageNamed:@"currentPoint.png"]];
+	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
 	
 	[_mapView addCustomObject:marker ID:@"current_myMap"];
 	
@@ -103,7 +103,7 @@
 		point = [[TMapPoint alloc] initWithLon:dlng Lat:dlat];
 		
 		[marker setTMapPoint:point];
-		[marker setIcon:[UIImage imageNamed:@"point.png"]];
+		[marker setIcon:[UIImage imageNamed:@"poi.png"]];
 		
 		[marker setCanShowCallout:YES];
 		

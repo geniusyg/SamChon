@@ -307,7 +307,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" onImage="on.png" offImage="off.png" id="i8e-IO-UVC">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="i8e-IO-UVC">
                                 <rect key="frame" x="117" y="166" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
@@ -445,7 +445,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sVe-Lq-tgA">
                                         <rect key="frame" x="42" y="389" width="51" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="one_chon_g.png">
+                                        <state key="normal" image="one_chon_y.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -479,6 +479,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="firstBtn" destination="sVe-Lq-tgA" id="wxW-H4-oVC"/>
+                        <outlet property="secondBtn" destination="5pQ-Wp-8Oj" id="U4e-xl-agg"/>
+                        <outlet property="thirdBtn" destination="oyl-0E-o3i" id="Cn2-B3-9sH"/>
                         <outlet property="viewMap" destination="VxV-rQ-MT5" id="AKo-Xr-86Y"/>
                     </connections>
                 </viewController>
@@ -691,16 +694,6 @@
                                             <action selector="upload:" destination="yRf-LY-GKk" eventType="touchUpInside" id="rii-Ou-7x9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pqd-jd-QZo">
-                                        <rect key="frame" x="241" y="228" width="57" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="다시 작성">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="cancelWrite:" destination="yRf-LY-GKk" eventType="touchUpInside" id="6ba-84-D4R"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7TX-Dv-MGo">
                                         <rect key="frame" x="260" y="20" width="38" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -732,12 +725,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.png" id="U1G-FY-yPC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.png" id="U1G-FY-yPC">
                                 <rect key="frame" x="0.0" y="72" width="320" height="136"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" id="SrP-rq-fUj">
-                                <rect key="frame" x="188" y="-144" width="320" height="358"/>
+                            <view hidden="YES" contentMode="scaleToFill" id="SrP-rq-fUj">
+                                <rect key="frame" x="157" y="-144" width="320" height="358"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fn7-zH-IK8">
@@ -847,7 +840,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="xfr-Lb-Whh" kind="modal" id="fWh-bI-JMU"/>
+                                            <segue destination="xfr-Lb-Whh" kind="modal" modalTransitionStyle="flipHorizontal" id="fWh-bI-JMU"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -898,8 +891,8 @@
                                     <segue destination="kEn-sW-amD" kind="embed" id="Bvb-bv-7Nm"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" id="FYp-SJ-WKs">
-                                <rect key="frame" x="201" y="231" width="320" height="362"/>
+                            <view hidden="YES" contentMode="scaleToFill" id="FYp-SJ-WKs">
+                                <rect key="frame" x="134" y="87" width="320" height="362"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MbN-Ds-kg4">
@@ -1029,7 +1022,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMe-si-uRX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="754" y="-370"/>
+            <point key="canvasLocation" x="812" y="-370"/>
         </scene>
         <!--My Shop Tap View Controller-->
         <scene sceneID="SNZ-vg-Q8f">
@@ -1044,15 +1037,15 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="SHOP_CELL" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SHOP_CELL" rowHeight="90" id="EGw-vT-s1a">
-                                        <rect key="frame" x="0.0" y="22" width="280" height="90"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="SHOP_CELL" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SHOP_CELL" rowHeight="80" id="EGw-vT-s1a">
+                                        <rect key="frame" x="0.0" y="22" width="280" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EGw-vT-s1a" id="xBB-WY-smE">
-                                            <rect key="frame" x="0.0" y="0.0" width="280" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list.png" id="HZ1-vK-T3h">
-                                                    <rect key="frame" x="0.0" y="10" width="280" height="70"/>
+                                                    <rect key="frame" x="0.0" y="5" width="280" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_small.png" id="kbf-3c-KPV">
@@ -1063,7 +1056,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="mji-mp-9DX" kind="modal" id="IXn-Ih-SqK"/>
+                                            <segue destination="mji-mp-9DX" kind="modal" modalTransitionStyle="crossDissolve" id="IXn-Ih-SqK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1754,15 +1747,15 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="WANT_CELL" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WANT_CELL" rowHeight="90" id="wdG-hJ-2Wl">
-                                        <rect key="frame" x="0.0" y="22" width="280" height="90"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="WANT_CELL" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WANT_CELL" rowHeight="80" id="wdG-hJ-2Wl">
+                                        <rect key="frame" x="0.0" y="22" width="280" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wdG-hJ-2Wl" id="kzp-n5-WuQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="280" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list.png" id="WUW-bQ-ME0">
-                                                    <rect key="frame" x="0.0" y="10" width="280" height="70"/>
+                                                    <rect key="frame" x="0.0" y="5" width="280" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_small.png" id="C7o-eE-Vvz">
@@ -1818,9 +1811,7 @@
         <image name="mans.png" width="19" height="10"/>
         <image name="me.png" width="25" height="25"/>
         <image name="ment_bar.png" width="275" height="35"/>
-        <image name="off.png" width="79" height="30"/>
-        <image name="on.png" width="79" height="30"/>
-        <image name="one_chon_g.png" width="51" height="51"/>
+        <image name="one_chon_y.png" width="51" height="51"/>
         <image name="photo.png" width="310" height="136"/>
         <image name="poi.png" width="16" height="21"/>
         <image name="poi.png" width="16" height="21"/>
@@ -1832,7 +1823,6 @@
         <image name="poi_small.png" width="9" height="12"/>
         <image name="point.png" width="64" height="64"/>
         <image name="pop_1.png" width="216" height="304"/>
-        <image name="question-75.png" width="75" height="75"/>
         <image name="question-75.png" width="75" height="75"/>
         <image name="refresh.png" width="58" height="58"/>
         <image name="res.png" width="51" height="51"/>
@@ -1855,7 +1845,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="eco-Re-Pbj"/>
-        <segue reference="VLN-Jw-LQG"/>
+        <segue reference="IXn-Ih-SqK"/>
         <segue reference="TJh-c1-e6U"/>
     </inferredMetricsTieBreakers>
 </document>

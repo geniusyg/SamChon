@@ -15,7 +15,10 @@
 
 @interface SearchMapViewController () <TMapViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *viewMap;
+@property (weak, nonatomic) IBOutlet UIButton *firstBtn;
+@property (weak, nonatomic) IBOutlet UIButton *secondBtn;
 
+@property (weak, nonatomic) IBOutlet UIButton *thirdBtn;
 @property TMapView *mapView;
 
 @end
@@ -40,7 +43,7 @@
 		TMapPoint *point = [[TMapPoint alloc] initWithLon:dlng Lat:dlat];
 		
 		[marker setTMapPoint:point];
-		[marker setIcon:[UIImage imageNamed:@"thirdPoint.png"]];
+		[marker setIcon:[UIImage imageNamed:@"poi_b.png"]];
 		
 		[marker setCanShowCallout:YES];
 		
@@ -65,7 +68,7 @@
 		TMapPoint *point = [[TMapPoint alloc] initWithLon:dlng Lat:dlat];
 		
 		[marker setTMapPoint:point];
-		[marker setIcon:[UIImage imageNamed:@"secondPoint.png"]];
+		[marker setIcon:[UIImage imageNamed:@"poi.png"]];
 		
 		[marker setCanShowCallout:YES];
 		
@@ -90,7 +93,7 @@
 		TMapPoint *point = [[TMapPoint alloc] initWithLon:dlng Lat:dlat];
 		
 		[marker setTMapPoint:point];
-		[marker setIcon:[UIImage imageNamed:@"point.png"]];
+		[marker setIcon:[UIImage imageNamed:@"poi_y.png"]];
 		
 		[marker setCanShowCallout:YES];
 		
@@ -126,7 +129,7 @@
 	
 	_mapView.delegate = self;
 	
-	[self.viewMap addSubview:_mapView];
+	[self.viewMap insertSubview:_mapView atIndex:0];
 	
 	TMapPoint * point =	[[TMapPoint alloc] initWithLon:[_ad.currentLng doubleValue] Lat:[_ad.currentLat doubleValue]];
 	
@@ -134,7 +137,7 @@
 	
 	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
 	[marker setTMapPoint:point];
-	[marker setIcon:[UIImage imageNamed:@"currentPoint.png"]];
+	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
 	
 	[_mapView addCustomObject:marker ID:@"current_myMap"];
 }

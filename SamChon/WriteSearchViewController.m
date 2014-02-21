@@ -145,6 +145,7 @@
 }
 
 - (IBAction)closeModal:(id)sender {
+	_ad.isClear = NO;
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -190,6 +191,12 @@
 		
 		[_data addObject:tmp];
 	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	_ad.isClear = NO;
 }
 
 - (void)didReceiveMemoryWarning

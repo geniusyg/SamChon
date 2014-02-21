@@ -59,7 +59,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 90;
+	return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,7 +74,7 @@
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 			NSData *data = [NSData dataWithContentsOfURL:url];
 			UIImage *img = [UIImage imageWithData:data];
-			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 20, 50, 50)];
+			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 20, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
 			

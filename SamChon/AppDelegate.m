@@ -41,6 +41,8 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	_lm.distanceFilter = 1000.0f;
 	[_lm startUpdatingLocation];
 	
+	self.isClear = YES;
+	
 //	[NSThread sleepForTimeInterval:1.5f];
 	
     return YES;

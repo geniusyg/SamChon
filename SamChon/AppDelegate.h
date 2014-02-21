@@ -50,6 +50,8 @@
 @property NSArray *storeInfo_storePic;
 @property NSArray *storeInfo_reply;
 
+@property BOOL isClear;
+
 
 extern NSString *const FBSessionStateChangedNotification;
 
