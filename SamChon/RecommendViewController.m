@@ -23,7 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIView *recommendView;
 @property (weak, nonatomic) IBOutlet UIImageView *myPic;
 @property (weak, nonatomic) IBOutlet UIView *topView;
-@property (weak, nonatomic) IBOutlet UIImageView *bottomView2;
+@property (weak, nonatomic) IBOutlet UIView *bottomView0;
+@property (weak, nonatomic) IBOutlet UIView *blackView;
 
 @end
 
@@ -31,8 +32,17 @@
 	AppDelegate *_ad;
 	BOOL _checked;
 	NSInteger _index;
+	NSInteger _index2;
+	NSDictionary *_recommendStore;
+	NSDictionary *_currentStore;
 }
 - (IBAction)refresh:(id)sender {
+	[self showRecommend];
+}
+
+- (IBAction)moveMap:(id)sender {
+	_ad.storeMapInfo = [NSMutableDictionary dictionaryWithDictionary:_currentStore];
+
 }
 
 - (void)recommendRequest {
@@ -41,9 +51,9 @@
 	NSDictionary *parameters = @{@"id":_ad.uid, @"friId":[tmp objectForKey:@"friId"], @"friendNum":[NSString stringWithFormat:@"%ld", [_ad.storeFri1 count]]};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/main/recommendWithFri" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
-			NSArray *arr = [responseObject objectForKey:@"storeList"];
-//			[[NSNotificationCenter defaultCenter] postNotificationName:@"fristores" object:nil];
-			NSLog(@"sl : %@", responseObject);
+			_recommendStore = (NSDictionary *)responseObject;
+			_index2 = 0;
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"recommendFri" object:nil];
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
@@ -53,8 +63,9 @@
 - (IBAction)closePopup:(id)sender {
 	self.recommendView.hidden = YES;
 	self.closeModalBtn.hidden = NO;
-	self.bottomView2.alpha = 1.0;
+	self.bottomView0.alpha = 1.0;
 	self.topView.alpha = 1.0;
+	self.blackView.hidden = YES;
 }
 
 - (BOOL)canBecomeFirstResponder {
@@ -63,16 +74,14 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.type == UIEventSubtypeMotionShake && _checked) {
-		self.recommendView.hidden = NO;
-		
 		[self recommendRequest];
 		
-//		self.recommendImage.image = [UIImage imageNamed:fileName];
-		
-		
 		self.topView.alpha = 0.5;
-		self.bottomView2.alpha = 0.5;
+		self.bottomView0.alpha = 0.5;
 		self.closeModalBtn.hidden = YES;
+		self.blackView.hidden = NO;
+		
+		_checked = NO;
     }
 }
 
@@ -96,6 +105,26 @@
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	_checked = NO;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showRecommend) name:@"recommendFri" object:nil];
+}
+
+- (void)showRecommend {
+	NSString *myc = [_recommendStore objectForKey:@"myCategory"];
+	NSString *fric = [_recommendStore objectForKey:@"friCategory"];
+	NSArray *storeList = [_recommendStore objectForKey:@"storeList"];
+	_currentStore = [storeList objectAtIndex:_index2++];
+	
+	self.recommendDetail.text = [NSString stringWithFormat:@"%@ & %@에게\n만족할 추천 맛집은 여기!",myc,fric];
+	self.recommendDetail.textAlignment = NSTextAlignmentCenter;
+	self.recommendTitle.text = [_currentStore objectForKey:@"storeName"];
+	self.recommendAddr.text = [_currentStore objectForKey:@"storeAddr"];
+	NSString *path = [_currentStore objectForKey:@"foodPic"];
+	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	self.recommendImage.image = [UIImage imageWithData:data];
+
+	self.recommendView.hidden = NO;
 }
 
 - (void) imageTapped:(UITapGestureRecognizer *)gr {	
@@ -119,11 +148,7 @@
 	_checked = YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	
-	[self becomeFirstResponder];
-	
+- (void)initView {
 	NSString *path = _ad.purl;
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSData *data = [NSData dataWithContentsOfURL:url];
@@ -170,6 +195,24 @@
 		scrollWidth += 100;
 	}
 	self.scrollView.contentSize = CGSizeMake(scrollWidth, 80);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initView) name:@"getFriendsList" object:nil];
+	
+	[_ad getMyFriends];
+	
+	[self becomeFirstResponder];
+	
+	
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning

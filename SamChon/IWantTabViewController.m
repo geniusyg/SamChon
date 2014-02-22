@@ -8,6 +8,7 @@
 
 #import "IWantTabViewController.h"
 #import "AppDelegate.h"
+#import "ShopInfoViewController.h"
 
 @interface IWantTabViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -18,6 +19,13 @@
 	AppDelegate *_ad;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	ShopInfoViewController *sivc = (ShopInfoViewController *)segue.destinationViewController;
+	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
+	NSDictionary *tmp = [_ad.myPicks objectAtIndex:indexPath.row];
+	sivc._selectedID = [tmp objectForKey:@"storeId"];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	[_ad.myPicks removeObjectAtIndex:indexPath.row];
@@ -25,6 +33,12 @@
 	
 	[tableView deleteRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationAutomatic];
 }
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//	NSDictionary *tmp = [_ad.myPicks objectAtIndex:indexPath.row];
+//	[_ad getStoreInfo:[tmp objectForKey:@"storeId"]];
+//	NSLog(@"%@",[tmp objectForKey:@"storeId"]);
+//}
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return @"삭제";
@@ -87,6 +101,16 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"myPickList" object:nil];
+	
+	[_ad getMyPick];
+	
+	NSLog(@"myPick");
+	
+	[self.table reloadData];
+}
+
+- (void)refreshTable {
 	[self.table reloadData];
 }
 
@@ -102,6 +126,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -106,7 +106,7 @@
 }
 
 - (void)doneActionSheet {
-	_ad.selectedCategory = [NSString stringWithFormat:@"%d", [self.pickerView selectedRowInComponent:0]];
+	_ad.selectedCategory = [NSString stringWithFormat:@"%ld", [self.pickerView selectedRowInComponent:0]];
 	
 	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
 	_ad.writeSearch = [_data objectAtIndex:indexPath.row];
@@ -120,7 +120,7 @@
 		
 //		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SEARCH_CELL"];
 
-		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 200, 20)];
+		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 300, 20)];
 		UILabel *addrLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 30, 300, 20)];
 		nameLabel.tag = 113;
 		addrLabel.tag = 114;
@@ -195,6 +195,12 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
+	
+	_ad.isClear = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	
 	_ad.isClear = NO;
 }

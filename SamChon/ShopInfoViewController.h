@@ -10,6 +10,6 @@
 
 @interface ShopInfoViewController : UIViewController
 
-@property NSInteger loadedPage;
+@property NSString *_selectedID;
 
 @end

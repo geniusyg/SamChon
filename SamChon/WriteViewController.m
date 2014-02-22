@@ -14,7 +14,6 @@
 
 @interface WriteViewController () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationBarDelegate, UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *loginView;
@@ -47,14 +46,15 @@
 - (IBAction)upload:(id)sender {
 	[[self firstResponderTextField] resignFirstResponder];
 	
-	if(0 == [self.addressLabel.text length] || 0 == [self.searchTextField.text length] || 0 == [self.menuTextField.text length] || 0 == [self.commentTextField.text length] || _isChoosePic) {
+	NSLog(@"");
+	if(0 == [self.searchTextField.text length] || 0 == [self.menuTextField.text length] || 0 == [self.commentTextField.text length] || _isChoosePic) {
 		return;
 	}
 	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":self.addressLabel.text, @"category":@"0", @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text, @"category":_ad.selectedCategory};
+	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":[_ad.writeSearch objectForKey:@"addr"], @"category":self.categoryText.text, @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text};
 	
-	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoard" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoardIos" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		NSData *imgData = UIImageJPEGRepresentation(self.selectedImage, 0.5);
 		NSDate *date = [NSDate date];
 		NSString *fileName = [NSString stringWithFormat:@"%@_%@",_ad.uid,date];
@@ -87,10 +87,9 @@
 	self.searchTextField.text = @"";
 	self.menuTextField.text = @"";
 	self.commentTextField.text = @"";
-	self.addressLabel.text = @"";
 	self.categoryText.text = @"";
 	_ad.writeSearch = nil;
-	_isChoosePic = NO;
+	_isChoosePic = YES;
 	_ad.selectedCategory = @"9";
 }
 
@@ -126,6 +125,7 @@
 	self.selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
 	self.imageView.image = self.selectedImage;
 	[picker dismissViewControllerAnimated:YES completion:nil];
+	_isChoosePic = NO;
 	_ad.isClear = NO;
 }
 
@@ -149,7 +149,7 @@
 	
 	self.imageView.userInteractionEnabled = YES;
 	
-	_isChoosePic = NO;
+	_isChoosePic = YES;
 	
 	[self.imageView addGestureRecognizer:singleTap];
 	
@@ -165,7 +165,6 @@
         self.loginView.hidden = NO;
     }
 	
-	self.addressLabel.text = [_ad.writeSearch objectForKey:@"addr"];
 	self.searchTextField.text = [_ad.writeSearch objectForKey:@"name"];
 	
 	if([_ad.selectedCategory isEqualToString:@"9"]) {
@@ -251,8 +250,6 @@
 	[super viewDidDisappear:animated];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	_ad.isClear = YES;
 }
 
 @end

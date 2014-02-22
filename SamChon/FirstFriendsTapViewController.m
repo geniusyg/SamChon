@@ -101,6 +101,16 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getFriendsList" object:nil];
+	
+	[_ad getMyFriends];
+	
+	NSLog(@"myFriend");
+	
+	[self.table reloadData];
+}
+
+- (void)refreshTable {
 	[self.table reloadData];
 }
 
@@ -108,6 +118,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

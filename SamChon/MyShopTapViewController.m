@@ -114,6 +114,16 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"myBoardList" object:nil];
+	
+	[_ad getMyBoardList];
+	
+	NSLog(@"myshoptap");
+	
+	[self.table reloadData];
+}
+
+- (void)refreshTable {
 	[self.table reloadData];
 }
 
@@ -138,6 +148,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -227,11 +227,22 @@
 	return 1;
 }
 
-- (IBAction)click1:(id)sender {
+- (void)refreshTable {
+	[self.table reloadData];
 }
-- (IBAction)click2:(id)sender {
+
+-(void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getFriendsList" object:nil];
+	
+	[_ad getRecommendList];
 }
-- (IBAction)click3:(id)sender {
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
