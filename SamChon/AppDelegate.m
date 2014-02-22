@@ -204,6 +204,8 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 		self.recommendFri1 = [responseObject objectForKey:@"fri1"];
 		self.recommendFri2 = [responseObject objectForKey:@"fri2"];
 		self.recommendFri3 = [responseObject objectForKey:@"fri3"];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"getRecomend" object:nil];
 		}
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);

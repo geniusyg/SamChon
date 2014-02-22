@@ -8,8 +8,9 @@
 
 #import "SearchViewController.h"
 #import "AppDelegate.h"
+#import "AFNetworking.h"
 
-@interface SearchViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface SearchViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *searchText;
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -20,9 +21,19 @@
 	AppDelegate *_ad;
 	BOOL isTable;
 }
-- (IBAction)search:(id)sender {
-	[self resignFirstResponder];
+
+- (void)scrollViewDidEndDecelerating:(UITableView *)tableView {
+	int tomove = ((int)tableView.contentOffset.y%(int)tableView.rowHeight);
+	if(tomove < tableView.rowHeight/2) [tableView setContentOffset:CGPointMake(0, tableView.contentOffset.y-tomove) animated:YES];
+	else [tableView setContentOffset:CGPointMake(0, tableView.contentOffset.y+(tableView.rowHeight-tomove)) animated:YES];
 }
+
+- (void)scrollViewDidEndDragging:(UITableView *)scrollView willDecelerate:(BOOL)decelerate {
+	if(decelerate) return;
+	
+	[self scrollViewDidEndDecelerating:scrollView];
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
 	[self resignFirstResponder];
 	
@@ -234,15 +245,18 @@
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getFriendsList" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getRecommend" object:nil];
 	
-	[_ad getRecommendList];
+	[self getRecommendList];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	_ad.recommendFri1 = nil;
+	_ad.recommendFri2 = nil;
+	_ad.recommendFri3 = nil;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -261,13 +275,31 @@
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
-	
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)getRecommendList {
+	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"lat":_ad.currentLat, @"lng":_ad.currentLng};
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/finder/recommendList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if(nil != responseObject) {
+			_ad.recommendFri1 = [responseObject objectForKey:@"fri1"];
+			_ad.recommendFri2 = [responseObject objectForKey:@"fri2"];
+			_ad.recommendFri3 = [responseObject objectForKey:@"fri3"];
+			[self.table reloadData];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"getRecomend" object:nil];
+			
+			[self.table reloadData];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		NSLog(@"Error: %@", error);
+	}];
 }
 
 @end

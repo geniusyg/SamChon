@@ -9,11 +9,13 @@
 #import "MainViewController00.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "AppDelegate.h"
+#import "AFNetworking.h"
 
 @interface MainViewController00 ()
 @property (weak, nonatomic) IBOutlet UIImageView *profileImg;
 @property (weak, nonatomic) IBOutlet UILabel *postCount;
 @property (weak, nonatomic) IBOutlet UILabel *friCount;
+
 
 @end
 
@@ -77,7 +79,6 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 @end
 
 

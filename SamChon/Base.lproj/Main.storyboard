@@ -7,7 +7,6 @@
         <!--Main View Controller00 - 홈-->
         <scene sceneID="yMb-eZ-WKd">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SOY-ds-FCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="pcE-EH-o9x" customClass="MainViewController00" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nig-hh-yGU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -103,6 +102,7 @@
                         <outlet property="profileImg" destination="w20-gX-LU9" id="xCV-fE-pmY"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SOY-ds-FCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="348" y="-370"/>
         </scene>
@@ -571,7 +571,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y7q-8a-zWx">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Y7q-8a-zWx">
                                 <rect key="frame" x="10" y="116" width="300" height="403"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
