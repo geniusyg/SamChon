@@ -9,6 +9,8 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface SearchViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
@@ -20,6 +22,9 @@
 @implementation SearchViewController {
 	AppDelegate *_ad;
 	BOOL isTable;
+	NSMutableArray *_images1;
+	NSMutableArray *_images2;
+	NSMutableArray *_images3;
 }
 
 - (void)scrollViewDidEndDecelerating:(UITableView *)tableView {
@@ -83,8 +88,6 @@
 			NSDictionary *tmp = [_ad.recommendFri1 objectAtIndex:indexPath.row];
 			NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			NSData *data = [NSData dataWithContentsOfURL:url];
-			UIImage *img = [UIImage imageWithData:data];
 			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
@@ -111,7 +114,7 @@
 			[cell.contentView addSubview:fsc];
 			[cell.contentView addSubview:count];
 			
-			((UIImageView *)[cell.contentView viewWithTag:176]).image = img;
+			[((UIImageView *)[cell.contentView viewWithTag:176]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 			((UILabel *)[cell.contentView viewWithTag:173]).text = [tmp objectForKey:@"storeName"];
 			((UILabel *)[cell.contentView viewWithTag:174]).text = [tmp objectForKey:@"storeAddr"];
 			((UIImageView *)[cell.contentView viewWithTag:175]).image = [UIImage imageNamed:@"1c.png"];
@@ -125,8 +128,6 @@
 			NSDictionary *tmp = [_ad.recommendFri2 objectAtIndex:indexPath.row];
 			NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			NSData *data = [NSData dataWithContentsOfURL:url];
-			UIImage *img = [UIImage imageWithData:data];
 			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
@@ -153,7 +154,7 @@
 			[cell.contentView addSubview:fsc];
 			[cell.contentView addSubview:count];
 			
-			((UIImageView *)[cell.contentView viewWithTag:176]).image = img;
+			[((UIImageView *)[cell.contentView viewWithTag:176]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 			((UILabel *)[cell.contentView viewWithTag:173]).text = [tmp objectForKey:@"storeName"];
 			((UILabel *)[cell.contentView viewWithTag:174]).text = [tmp objectForKey:@"storeAddr"];
 			((UIImageView *)[cell.contentView viewWithTag:175]).image = [UIImage imageNamed:@"2c.png"];
@@ -168,8 +169,6 @@
 			NSDictionary *tmp = [_ad.recommendFri3 objectAtIndex:indexPath.row];
 			NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 			NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-			NSData *data = [NSData dataWithContentsOfURL:url];
-			UIImage *img = [UIImage imageWithData:data];
 			UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 			//	imageView.image = img;
 			imageView.tag = 176;
@@ -196,7 +195,7 @@
 			[cell.contentView addSubview:fsc];
 			[cell.contentView addSubview:count];
 			
-			((UIImageView *)[cell.contentView viewWithTag:176]).image = img;
+			[((UIImageView *)[cell.contentView viewWithTag:176]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 			((UILabel *)[cell.contentView viewWithTag:173]).text = [tmp objectForKey:@"storeName"];
 			((UILabel *)[cell.contentView viewWithTag:174]).text = [tmp objectForKey:@"storeAddr"];
 			((UIImageView *)[cell.contentView viewWithTag:175]).image = [UIImage imageNamed:@"3c.png"];
@@ -239,15 +238,19 @@
 }
 
 - (void)refreshTable {
+	
 	[self.table reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getRecommend" object:nil];
 	
 	[self getRecommendList];
+	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -275,6 +278,9 @@
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
+	_images1 = [NSMutableArray array];
+	_images2 = [NSMutableArray array];
+	_images3 = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -286,7 +292,7 @@
 - (void)getRecommendList {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"lat":_ad.currentLat, @"lng":_ad.currentLng};
-	[manager POST:@"http://samchon.ygw3429.cloulu.com/finder/recommendList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/finder/recommendList2" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			_ad.recommendFri1 = [responseObject objectForKey:@"fri1"];
 			_ad.recommendFri2 = [responseObject objectForKey:@"fri2"];

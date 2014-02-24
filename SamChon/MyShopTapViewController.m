@@ -10,11 +10,13 @@
 #import "MyShopTableViewController.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface MyShopTapViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *table;
-
+@property NSMutableArray *myBoardList2;
 @end
 
 @implementation MyShopTapViewController {
@@ -33,20 +35,22 @@
 	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
 	MyShopTableViewController *mtvc = segue.destinationViewController;
 	mtvc.loadedPage = indexPath.row;
+	NSLog(@"send %ld", indexPath.row);
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-//	NSDictionary *tmp = [_ad.myBoardList objectAtIndex:indexPath.row];
+	NSDictionary *tmp = [_ad.myBoardList objectAtIndex:indexPath.row];
 	
-	//	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	//	NSDictionary *parameters = @{@"id":_ad.uid, @"postingNum":[tmp objectForKey:@"postingNum"]};
-	//	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/delete" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-	////		_ad.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
-	//		[_ad.myBoardList removeObjectAtIndex:indexPath.row];
-	//	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-	//		NSLog(@"Error: %@", error);
-	//	}];
+		AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+		NSDictionary *parameters = @{@"postingNum":[tmp objectForKey:@"postingNum"]};
+		[manager POST:@"http://samchon.ygw3429.cloulu.com/write/delete" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			NSLog(@"asdf");
+//			_ad.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
+//			[_ad.myBoardList removeObjectAtIndex:indexPath.row];
+		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+			NSLog(@"Error: %@", error);
+		}];
 	[_ad.myBoardList removeObjectAtIndex:indexPath.row];
 	NSArray *rows = [NSArray arrayWithObject:indexPath];
 	
@@ -68,8 +72,7 @@
 	NSDictionary *tmp = [_ad.myBoardList objectAtIndex:indexPath.row];
 	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	UIImage *img = [UIImage imageWithData:data];
+	
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 60, 60)];
 //	imageView.image = img;
 	imageView.tag = 126;
@@ -101,7 +104,7 @@
 	[cell.contentView addSubview:rdate];
 	[cell.contentView addSubview:rcomment];
 	
-	((UIImageView *)[cell.contentView viewWithTag:126]).image = img;
+	[((UIImageView *)[cell.contentView viewWithTag:126]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 	((UILabel *)[cell.contentView viewWithTag:123]).text = [tmp objectForKey:@"storeName"];
 	((UILabel *)[cell.contentView viewWithTag:124]).text = [tmp objectForKey:@"storeAddr"];
 	((UILabel *)[cell.contentView viewWithTag:125]).text = [tmp objectForKey:@"regDate"];
@@ -111,19 +114,22 @@
 	return cell;
 }
 
+
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"myBoardList" object:nil];
 	
 	[_ad getMyBoardList];
 	
-	NSLog(@"myshoptap");
-	
 	[self.table reloadData];
+	}
 }
 
 - (void)refreshTable {
+
 	[self.table reloadData];
 }
 
@@ -142,6 +148,7 @@
 	// Do any additional setup after loading the view.
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
 }
 
 - (void)didReceiveMemoryWarning

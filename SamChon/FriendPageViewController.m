@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "FriendMapViewController.h"
 #import "FriendShopViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface FriendPageViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *friNameLabel;
@@ -51,8 +52,6 @@
 	
 	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	UIImage *img = [UIImage imageWithData:data];
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 8, 50, 50)];
 //	imageView.image = img;
 	imageView.tag = 141;
@@ -75,7 +74,7 @@
 	[cell.contentView addSubview:raddr];
 	[cell.contentView addSubview:rdate];
 	
-	((UIImageView *)[cell.contentView viewWithTag:141]).image = img;
+	[((UIImageView *)[cell.contentView viewWithTag:141]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 	((UILabel *)[cell.contentView viewWithTag:142]).text = [tmp objectForKey:@"storeName"];
 	((UILabel *)[cell.contentView viewWithTag:143]).text = [tmp objectForKey:@"storeAddr"];
 	((UILabel *)[cell.contentView viewWithTag:144]).text = [tmp objectForKey:@"regDate"];
@@ -94,9 +93,7 @@
 
 - (void)showFriendInfo {
 	NSURL *url = [NSURL URLWithString:[_ad.friPic stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	UIImage *img = [UIImage imageWithData:data];
-	self.firPicView.image = img;
+	[self.firPicView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 	self.friNameLabel.textAlignment = NSTextAlignmentCenter;
 	self.friNameLabel.text = self.friName;
 	

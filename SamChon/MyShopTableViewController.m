@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import "ModifyViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MyShopTableViewController () <UITextFieldDelegate, UIScrollViewDelegate>
 
@@ -65,6 +66,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	
 	_images = [[NSMutableArray alloc] init];
 	_rnames = [[NSMutableArray alloc] init];
 	_rmenus = [[NSMutableArray alloc] init];
@@ -78,9 +80,7 @@
 		NSDictionary *tmp = (NSDictionary *)arr;
 		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-		NSData *data = [NSData dataWithContentsOfURL:url];
-		UIImage *img = [UIImage imageWithData:data];
-		[_images addObject:img];
+		[_images addObject:url];
 		[_rnames addObject:[tmp objectForKey:@"storeName"]];
 		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
 		[_likes addObject:[tmp objectForKey:@"isLike"]];
@@ -95,8 +95,8 @@
 	
 	int i=0;
 	for (; i<[_ad.myBoardList count]; i++) {
-		UIImageView *imgView = [[UIImageView alloc] initWithImage:[_images objectAtIndex:i]];
-		imgView.frame = CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height);
+		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height)];
+		[imgView setImageWithURL:[_images objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 		
 		UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 0, _sv.frame.size.width - 40, 20)];
 		rname.textAlignment = NSTextAlignmentCenter;
@@ -134,6 +134,7 @@
 	
 	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
 	_pc.currentPage = self.loadedPage;
+
 	_pc.numberOfPages = [_ad.myBoardList count];
 	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
@@ -153,7 +154,7 @@
 	NSInteger index = sender.tag - 1000;
 	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":_ad.uid, @"storeId":[_storeIDs objectAtIndex:index], @"status":@"1"};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"storeId":[_storeIDs objectAtIndex:index], @"status":@"1"};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/enrollmyPickList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSLog(@"success liked");
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -172,7 +173,7 @@
 	NSInteger index = sender.tag - 1000;
 	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":_ad.uid, @"storeId":[_storeIDs objectAtIndex:index], @"status":@"0"};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"], @"storeId":[_storeIDs objectAtIndex:index], @"status":@"0"};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/enrollmyPickList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSLog(@"success unliked");
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -199,7 +200,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	if(![scrollView isKindOfClass:[self.table class]]) {
 		CGFloat pageWidth = scrollView.frame.size.width;
-		_pc.currentPage = floor((scrollView.contentOffset.x - pageWidth / 9) / pageWidth) + 1;
+		_pc.currentPage = floor((scrollView.contentOffset.x - pageWidth / [_ad.myBoardList count]) / pageWidth) + 1;
 	}
 }
 
@@ -207,9 +208,10 @@
 	if(![scrollView isKindOfClass:[self.table class]]) {
 		self.replyTextField.text = @"";		
 		
+		NSLog(@"%ld", _pc.currentPage);
 		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
 		
-		[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+		[_ad getReplys:[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 		
 		[self.table reloadData];
 	}
@@ -227,7 +229,7 @@
 		self.replyTextField.text = @"";
 		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
 		
-		[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+		[_ad getReplys:[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 		
 		[self.table reloadData];
 	} else {
@@ -322,7 +324,15 @@
 			break;
 		case 3: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL"];
+			
 			NSDictionary *tmp = [_ad.reply objectAtIndex:indexPath.row];
+			UIImageView *replyPic = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 61, 61)];
+			replyPic.layer.cornerRadius = 30.0f;
+			replyPic.layer.rasterizationScale = [UIScreen mainScreen].scale;
+			
+			replyPic.layer.shouldRasterize = YES;
+			replyPic.clipsToBounds = YES;
+			
 			cell.textLabel.text = [tmp objectForKey:@"repMemo"];
 		}
 			break;
@@ -342,7 +352,7 @@
 	
 	NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
 	
-	[_ad getReplys:_ad.uid storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
+	[_ad getReplys:[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
 	
 	[self.table reloadData];
 

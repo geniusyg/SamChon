@@ -40,6 +40,7 @@
 @property NSArray *recommendFri3;
 
 @property NSDictionary *storeInfo;
+@property NSString *storeId;
 
 //@property NSString *storeInfo_storeId;
 //@property NSString *storeInfo_storeName;

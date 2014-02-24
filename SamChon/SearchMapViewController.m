@@ -31,6 +31,18 @@
 }
 
 - (IBAction)clickThird:(id)sender {
+	[self.firstBtn setImage:[UIImage imageNamed:@"one_chon_g.png"] forState:UIControlStateNormal];
+	[self.secondBtn setImage:[UIImage imageNamed:@"two_chon_g.png"] forState:UIControlStateNormal];
+	[self.thirdBtn setImage:[UIImage imageNamed:@"three_chon_b.png"] forState:UIControlStateNormal];
+
+	TMapPoint * point =	[[TMapPoint alloc] initWithLon:[_ad.currentLng doubleValue] Lat:[_ad.currentLat doubleValue]];
+
+	
+	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
+	[marker setTMapPoint:point];
+	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
+	
+	[_mapView addCustomObject:marker ID:@"current_myMap"];
 	for(int i=0; i<[_ad.recommendFri3 count]; i++) {
 		NSDictionary *tmp = [_ad.recommendFri3 objectAtIndex:i];
 		
@@ -56,6 +68,17 @@
 }
 
 - (IBAction)clickSecond:(id)sender {
+	[self.firstBtn setImage:[UIImage imageNamed:@"one_chon_g.png"] forState:UIControlStateNormal];
+	[self.secondBtn setImage:[UIImage imageNamed:@"two_chon_r.png"] forState:UIControlStateNormal];
+	[self.thirdBtn setImage:[UIImage imageNamed:@"three_chon_g.png"] forState:UIControlStateNormal];
+	
+	TMapPoint * point =	[[TMapPoint alloc] initWithLon:[_ad.currentLng doubleValue] Lat:[_ad.currentLat doubleValue]];
+	
+	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
+	[marker setTMapPoint:point];
+	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
+	
+	[_mapView addCustomObject:marker ID:@"current_myMap"];
 	for(int i=0; i<[_ad.recommendFri2 count]; i++) {
 		NSDictionary *tmp = [_ad.recommendFri2 objectAtIndex:i];
 		
@@ -81,6 +104,19 @@
 }
 
 - (IBAction)clickFirst:(id)sender {
+	[self.firstBtn setImage:[UIImage imageNamed:@"one_chon_y.png"] forState:UIControlStateNormal];
+	[self.secondBtn setImage:[UIImage imageNamed:@"two_chon_g.png"] forState:UIControlStateNormal];
+	[self.thirdBtn setImage:[UIImage imageNamed:@"three_chon_g.png"] forState:UIControlStateNormal];
+	
+	[_mapView clearCustomObjects];
+	TMapPoint * point =	[[TMapPoint alloc] initWithLon:[_ad.currentLng doubleValue] Lat:[_ad.currentLat doubleValue]];
+	
+	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
+	[marker setTMapPoint:point];
+	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
+	
+	[_mapView addCustomObject:marker ID:@"current_myMap"];
+	
 	for(int i=0; i<[_ad.recommendFri1 count]; i++) {
 		NSDictionary *tmp = [_ad.recommendFri1 objectAtIndex:i];
 		
@@ -133,13 +169,37 @@
 	
 	TMapPoint * point =	[[TMapPoint alloc] initWithLon:[_ad.currentLng doubleValue] Lat:[_ad.currentLat doubleValue]];
 	
-	[_mapView setCenterPoint:point];
-	
 	TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
 	[marker setTMapPoint:point];
 	[marker setIcon:[UIImage imageNamed:@"myplace_b.png"]];
 	
 	[_mapView addCustomObject:marker ID:@"current_myMap"];
+	
+	[_mapView setCenterPoint:point];
+	
+	
+	for(int i=0; i<[_ad.recommendFri1 count]; i++) {
+		NSDictionary *tmp = [_ad.recommendFri1 objectAtIndex:i];
+		
+		NSString *markerID = [NSString stringWithFormat:@"marker5_%d", i];
+		TMapMarkerItem *marker = [[TMapMarkerItem alloc] init];
+		
+		double dlat = [[tmp objectForKey:@"lat"] doubleValue];
+		double dlng = [[tmp objectForKey:@"lng"] doubleValue];
+		
+		TMapPoint *point = [[TMapPoint alloc] initWithLon:dlng Lat:dlat];
+		
+		[marker setTMapPoint:point];
+		[marker setIcon:[UIImage imageNamed:@"poi_y.png"]];
+		
+		[marker setCanShowCallout:YES];
+		
+		[marker setCalloutTitle:[tmp objectForKey:@"storeName"]];
+		[marker setCalloutSubtitle:[tmp objectForKey:@"storeAddr"]];
+		[marker setCalloutRightButtonImage:[UIImage imageNamed:@"rightBtn2.png"]];
+		
+		[_mapView addCustomObject:marker ID:markerID];
+	}
 }
 
 - (void)didReceiveMemoryWarning

@@ -9,10 +9,12 @@
 #import "ShopInfoViewController.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ShopInfoViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *shopName;
 @property (weak, nonatomic) IBOutlet UITableView *table;
+@property NSDictionary *storeInfo;
 
 @property UITextField *replyTextField;
 @property UIButton *heart;
@@ -46,6 +48,10 @@
 	} else {
 		return;
 	}
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	
 }
 
 
@@ -128,89 +134,116 @@
     return self;
 }
 
+- (void)showReply {
+	[self.table reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
+	NSLog(@"%@", self._selectedID);
+	
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showStores) name:@"shopInfo" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showStores) name:@"store_reply" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showReply) name:@"store_reply" object:nil];
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
+	
 	[_ad getStoreInfo:self._selectedID];
+	[_ad getShopReplys];
 	
-	self.shopName.text = [_ad.storeInfo objectForKey:@"storeName"];
-	
-	_images = [[NSMutableArray alloc] init];
-	_rmenus = [[NSMutableArray alloc] init];
-	_postingIDs = [[NSMutableArray alloc] init];
-	
-	for(NSArray *arr in [_ad.storeInfo objectForKey:@"storePic"]) {
-		
-		NSDictionary *tmp = (NSDictionary *)arr;
-		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
-		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-		NSData *data = [NSData dataWithContentsOfURL:url];
-		UIImage *img = [UIImage imageWithData:data];
-		
-		[_images addObject:img];
-		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
-		
-		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
-	}
-	
-	self.table.separatorColor = [UIColor clearColor];
-
-	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
-	
-	int i=0;
-	for (; i<[[_ad.storeInfo objectForKey:@"storePic"] count]; i++) {
-		UIImageView *imgView = [[UIImageView alloc] initWithImage:[_images objectAtIndex:i]];
-		imgView.frame = CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height);
-		
-		UILabel *rmenu = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 30, _sv.frame.size.width - 40, 20)];
-		rmenu.textAlignment = NSTextAlignmentCenter;
-		rmenu.text = [_rmenus objectAtIndex:i];
-		
-		[_sv addSubview:imgView];
-		[_sv addSubview:rmenu];
-	}
-	
-	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
-	
-	_sv.showsVerticalScrollIndicator=NO;
-	_sv.showsHorizontalScrollIndicator=YES;
-	_sv.alwaysBounceVertical=NO;
-	_sv.alwaysBounceHorizontal=NO;
-	_sv.pagingEnabled=YES;
-	_sv.delegate=self;
-	
-	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
-	_pc.currentPage = 1;
-	_pc.numberOfPages = [_ad.friStores count];
-	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
-	
-	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * 1), 0)];
-	
-	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
-	self.replyTextField.delegate = self;
-	[self.replyTextField resignFirstResponder];
-	self.replyTextField.placeholder = @"식당에 대한 댓글을 입력해 주세요!";
-	self.replyTextField.backgroundColor = [UIColor whiteColor];
-	
-	self.heart = [[UIButton alloc] initWithFrame:CGRectMake(250, 15, 50, 20)];
-	
-	if([@"0" isEqualToString:[_ad.storeInfo objectForKey:@"isLike"]]) {
-		[self.heart setTitle:@"안찜" forState:UIControlStateNormal];
-		[self.heart addTarget:self action:@selector(pick:) forControlEvents:UIControlEventTouchDown];
-	} else {
-		[self.heart setTitle:@"찜" forState:UIControlStateNormal];
-		[self.heart addTarget:self action:@selector(unPick:) forControlEvents:UIControlEventTouchDown];
-	}
+//	self.shopName.text = [_ad.storeInfo objectForKey:@"storeName"];
+//	
+//	_images = [[NSMutableArray alloc] init];
+//	_rmenus = [[NSMutableArray alloc] init];
+//	_postingIDs = [[NSMutableArray alloc] init];
+//	
+//	NSArray *arr = [_ad.storeInfo objectForKey:@"storePic"];
+//	
+//		for(int i=0; i<[arr count]; i++) {		
+//		NSDictionary *tmp = [arr objectAtIndex:i];
+//		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
+//		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+//		
+//		[_images addObject:url];
+//		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
+//		
+//		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
+//	}
+//	
+//	self.table.separatorColor = [UIColor clearColor];
+//
+//	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
+//	
+//	int i=0;
+//	for (; i<[[_ad.storeInfo objectForKey:@"storePic"] count]; i++) {
+//		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height)];
+//		
+//		[imgView setImageWithURL:[_images objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"question-75.png"]];
+//		
+//		UILabel *rmenu = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 30, _sv.frame.size.width - 40, 20)];
+//		rmenu.textAlignment = NSTextAlignmentCenter;
+//		rmenu.text = [_rmenus objectAtIndex:i];
+//		
+//		[_sv addSubview:imgView];
+//		[_sv addSubview:rmenu];
+//	}
+//	
+//	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
+//	
+//	_sv.showsVerticalScrollIndicator=NO;
+//	_sv.showsHorizontalScrollIndicator=YES;
+//	_sv.alwaysBounceVertical=NO;
+//	_sv.alwaysBounceHorizontal=NO;
+//	_sv.pagingEnabled=YES;
+//	_sv.delegate=self;
+//	
+//	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
+//	_pc.currentPage = 1;
+//	_pc.numberOfPages = [_ad.friStores count];
+//	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
+//	
+//	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * 1), 0)];
+//	
+//	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
+//	self.replyTextField.delegate = self;
+//	[self.replyTextField resignFirstResponder];
+//	self.replyTextField.placeholder = @"식당에 대한 댓글을 입력해 주세요!";
+//	self.replyTextField.backgroundColor = [UIColor whiteColor];
+//	
+//	self.heart = [[UIButton alloc] initWithFrame:CGRectMake(250, 15, 50, 20)];
+//	
+//	if([@"0" isEqualToString:[_ad.storeInfo objectForKey:@"isLike"]]) {
+//		[self.heart setTitle:@"안찜" forState:UIControlStateNormal];
+//		[self.heart addTarget:self action:@selector(pick:) forControlEvents:UIControlEventTouchDown];
+//	} else {
+//		[self.heart setTitle:@"찜" forState:UIControlStateNormal];
+//		[self.heart addTarget:self action:@selector(unPick:) forControlEvents:UIControlEventTouchDown];
+//	}
 
 }
+
+//- (void)getStoreInfo2:(NSString *)storeID {
+//	
+//	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//	NSDictionary *parameters = @{@"storeId":storeID, @"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+//	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//		if(nil != responseObject) {
+////			self.storeInfo_reply = [responseObject objectForKey:@"reply"];
+//			
+//			NSLog(@"%@", responseObject);
+//			self.storeInfo = (NSDictionary *)responseObject;
+//			
+//			[[NSNotificationCenter defaultCenter] postNotificationName:@"shopInfo" object:nil];
+//		}
+//	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//		NSLog(@"Error: %@", error);
+//	}];
+//}
+
 
 - (void)pick:(UIButton *) sender {
 	
@@ -270,6 +303,77 @@
 }
 
 - (void)showStores {
+	
+	self.shopName.text = [_ad.storeInfo objectForKey:@"storeName"];
+	
+	_images = [[NSMutableArray alloc] init];
+	_rmenus = [[NSMutableArray alloc] init];
+	_postingIDs = [[NSMutableArray alloc] init];
+	
+	NSArray *arr = [_ad.storeInfo objectForKey:@"storePic"];
+	
+	for(int i=0; i<[arr count]; i++) {
+		NSDictionary *tmp = [arr objectAtIndex:i];
+		NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
+		NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		
+		[_images addObject:url];
+		[_rmenus addObject:[tmp objectForKey:@"menuName"]];
+		
+		[_postingIDs addObject:[tmp objectForKey:@"postingNum"]];
+	}
+	
+	self.table.separatorColor = [UIColor clearColor];
+	
+	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
+	
+	int i=0;
+	for (; i<[[_ad.storeInfo objectForKey:@"storePic"] count]; i++) {
+		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height)];
+		
+		[imgView setImageWithURL:[_images objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"question-75.png"]];
+		
+		UILabel *rmenu = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 30, _sv.frame.size.width - 40, 20)];
+		rmenu.textAlignment = NSTextAlignmentCenter;
+		rmenu.text = [_rmenus objectAtIndex:i];
+		
+		[_sv addSubview:imgView];
+		[_sv addSubview:rmenu];
+	}
+	
+	[_sv setContentSize:CGSizeMake(_sv.frame.size.width * i, _sv.frame.size.height)];
+	
+	_sv.showsVerticalScrollIndicator=NO;
+	_sv.showsHorizontalScrollIndicator=YES;
+	_sv.alwaysBounceVertical=NO;
+	_sv.alwaysBounceHorizontal=NO;
+	_sv.pagingEnabled=YES;
+	_sv.delegate=self;
+	
+	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
+	_pc.currentPage = 1;
+	_pc.numberOfPages = [_ad.friStores count];
+	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
+	
+	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * 1), 0)];
+	
+	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
+	self.replyTextField.delegate = self;
+	[self.replyTextField resignFirstResponder];
+	self.replyTextField.placeholder = @"식당에 대한 댓글을 입력해 주세요!";
+	self.replyTextField.backgroundColor = [UIColor whiteColor];
+	
+	self.heart = [[UIButton alloc] initWithFrame:CGRectMake(250, 15, 50, 20)];
+	
+	if([@"0" isEqualToString:[_ad.storeInfo objectForKey:@"isLike"]]) {
+		[self.heart setTitle:@"안찜" forState:UIControlStateNormal];
+		[self.heart addTarget:self action:@selector(pick:) forControlEvents:UIControlEventTouchDown];
+	} else {
+		[self.heart setTitle:@"찜" forState:UIControlStateNormal];
+		[self.heart addTarget:self action:@selector(unPick:) forControlEvents:UIControlEventTouchDown];
+	}
+
+	
 	[self.table reloadData];
 }
 

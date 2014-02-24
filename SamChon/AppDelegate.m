@@ -46,7 +46,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	self.userFriCnt = @"0";
 	self.userPostCnt = @"0";
 	
-	[NSThread sleepForTimeInterval:1.5f];
+//	[NSThread sleepForTimeInterval:1.5f];
 	
     return YES;
 }
@@ -83,6 +83,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 }
 
 - (void)getStoreInfo:(NSString *)storeID {
+	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	NSDictionary *parameters = @{@"storeId":storeID, @"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -98,6 +99,8 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 //			self.storeInfo_storeFri3 = [responseObject objectForKey:@"storeFri3"];
 //			self.storeInfo_storePic = [responseObject objectForKey:@"storePic"];
 //			self.storeInfo_reply = [responseObject objectForKey:@"reply"];
+			
+			NSLog(@"%@", responseObject);
 			self.storeInfo = (NSDictionary *)responseObject;
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"shopInfo" object:nil];
@@ -214,7 +217,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 
 - (void)getShopReplys {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]  , @"storeId":[self.storeInfo objectForKey:@"storeId"]};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]  , @"storeId":self.storeId};
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfoReply" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.reply =  [NSMutableArray arrayWithArray:[responseObject objectForKey:@"reply"]];
@@ -242,6 +245,12 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		NSLog(@"Error: %@", error);
 	}];
+}
+
+- (void)login {
+	[self getMyBoardList];
+	[self getMyPick];
+	NSLog(@"login");
 }
 
 - (void)networkLogin {
@@ -324,9 +333,10 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 									  }
 								  }];
 
-//				[self performSelector:@selector(networkLogin) withObject:nil afterDelay:2.0];
+//				[self performSelector:@selector(networkLogin) withObject:nil afterDelay:1.5];
 //				[self performSelector:@selector(login) withObject:nil afterDelay:1.5];
 //					[self getMyBoardList];
+//				[self performSelector:@selector(getStoreInfo:) withObject:@"5371460" afterDelay:1.5];
 					
 			}
             break;

@@ -9,6 +9,7 @@
 #import "FirstFriendsTapViewController.h"
 #import "AppDelegate.h"
 #import "FriendPageViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface FirstFriendsTapViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -57,8 +58,7 @@
 	
 	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"friPic"]];
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	UIImage *img = [UIImage imageWithData:data];
+
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 49, 49)];
 	imageView.layer.cornerRadius = 25.0f;
 	imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -75,7 +75,7 @@
 	[cell.contentView addSubview:imageView];
 	[cell.contentView addSubview:rname];
 	
-	((UIImageView *)[cell.contentView viewWithTag:118]).image = img;
+	[((UIImageView *)[cell.contentView viewWithTag:118]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 	((UILabel *)[cell.contentView viewWithTag:119]).text = [tmp objectForKey:@"friName"];
 	
 	return cell;
@@ -100,17 +100,18 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"getFriendsList" object:nil];
 	
 	[_ad getMyFriends];
 	
-	NSLog(@"myFriend");
-	
 	[self.table reloadData];
+	}
 }
 
 - (void)refreshTable {
+
 	[self.table reloadData];
 }
 

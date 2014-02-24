@@ -1,68 +1,54 @@
 //
-//  IWantTabViewController.m
+//  ZZimViewController.m
 //  SamChon
 //
-//  Created by SDT-1 on 2014. 1. 27..
+//  Created by SDT-1 on 2014. 2. 24..
 //  Copyright (c) 2014년 T. All rights reserved.
 //
 
-#import "IWantTabViewController.h"
-#import "AppDelegate.h"
+#import "ZZimViewController.h"
 #import "ShopInfoViewController.h"
+#import "UIImageView+AFNetworking.h"
+#import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
-@interface IWantTabViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface ZZimViewController () <UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *table;
 
 @end
 
-@implementation IWantTabViewController {
+@implementation ZZimViewController {
 	AppDelegate *_ad;
+	NSMutableArray *_images;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	ShopInfoViewController *sivc = (ShopInfoViewController *)segue.destinationViewController;
 	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
 	NSDictionary *tmp = [_ad.myPicks objectAtIndex:indexPath.row];
-	sivc._selectedID = [tmp objectForKey:@"storeId"];
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	[_ad.myPicks removeObjectAtIndex:indexPath.row];
-	NSArray *rows = [NSArray arrayWithObject:indexPath];
-	
-	[tableView deleteRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	NSDictionary *tmp = [_ad.myPicks objectAtIndex:indexPath.row];
-//	[_ad getStoreInfo:[tmp objectForKey:@"storeId"]];
-//	NSLog(@"%@",[tmp objectForKey:@"storeId"]);
-//}
-
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return @"삭제";
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 80;
+	int tmpNum = [[tmp objectForKey:@"storeId"] intValue];
+	NSLog(@"%d", tmpNum);
+	sivc._selectedID = [NSString stringWithFormat:@"%d", tmpNum];
+	_ad.storeId =[NSString stringWithFormat:@"%d", tmpNum];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return [_ad.myPicks count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return 80;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"WANT_CELL"];
-	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZZIM_CELL"];
 	tableView.separatorColor = [UIColor clearColor];
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	NSDictionary *tmp = [_ad.myPicks objectAtIndex:indexPath.row];
 	NSString *path = [NSString stringWithFormat:@"%@",[tmp objectForKey:@"foodPic"]];
 	NSURL *url = [NSURL URLWithString:[path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	NSData *data = [NSData dataWithContentsOfURL:url];
-	UIImage *img = [UIImage imageWithData:data];
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 10, 60, 60)];
 	imageView.tag = 155;
 	
@@ -79,14 +65,33 @@
 	[cell.contentView addSubview:imageView];
 	[cell.contentView addSubview:rname];
 	[cell.contentView addSubview:raddr];
-//	[cell.contentView addSubview:rdate];
+	//	[cell.contentView addSubview:rdate];
 	
-	((UIImageView *)[cell.contentView viewWithTag:155]).image = img;
+	
+	[((UIImageView *)[cell.contentView viewWithTag:155]) setImageWithURL:url placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 	((UILabel *)[cell.contentView viewWithTag:153]).text = [tmp objectForKey:@"storeName"];
 	((UILabel *)[cell.contentView viewWithTag:154]).text = [tmp objectForKey:@"storeAddr"];
-//	((UILabel *)[cell.contentView viewWithTag:125]).text = [tmp objectForKey:@"regDate"];
-
+	//	((UILabel *)[cell.contentView viewWithTag:125]).text = [tmp objectForKey:@"regDate"];
 	return cell;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	if (FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended) {
+		
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"myPickList" object:nil];
+	
+	[_ad getMyPick];
+	
+	
+	[self.table reloadData];
+	}
+}
+
+- (void)refreshTable {
+	
+	[self.table reloadData];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -98,28 +103,14 @@
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:@"myPickList" object:nil];
-	
-	[_ad getMyPick];
-	
-	NSLog(@"myPick");
-	
-	[self.table reloadData];
-}
-
-- (void)refreshTable {
-	[self.table reloadData];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+	_images = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,13 +119,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 @end
+
+
 
 
 

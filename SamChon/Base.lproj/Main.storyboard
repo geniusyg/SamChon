@@ -86,18 +86,27 @@
                                 <rect key="frame" x="23" y="287" width="275" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="당신이 그 전설의 초밥왕?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xpn-Sr-UA1">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xpn-Sr-UA1">
                                 <rect key="frame" x="21" y="289" width="278" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yOP-PW-5s8">
+                                <rect key="frame" x="-148" y="407" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="홈" image="home.png" id="RGs-mt-VW4"/>
                     <connections>
+                        <outlet property="detailView" destination="xpn-Sr-UA1" id="xZI-dB-20v"/>
                         <outlet property="friCount" destination="cEa-NQ-ZTu" id="tWF-5e-r8g"/>
+                        <outlet property="gImg" destination="dxm-4I-g9f" id="0CF-Qi-viv"/>
                         <outlet property="postCount" destination="aLS-ur-9g4" id="DFk-eH-jvQ"/>
                         <outlet property="profileImg" destination="w20-gX-LU9" id="xCV-fE-pmY"/>
                     </connections>
@@ -1784,10 +1793,10 @@
             </objects>
             <point key="canvasLocation" x="1330" y="1067"/>
         </scene>
-        <!--Want Tab View Controller-->
+        <!--Zim View Controller-->
         <scene sceneID="LRd-TZ-hzA">
             <objects>
-                <viewController storyboardIdentifier="IWant" automaticallyAdjustsScrollViewInsets="NO" id="kEn-sW-amD" customClass="IWantTabViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IWant" automaticallyAdjustsScrollViewInsets="NO" id="kEn-sW-amD" customClass="ZZimViewController" sceneMemberID="viewController">
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="PE7-rx-LK2">
                         <rect key="frame" x="0.0" y="0.0" width="280" height="305"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1797,7 +1806,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="WANT_CELL" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WANT_CELL" rowHeight="80" id="wdG-hJ-2Wl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ZZIM_CELL" rowHeight="80" id="wdG-hJ-2Wl">
                                         <rect key="frame" x="0.0" y="22" width="280" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wdG-hJ-2Wl" id="kzp-n5-WuQ">
@@ -1816,13 +1825,13 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <segue destination="ydU-lQ-lV7" kind="modal" id="f68-o0-6xO"/>
+                                            <segue destination="ydU-lQ-lV7" kind="modal" id="oNC-7G-PxZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="kEn-sW-amD" id="bC3-76-Gsr"/>
-                                    <outlet property="delegate" destination="kEn-sW-amD" id="tbP-kq-zmJ"/>
+                                    <outlet property="dataSource" destination="kEn-sW-amD" id="3w8-fh-reJ"/>
+                                    <outlet property="delegate" destination="kEn-sW-amD" id="FFH-Vw-YsM"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -1830,7 +1839,7 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="table" destination="0xX-Oy-P9v" id="pRO-yW-czg"/>
+                        <outlet property="table" destination="0xX-Oy-P9v" id="x4D-uv-vVe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xab-hU-kEt" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -62,6 +62,10 @@
 	
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -92,6 +96,7 @@
     } else {
         self.loginView.hidden = NO;
     }
+	
 }
 
 - (void)viewDidLoad

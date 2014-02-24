@@ -54,7 +54,7 @@
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	NSDictionary *parameters = @{@"id": _ad.uid, @"storeName":self.searchTextField.text, @"menuName":self.menuTextField.text, @"storeAddr":[_ad.writeSearch objectForKey:@"addr"], @"category":self.categoryText.text, @"lat":[_ad.writeSearch objectForKey:@"lat"], @"lng":[_ad.writeSearch objectForKey:@"lng"], @"userMemo":self.commentTextField.text};
 	
-	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoardIos" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+	[manager POST:@"http://samchon.ygw3429.cloulu.com/write/writeBoard" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
 		NSData *imgData = UIImageJPEGRepresentation(self.selectedImage, 0.5);
 		NSDate *date = [NSDate date];
 		NSString *fileName = [NSString stringWithFormat:@"%@_%@",_ad.uid,date];
