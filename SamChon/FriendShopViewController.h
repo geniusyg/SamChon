@@ -14,3 +14,18 @@
 @property NSString *friId;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

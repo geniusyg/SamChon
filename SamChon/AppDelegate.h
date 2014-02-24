@@ -40,6 +40,7 @@
 @property NSArray *recommendFri3;
 
 @property NSDictionary *storeInfo;
+@property NSMutableArray *storeReply;
 @property NSString *storeId;
 
 //@property NSString *storeInfo_storeId;
@@ -77,7 +78,7 @@ extern NSString *const FBSessionStateChangedNotification;
 //- (void)getStoreFris:(NSString *)lat lng:(NSString *)lng;
 - (void)getFriendStores:(NSString *)friId;
 - (void)getRecommendList;
-- (void)getShopReplys;
+- (void)getShopReplys:(NSString *)storeId;
 - (void)getStoreInfo:(NSString *)storeID;
 - (void)writeShopReplys:(NSString *)comment;
 

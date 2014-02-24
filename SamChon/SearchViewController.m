@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "UIImageView+AFNetworking.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "ShopInfoViewController.h"
 
 @interface SearchViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
@@ -25,6 +26,26 @@
 	NSMutableArray *_images1;
 	NSMutableArray *_images2;
 	NSMutableArray *_images3;
+	
+	NSInteger selRow;
+	NSInteger selSec;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	ShopInfoViewController *sivc = (ShopInfoViewController *)segue.destinationViewController;
+	NSIndexPath *indexPath = [self.table indexPathForSelectedRow];
+	NSDictionary *tmp;
+	if(0 == indexPath.section) {
+		tmp = [_ad.recommendFri1 objectAtIndex:indexPath.row];
+	} else if(1 == indexPath.section) {
+		tmp = [_ad.recommendFri2 objectAtIndex:indexPath.row];
+	} else if(2 == indexPath.section) {
+		tmp = [_ad.recommendFri3 objectAtIndex:indexPath.row];
+	}
+	
+	int tmpNum = [[tmp objectForKey:@"storeId"] intValue];
+	sivc._selectedID = [NSString stringWithFormat:@"%d", tmpNum];
+	_ad.storeId =[NSString stringWithFormat:@"%d", tmpNum];
 }
 
 - (void)scrollViewDidEndDecelerating:(UITableView *)tableView {

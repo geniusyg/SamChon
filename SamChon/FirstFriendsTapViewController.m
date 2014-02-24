@@ -33,7 +33,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 70;
+	return 60;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -68,7 +68,10 @@
 //	imageView.image = img;
 	imageView.tag = 118;
 	
-	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(60, 24, 200, 20)];
+	UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(68, 24, 200, 20)];
+	rname.font = [rname.font fontWithSize:13];
+	rname.textColor = [UIColor colorWithRed:100.0/255.0 green:100.0/255.0 blue:100.0/255.0 alpha:1.0];
+	
 //	rname.text = [tmp objectForKey:@"friName"];
 	rname.tag = 119;
 	

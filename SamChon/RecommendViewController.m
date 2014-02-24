@@ -66,6 +66,7 @@
 	self.bottomView0.alpha = 1.0;
 	self.topView.alpha = 1.0;
 	self.blackView.hidden = YES;
+	self.closePopupBtn.hidden = YES;
 }
 
 - (BOOL)canBecomeFirstResponder {
@@ -74,6 +75,7 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.type == UIEventSubtypeMotionShake && _checked) {
+		self.closePopupBtn.hidden = NO;
 		[self recommendRequest];
 		
 		self.topView.alpha = 0.5;
@@ -167,10 +169,14 @@
 		
 		UIImageView *theView = [[UIImageView alloc] initWithFrame:
 								CGRectMake(scrollWidth, 0, 61, 61)];
-		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth, 70, 61, 20)];
+		UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollWidth, 68, 61, 20)];
 		nameLabel.text = [tmp objectForKey:@"friName"];
 		nameLabel.textAlignment = NSTextAlignmentCenter;
-		nameLabel.font = [UIFont fontWithName:UIFontTextStyleBody size:12];
+		nameLabel.font = [nameLabel.font fontWithSize:12];
+		nameLabel.textColor = [UIColor colorWithRed:124.0/255.0 green:124.0/255.0 blue:124.0/255.0 alpha:1.0];
+//		nameLabel.font = [UIFont fontWithName:@"System-Bold" size:nameLabel.font.pointSize];
+//		nameLabel set
+
 		
 		UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
 		
@@ -192,7 +198,7 @@
 		theView.clipsToBounds = YES;
 		[self.scrollView addSubview:theView];
 		[self.scrollView addSubview:nameLabel];
-		scrollWidth += 100;
+		scrollWidth += 65;
 	}
 	self.scrollView.contentSize = CGSizeMake(scrollWidth, 80);
 }

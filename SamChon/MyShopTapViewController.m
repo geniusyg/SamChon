@@ -44,14 +44,17 @@
 	
 		AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 		NSDictionary *parameters = @{@"postingNum":[tmp objectForKey:@"postingNum"]};
-		[manager POST:@"http://samchon.ygw3429.cloulu.com/write/delete" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-			NSLog(@"asdf");
-//			_ad.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
-//			[_ad.myBoardList removeObjectAtIndex:indexPath.row];
+		[manager POST:@"http://samchon.ygw3429.cloulu.com/write/deleteBoard" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			NSLog(@"%@", responseObject);
+			_ad.myBoardList = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myStoreList"]];
+//			[_ad getMyBoardList];
+			
 		} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 			NSLog(@"Error: %@", error);
 		}];
-	[_ad.myBoardList removeObjectAtIndex:indexPath.row];
+
+//	[_ad.myBoardList removeObjectAtIndex:indexPath.row];
+	
 	NSArray *rows = [NSArray arrayWithObject:indexPath];
 	
 	[tableView deleteRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationAutomatic];

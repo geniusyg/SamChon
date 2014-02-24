@@ -42,7 +42,8 @@
 		[_ad writeShopReplys:self.replyTextField.text];
 		self.replyTextField.text = @"";
 		
-		[_ad getShopReplys];
+//		[_ad getShopReplys:self._selectedID];
+		[_ad getStoreInfo:self._selectedID];
 		
 		[self.table reloadData];
 	} else {
@@ -75,7 +76,7 @@
 			break;
 		case 3: {
 			cell = [tableView dequeueReusableCellWithIdentifier:@"REPLY_CELL3"];
-			NSDictionary *tmp = [_ad.reply objectAtIndex:indexPath.row];
+			NSDictionary *tmp = [_ad.storeReply objectAtIndex:indexPath.row];
 			cell.textLabel.text = [tmp objectForKey:@"repMemo"];
 		}
 			break;
@@ -100,7 +101,7 @@
 			numberOfRows = 1;
 			break;
 		case 3:
-			numberOfRows = [_ad.reply count];
+			numberOfRows = [_ad.storeReply count];
 		default:
 			numberOfRows = 1;
 			break;
@@ -143,17 +144,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	NSLog(@"%@", self._selectedID);
-	
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showStores) name:@"shopInfo" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showReply) name:@"store_reply" object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showReply) name:@"store_reply" object:nil];
 	
 	_ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	
 	[_ad getStoreInfo:self._selectedID];
-	[_ad getShopReplys];
+//	[_ad getShopReplys:self._selectedID];
 	
 //	self.shopName.text = [_ad.storeInfo objectForKey:@"storeName"];
 //	
@@ -328,8 +327,8 @@
 	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
 	
 	int i=0;
-	for (; i<[[_ad.storeInfo objectForKey:@"storePic"] count]; i++) {
-		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height)];
+	for (; i<[arr count]; i++) {
+		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 70, _sv.frame.size.height)];
 		
 		[imgView setImageWithURL:[_images objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 		
@@ -352,7 +351,7 @@
 	
 	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
 	_pc.currentPage = 1;
-	_pc.numberOfPages = [_ad.friStores count];
+	_pc.numberOfPages = [arr count];
 	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
 	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * 1), 0)];

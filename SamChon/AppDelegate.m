@@ -86,6 +86,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
 	NSDictionary *parameters = @{@"storeId":storeID, @"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+	NSLog(@"%@", storeID);
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 //			self.storeInfo_storeId = [responseObject objectForKey:@"storeId"];
@@ -101,7 +102,9 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 //			self.storeInfo_reply = [responseObject objectForKey:@"reply"];
 			
 			NSLog(@"%@", responseObject);
+			
 			self.storeInfo = (NSDictionary *)responseObject;
+			self.storeReply = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"storeReply"]];
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"shopInfo" object:nil];
 		}
@@ -190,6 +193,7 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	[manager3 POST:@"http://samchon.ygw3429.cloulu.com/myPage/myPickList" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
 			self.myPicks = [NSMutableArray arrayWithArray:[responseObject objectForKey:@"myPickList"]];
+			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"myPickList" object:nil];
 		}
 		//		NSLog(@"%@", [responseObject objectForKey:@"myPickList"]);
@@ -215,12 +219,14 @@ NSString *const FBSessionStateChangedNotification = @"264586667033355:FBSessionS
 	}];
 }
 
-- (void)getShopReplys {
+- (void)getShopReplys:(NSString *)storeId {
 	AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]  , @"storeId":self.storeId};
+	NSDictionary *parameters = @{@"id":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]  , @"storeId":storeId};
+	NSLog(@"%@", storeId);
 	[manager POST:@"http://samchon.ygw3429.cloulu.com/shop/shopInfoReply" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		if(nil != responseObject) {
-			self.reply =  [NSMutableArray arrayWithArray:[responseObject objectForKey:@"reply"]];
+			NSLog(@"%@", responseObject);
+//			self.reply =  [NSMutableArray arrayWithArray:[responseObject objectForKey:@"reply"]];
 			//		NSLog(@"direct - %@", [responseObject objectForKey:@"reply"]);
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"store_reply" object:nil];

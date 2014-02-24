@@ -91,11 +91,11 @@
 	
 	self.table.separatorColor = [UIColor clearColor];
 	
-	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 250)];
+	_sv = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 330)];
 	
 	int i=0;
 	for (; i<[_ad.myBoardList count]; i++) {
-		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height)];
+		UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 50, _sv.frame.size.width - 40, _sv.frame.size.height + 80)];
 		[imgView setImageWithURL:[_images objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"question-75.png"]];
 		
 		UILabel *rname = [[UILabel alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 20, 0, _sv.frame.size.width - 40, 20)];
@@ -106,7 +106,7 @@
 		rmenu.textAlignment = NSTextAlignmentCenter;
 		rmenu.text = [_rmenus objectAtIndex:i];
 		
-		UIButton *heart = [[UIButton alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 250, 15, 50, 20)];
+		UIButton *heart = [[UIButton alloc] initWithFrame:CGRectMake(_sv.frame.size.width*i + 50, 0, 30, 30)];
 		heart.tag = 1000+i;
 		
 		if([@"0" isEqualToString:[_likes objectAtIndex:i]]) {
@@ -132,13 +132,15 @@
 	_sv.pagingEnabled=YES;
 	_sv.delegate=self;
 	
-	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 280, 100, 20)];
+	_pc = [[UIPageControl alloc] initWithFrame:CGRectMake(100, 330, 100, 20)];
 	_pc.currentPage = self.loadedPage;
 
 	_pc.numberOfPages = [_ad.myBoardList count];
 	[_pc addTarget:self action:@selector(pageChangeValue:) forControlEvents:UIControlEventValueChanged];
 	
 	[_sv setContentOffset:CGPointMake((_sv.frame.size.width * self.loadedPage), 0)];
+	_pc.pageIndicatorTintColor = [UIColor grayColor];
+	_pc.currentPageIndicatorTintColor = [UIColor blackColor];
 
 	self.replyTextField = [[UITextField alloc] initWithFrame:CGRectMake(8, 8, 250, 30)];
 	self.replyTextField.delegate = self;
@@ -207,8 +209,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	if(![scrollView isKindOfClass:[self.table class]]) {
 		self.replyTextField.text = @"";		
-		
-		NSLog(@"%ld", _pc.currentPage);
+
 		NSDictionary *tmp = [_ad.myBoardList objectAtIndex:_pc.currentPage];
 		
 		[_ad getReplys:[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] storeID:[tmp objectForKey:@"storeId"] postingNum:[tmp objectForKey:@"postingNum"]];
@@ -256,7 +257,7 @@
 		case 0:
 			return 73;
 		case 1:
-			return 300;
+			return 380;
 		case 2:
 			return 50;
 		case 3:
